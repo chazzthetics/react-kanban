@@ -1,10 +1,9 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { columnActions } from "../slices";
+import { columnAdded, columnRemoved } from "../slices";
 
 const ColumnItem = props => {
   const dispatch = useDispatch();
-  const { columnAdded, columnRemoved } = columnActions;
 
   const [columnTitle, setColumnTitle] = useState("");
 

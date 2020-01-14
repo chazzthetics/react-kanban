@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { taskActions } from "../slices";
+import { taskAdded, taskRemoved } from "../slices";
 
 const TaskItem = props => {
   const [taskValue, setTaskValue] = useState("");
@@ -8,7 +8,6 @@ const TaskItem = props => {
     setTaskValue(e.target.value);
   };
 
-  const { taskAdded, taskRemoved } = taskActions;
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
