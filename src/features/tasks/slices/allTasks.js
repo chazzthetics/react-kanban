@@ -36,8 +36,19 @@ const initialData = {
 const allTasksSlice = createSlice({
   name: "tasks",
   initialState: initialData,
-  reducers: {}
+  reducers: {
+    taskAdded(state, action) {
+      const { task } = action.payload;
+      state[task.id] = task;
+    },
+    taskRemoved(state, action) {
+      const { taskId } = action.payload;
+      delete state[taskId];
+    }
+  }
 });
+
+export const { taskAdded, taskRemoved } = allTasksSlice.actions;
 
 const allTasksReducer = allTasksSlice.reducer;
 export default allTasksReducer;
