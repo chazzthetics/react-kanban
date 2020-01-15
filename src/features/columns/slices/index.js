@@ -41,6 +41,20 @@ const allColumnsSlice = createSlice({
     columnRemoved(state, action) {
       const { columnId } = action.payload;
       delete state[columnId];
+    },
+    taskReordered(state, action) {
+      const { columnId, taskOrder } = action.payload;
+      state[columnId].taskIds = taskOrder;
+    },
+    taskReorderedBetweenColumns(state, action) {
+      const {
+        startColumnId,
+        finishColumnId,
+        startTaskOrder,
+        finishTaskOrder
+      } = action.payload;
+      state[startColumnId].taskIds = startTaskOrder;
+      state[finishColumnId].taskIds = finishTaskOrder;
     }
   },
   extraReducers: {
@@ -72,7 +86,12 @@ const allColumnsSlice = createSlice({
   }
 });
 
-export const { columnAdded, columnRemoved } = allColumnsSlice.actions;
+export const {
+  columnAdded,
+  columnRemoved,
+  taskReordered,
+  taskReorderedBetweenColumns
+} = allColumnsSlice.actions;
 const allColumnsReducer = allColumnsSlice.reducer;
 
 /**

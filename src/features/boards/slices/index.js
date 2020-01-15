@@ -34,6 +34,10 @@ const allBoardsSlice = createSlice({
     boardRemoved: (state, action) => {
       const { boardId } = action.payload;
       delete state[boardId];
+    },
+    columnReordered(state, action) {
+      const { boardId, columnOrder } = action.payload;
+      state[boardId].columnIds = columnOrder;
     }
   },
   extraReducers: {
@@ -53,7 +57,11 @@ const allBoardsSlice = createSlice({
   }
 });
 
-export const { boardAdded, boardRemoved } = allBoardsSlice.actions;
+export const {
+  boardAdded,
+  boardRemoved,
+  columnReordered
+} = allBoardsSlice.actions;
 const allBoardsReducer = allBoardsSlice.reducer;
 
 /**

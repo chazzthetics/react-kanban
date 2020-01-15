@@ -1,25 +1,29 @@
-import React, { useState } from "react";
-import { useDispatch } from "react-redux";
-import { columnAdded, columnRemoved } from "../slices";
+import React from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCurrentBoardId } from "../../boards/utils/boardSelectors";
+import { columnAdded } from "../slices";
 import { makeColumn } from "../utils/makeColumn";
+import { useForm } from "../../../hooks/useForm";
 
-const AddNewColumnForm = props => {
+const initialValues = { columnTitle: "" };
+
+const AddNewColumnForm = () => {
+  const { values, handleChange, handleSubmit, resetForm } = useForm(
+    initialValues,
+    submit
+  );
+
+  const { columnTitle } = values;
+
   const dispatch = useDispatch();
 
-  const [columnTitle, setColumnTitle] = useState("");
-  const handleChange = e => {
-    setColumnTitle(e.target.value);
-  };
+  const boardId = useSelector(selectCurrentBoardId);
 
-  const handleSubmit = e => {
-    e.preventDefault();
+  function submit() {
     const column = makeColumn({ title: columnTitle });
-    dispatch(columnAdded({ column, boardId: "board1" }));
-  };
-
-  const handleRemove = () => {
-    dispatch(columnRemoved({ columnId: "column1", boardId: "board1" }));
-  };
+    dispatch(columnAdded({ column, boardId }));
+    resetForm();
+  }
 
   return (
     <div>
@@ -33,9 +37,6 @@ const AddNewColumnForm = props => {
         />
         <button type="submit">Add Column</button>
       </form>
-      <button type="button" onClick={handleRemove}>
-        Delete Column
-      </button>
     </div>
   );
 };

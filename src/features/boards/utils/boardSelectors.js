@@ -17,8 +17,8 @@ const selectAllBoardsWithTitle = createSelector(
 );
 
 const selectCurrentBoardTitle = createSelector(
-  [selectAllBoards, selectCurrentBoardId],
-  (all, id) => all[id].title
+  [selectCurrentBoardId, selectAllBoards],
+  (id, all) => all[id].title
 );
 
 const selectCurrentBoard = createSelector(
@@ -32,14 +32,10 @@ const selectCurrentBoardColumnIds = createSelector(
 );
 
 export {
-  selectBoards,
-  selectBoardIds,
-  selectAllBoards,
-  selectAllBoardsWithTitle,
-  selectCurrentBoard,
   selectCurrentBoardId,
-  selectCurrentBoardTitle,
-  selectCurrentBoardColumnIds
+  selectCurrentBoard,
+  selectCurrentBoardColumnIds,
+  selectAllBoardsWithTitle
 };
 
 // -------------- Columns TODO: move --------------------- //
@@ -47,6 +43,7 @@ const selectColumns = createSelector(
   [state => state.columns],
   columns => columns
 );
+
 const selectColumnIds = createSelector(selectColumns, columns => columns.ids);
 const selectAllColumns = createSelector(selectColumns, columns => columns.all);
 
@@ -55,9 +52,22 @@ const selectCurrentBoardColumns = createSelector(
   (columnIds, all) => columnIds.map(columnId => all[columnId])
 );
 
-export {
-  selectColumns,
-  selectColumnIds,
-  selectAllColumns,
-  selectCurrentBoardColumns
-};
+export { selectCurrentBoardColumns, selectColumnIds, selectAllColumns };
+
+// -------------- Tasks TODO: move -----------------------/
+const selectTasks = createSelector([state => state.tasks], tasks => tasks);
+const selectTaskIds = createSelector([selectTasks], tasks => tasks.ids);
+const selectAllTasks = createSelector([selectTasks], tasks => tasks.all);
+
+const selectColumnTaskIds = createSelector(
+  [selectAllColumns, (_, column) => column],
+  (all, column) => all[column.id].taskIds
+);
+
+// Need to pass in {column} prop
+const selectColumnTasks = createSelector(
+  [selectColumnTaskIds, selectAllTasks],
+  (columnTaskIds, all) => columnTaskIds.map(taskId => all[taskId])
+);
+
+export { selectColumnTasks };

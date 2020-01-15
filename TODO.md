@@ -3,3 +3,5 @@
 - fix boards/boardRemoved reducer in currentBoardSlice
 - change entity ids
 - extract form into hook
+- drag n drop set up
+- move selectors to own files
