@@ -1,6 +1,9 @@
 import { createSlice, combineReducers } from "@reduxjs/toolkit";
 import { columnAdded, columnRemoved } from "../../columns/slices";
 
+/**
+ * All Boards Slice
+ */
 const allBoardsSlice = createSlice({
   name: "boards",
   initialState: {
@@ -15,6 +18,12 @@ const allBoardsSlice = createSlice({
       title: "BOARD 2",
       columnIds: ["column4"],
       isEditing: false
+    },
+    board3: {
+      id: "board3",
+      title: "BOARD 3",
+      columnIds: [],
+      isEditing: false
     }
   },
   reducers: {
@@ -23,7 +32,6 @@ const allBoardsSlice = createSlice({
       state[board.id] = board;
     },
     boardRemoved: (state, action) => {
-      console.log("from all boards");
       const { boardId } = action.payload;
       delete state[boardId];
     }
@@ -48,16 +56,18 @@ const allBoardsSlice = createSlice({
 export const { boardAdded, boardRemoved } = allBoardsSlice.actions;
 const allBoardsReducer = allBoardsSlice.reducer;
 
+/**
+ * Board Ids Slice
+ */
 const boardIdsSlice = createSlice({
   name: "boards",
-  initialState: ["board1", "board2"],
+  initialState: ["board1", "board2", "board3"],
   reducers: {
     boardAdded(state, action) {
       const { board } = action.payload;
       state.push(board.id);
     },
     boardRemoved(state, action) {
-      console.log("From board Ids");
       const { boardId } = action.payload;
       const boardIndex = state.indexOf(boardId);
       if (boardIndex >= 0) {
@@ -70,6 +80,9 @@ const boardIdsSlice = createSlice({
 
 const boardIdsReducer = boardIdsSlice.reducer;
 
+/**
+ * Current Board Slice
+ */
 const currentBoardSlice = createSlice({
   name: "boards",
   initialState: { id: "board1" },
@@ -79,14 +92,28 @@ const currentBoardSlice = createSlice({
       state.id = board.id;
     },
     boardRemoved(state, action) {
-      console.log("from current board, remove board");
+      // TODO: FIX
+      const { boardIds } = action.payload;
+      if (boardIds.length > 0) {
+        return { id: boardIds[boardIds.length - 2] };
+      }
+
+      return { id: boardIds[0] };
+    },
+    boardChanged(state, action) {
+      const { boardId } = action.payload;
+      state.id = boardId;
     }
   },
   extraReducers: {}
 });
 
+export const { boardChanged } = currentBoardSlice.actions;
 const currentBoardReducer = currentBoardSlice.reducer;
 
+/**
+ * Boards Reducer
+ */
 export default combineReducers({
   all: allBoardsReducer,
   ids: boardIdsReducer,

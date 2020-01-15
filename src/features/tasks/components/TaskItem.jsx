@@ -1,24 +1,20 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { taskAdded, taskRemoved } from "../slices";
+import { makeTask } from "../utils/makeTasks";
 
 const TaskItem = props => {
-  const [taskValue, setTaskValue] = useState("");
+  const [taskContent, setTaskContent] = useState("");
   const handleChange = e => {
-    setTaskValue(e.target.value);
+    setTaskContent(e.target.value);
   };
 
   const dispatch = useDispatch();
 
   const handleSubmit = e => {
     e.preventDefault();
-    const newTask = {
-      id: `taskNew${Math.floor(Math.random() * 20)}`, // temp
-      content: taskValue,
-      completed: false,
-      isEditing: false
-    };
-    dispatch(taskAdded({ task: newTask, columnId: "column1" }));
+    const task = makeTask({ content: taskContent });
+    dispatch(taskAdded({ task, columnId: "column1" }));
   };
 
   const handleRemove = e => {
@@ -33,7 +29,7 @@ const TaskItem = props => {
           placeholder="Add new task..."
           name="taskValue"
           onChange={handleChange}
-          value={taskValue}
+          value={taskContent}
         />
         <button type="submit">Add Task</button>
       </form>

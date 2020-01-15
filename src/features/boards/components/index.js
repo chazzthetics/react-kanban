@@ -1,3 +1,4 @@
+import MainBoard from "./MainBoard";
 import BoardItem from "./BoardItem";
 
-export { BoardItem };
+export { MainBoard, BoardItem };

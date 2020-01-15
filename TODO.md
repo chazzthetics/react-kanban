@@ -1,0 +1,5 @@
+- refactor reducers
+- refactor redux middleware
+- fix boards/boardRemoved reducer in currentBoardSlice
+- change entity ids
+- extract form into hook

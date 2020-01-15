@@ -1,5 +1,9 @@
-import { createSlice, combineReducers } from "@reduxjs/toolkit";
+import { createSlice, createAction, combineReducers } from "@reduxjs/toolkit";
+const columnRemoved = createAction("columns/columnRemoved");
 
+/**
+ * All Tasks Slice
+ */
 const allTasksSlice = createSlice({
   name: "tasks",
   initialState: {
@@ -44,12 +48,29 @@ const allTasksSlice = createSlice({
       delete state[taskId];
     }
   },
-  extraReducers: {}
+  extraReducers: {
+    [columnRemoved]: (state, action) => {
+      const { columnTasks } = action.payload;
+      const columnTaskIds = Object.keys(columnTasks);
+      const taskIds = Object.keys(state);
+      const newTaskIds = taskIds.filter(
+        columnId => !columnTaskIds.includes(columnId)
+      );
+      const newTasks = {};
+      for (const taskId of newTaskIds) {
+        newTasks[taskId] = state[taskId];
+      }
+      return newTasks;
+    }
+  }
 });
 
 export const { taskAdded, taskRemoved } = allTasksSlice.actions;
 const allTasksReducer = allTasksSlice.reducer;
 
+/**
+ * Task Ids Slice
+ */
 const taskIdsSlice = createSlice({
   name: "tasks",
   initialState: ["task1", "task2", "task3", "task4", "task5"],
@@ -66,11 +87,20 @@ const taskIdsSlice = createSlice({
       }
     }
   },
-  extraReducers: {}
+  extraReducers: {
+    [columnRemoved]: (state, action) => {
+      const { columnTasks } = action.payload;
+      const taskIds = Object.keys(columnTasks);
+      return state.filter(taskId => !taskIds.includes(taskId));
+    }
+  }
 });
 
 const taskIdsReducer = taskIdsSlice.reducer;
 
+/**
+ * Tasks Reducer
+ */
 export default combineReducers({
   all: allTasksReducer,
   ids: taskIdsReducer

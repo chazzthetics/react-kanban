@@ -1,3 +1,4 @@
+import ColumnList from "./ColumnList";
 import ColumnItem from "./ColumnItem";
 
-export { ColumnItem };
+export { ColumnList, ColumnItem };

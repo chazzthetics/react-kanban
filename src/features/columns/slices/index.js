@@ -1,8 +1,10 @@
 import { createSlice, createAction, combineReducers } from "@reduxjs/toolkit";
 import { taskAdded, taskRemoved } from "../../tasks/slices";
-
 export const boardRemoved = createAction("boards/boardRemoved");
 
+/**
+ * All Columns Slice
+ */
 const allColumnsSlice = createSlice({
   name: "columns",
   initialState: {
@@ -43,7 +45,17 @@ const allColumnsSlice = createSlice({
   },
   extraReducers: {
     [boardRemoved]: (state, action) => {
-      console.log("from all column");
+      const { boardColumns } = action.payload;
+      const boardColumnIds = Object.keys(boardColumns);
+      const columnIds = Object.keys(state);
+      const newColumnIds = columnIds.filter(
+        columnId => !boardColumnIds.includes(columnId)
+      );
+      const newColumns = {};
+      for (const columnId of newColumnIds) {
+        newColumns[columnId] = state[columnId];
+      }
+      return newColumns;
     },
     [taskAdded]: (state, action) => {
       const { task, columnId } = action.payload;
@@ -63,9 +75,12 @@ const allColumnsSlice = createSlice({
 export const { columnAdded, columnRemoved } = allColumnsSlice.actions;
 const allColumnsReducer = allColumnsSlice.reducer;
 
+/**
+ * Column Ids Slice
+ */
 const columnIdsSlice = createSlice({
   name: "columns",
-  initialState: ["column1", "column2", "column3", "column4", "column5"],
+  initialState: ["column1", "column2", "column3", "column4"],
   reducers: {
     columnAdded(state, action) {
       const { column } = action.payload;
@@ -81,14 +96,22 @@ const columnIdsSlice = createSlice({
   },
   extraReducers: {
     [boardRemoved]: (state, action) => {
-      console.log("from column Ids");
+      const { boardColumns } = action.payload;
+      const boardColumnIds = Object.keys(boardColumns);
+
+      return state.filter(columnId => !boardColumnIds.includes(columnId));
     }
   }
 });
 
 const columnIdsReducer = columnIdsSlice.reducer;
 
+/**
+ * Columns Reducer
+ */
 export default combineReducers({
   all: allColumnsReducer,
   ids: columnIdsReducer
 });
+
+// export const test = () => (dispatch, getState) => {};

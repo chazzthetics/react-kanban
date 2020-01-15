@@ -1,17 +1,15 @@
 import React from "react";
-import { BoardItem } from "../features/boards/components";
-import { ColumnItem } from "../features/columns/components";
-import { TaskItem } from "../features/tasks/components";
+import { MainBoard } from "../features/boards/components";
+import { TaskList } from "../features/tasks/components";
 
 const App = () => {
   return (
     <div className="App" style={{ padding: "10%" }}>
       <h1>App</h1>
-      <BoardItem />
+      <MainBoard />
       <br />
-      <ColumnItem />
       <br />
-      <TaskItem />
+      <TaskList />
     </div>
   );
 };

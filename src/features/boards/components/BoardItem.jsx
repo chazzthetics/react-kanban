@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { boardAdded, boardRemoved } from "../slices";
+import { makeBoard } from "../utils/makeBoard";
 
 const BoardItem = props => {
   const dispatch = useDispatch();
@@ -12,17 +13,12 @@ const BoardItem = props => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    const board = {
-      id: `boardNew${Math.floor(Math.random() * 20)}`,
-      title: boardTitle,
-      columnIds: [],
-      isEditing: false
-    };
+    const board = makeBoard({ title: boardTitle });
     dispatch(boardAdded({ board }));
   };
 
   const handleRemove = () => {
-    dispatch(boardRemoved({ boardId: "board1" }));
+    dispatch(boardRemoved({ boardId: "board2" }));
   };
 
   return (
