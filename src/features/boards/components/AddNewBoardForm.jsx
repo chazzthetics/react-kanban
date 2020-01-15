@@ -1,7 +1,7 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { boardAdded } from "../slices";
-import { useForm } from "../../../hooks/useForm";
+import { useForm } from "../../../hooks";
 import { makeBoard } from "../utils/makeBoard";
 
 const initialValues = { boardTitle: "" };

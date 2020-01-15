@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { taskAdded } from "../slices";
 import { makeTask } from "../utils/makeTasks";
-import { useForm } from "../../../hooks/useForm";
+import { useForm } from "../../../hooks";
 
 const initialValues = { taskContent: "" };
 

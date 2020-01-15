@@ -49,12 +49,12 @@ const allColumnsSlice = createSlice({
     taskReorderedBetweenColumns(state, action) {
       const {
         startColumnId,
-        finishColumnId,
+        endColumnId,
         startTaskOrder,
-        finishTaskOrder
+        endTaskOrder
       } = action.payload;
       state[startColumnId].taskIds = startTaskOrder;
-      state[finishColumnId].taskIds = finishTaskOrder;
+      state[endColumnId].taskIds = endTaskOrder;
     }
   },
   extraReducers: {

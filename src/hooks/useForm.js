@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-export const useForm = (initialValues, submit) => {
+const useForm = (initialValues, submit) => {
   const [values, setValues] = useState(initialValues);
 
   const handleChange = e => {
@@ -20,3 +20,5 @@ export const useForm = (initialValues, submit) => {
 };
 
 // TODO: validation
+
+export default useForm;

@@ -3,7 +3,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentBoardId } from "../../boards/utils/boardSelectors";
 import { columnAdded } from "../slices";
 import { makeColumn } from "../utils/makeColumn";
-import { useForm } from "../../../hooks/useForm";
+import { useForm } from "../../../hooks";
 
 const initialValues = { columnTitle: "" };
 
