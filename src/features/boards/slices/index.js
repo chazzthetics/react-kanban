@@ -100,13 +100,13 @@ const currentBoardSlice = createSlice({
       state.id = board.id;
     },
     boardRemoved(state, action) {
-      // TODO: FIX
       const { boardIds } = action.payload;
-      if (boardIds.length > 0) {
-        return { id: boardIds[boardIds.length - 2] };
-      }
 
-      return { id: boardIds[0] };
+      if (boardIds.length > 0) {
+        state.id = boardIds[boardIds.length - 2];
+      } else {
+        state.id = boardIds[0];
+      }
     },
     boardChanged(state, action) {
       const { boardId } = action.payload;

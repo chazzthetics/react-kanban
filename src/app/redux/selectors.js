@@ -1,10 +1,8 @@
 import { createSelector } from "@reduxjs/toolkit";
 
-// Board Selectors
+/* Board Selectors */
 const selectBoards = createSelector([state => state.boards], boards => boards);
-
 const selectBoardIds = createSelector([selectBoards], boards => boards.ids);
-
 const selectAllBoards = createSelector([selectBoards], boards => boards.all);
 
 const selectCurrentBoardId = createSelector(
@@ -27,21 +25,21 @@ const selectCurrentBoard = createSelector(
   (id, title) => ({ id, title })
 );
 
-// Column Selectors
+/* Column Selectors */
 const selectColumns = createSelector(
   [state => state.columns],
   columns => columns
 );
 
 const selectColumnIds = createSelector(selectColumns, columns => columns.ids);
-
 const selectAllColumns = createSelector(selectColumns, columns => columns.all);
 
-const selectColumnTaskIds = createSelector(
-  [selectAllColumns, (_, column) => column],
-  (all, column) => all[column.id].taskIds
-);
+/* Task Selectors */
+const selectTasks = createSelector([state => state.tasks], tasks => tasks);
+const selectTaskIds = createSelector([selectTasks], tasks => tasks.ids);
+const selectAllTasks = createSelector([selectTasks], tasks => tasks.all);
 
+/* Combined Selectors */
 const selectCurrentBoardColumnIds = createSelector(
   [selectAllBoards, selectCurrentBoardId],
   (all, id) => all[id].columnIds
@@ -52,27 +50,32 @@ const selectCurrentBoardColumns = createSelector(
   (columnIds, all) => columnIds.map(columnId => all[columnId])
 );
 
-// Task Selectors
-const selectTasks = createSelector([state => state.tasks], tasks => tasks);
+const selectColumnTaskIds = createSelector(
+  [selectAllColumns, (_, column) => column],
+  (all, column) => all[column.id].taskIds
+);
 
-const selectTaskIds = createSelector([selectTasks], tasks => tasks.ids);
-
-const selectAllTasks = createSelector([selectTasks], tasks => tasks.all);
-
-// Need to pass in {column} prop
 const selectColumnTasks = createSelector(
   [selectColumnTaskIds, selectAllTasks],
   (columnTaskIds, all) => columnTaskIds.map(taskId => all[taskId])
 );
 
 export {
+  selectBoards,
+  selectBoardIds,
   selectAllBoards,
-  selectCurrentBoardId,
   selectCurrentBoard,
+  selectCurrentBoardId,
+  selectCurrentBoardTitle,
   selectAllBoardsWithTitle,
+  selectColumns,
   selectColumnIds,
+  selectAllColumns,
   selectCurrentBoardColumns,
   selectCurrentBoardColumnIds,
   selectColumnTasks,
-  selectTaskIds
+  selectColumnTaskIds,
+  selectTasks,
+  selectTaskIds,
+  selectAllTasks
 };

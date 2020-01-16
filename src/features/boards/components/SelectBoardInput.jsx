@@ -9,12 +9,10 @@ import {
 const SelectBoardInput = () => {
   const currentBoard = useSelector(selectCurrentBoard);
   const boards = useSelector(selectAllBoardsWithTitle);
-
   const dispatch = useDispatch();
   const handleBoardChange = e => {
     dispatch(boardChanged({ boardId: e.target.value }));
   };
-
   return (
     <div>
       <select value={currentBoard.id} onChange={handleBoardChange}>

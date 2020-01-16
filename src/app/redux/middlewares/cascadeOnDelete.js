@@ -16,10 +16,15 @@ export const cascadeOnDelete = store => next => action => {
         columnId => columns[columnId]
       );
       const removedBoardColumns = arrayToObject(boardColumnsArray);
+      console.log(removedBoardColumns);
 
       return next({
         type: action.type,
-        payload: { ...action.payload, boardIds, removedBoardColumns }
+        payload: {
+          ...action.payload,
+          boardIds,
+          boardColumns: removedBoardColumns
+        }
       });
     case COLUMN_REMOVED:
       const columnIds = state.columns.ids;
