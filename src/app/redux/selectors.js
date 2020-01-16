@@ -4,10 +4,9 @@ import { createSelector } from "@reduxjs/toolkit";
 const selectBoards = createSelector([state => state.boards], boards => boards);
 const selectBoardIds = createSelector([selectBoards], boards => boards.ids);
 const selectAllBoards = createSelector([selectBoards], boards => boards.all);
-
 const selectCurrentBoardId = createSelector(
   [selectBoards],
-  boards => boards.current.id
+  boards => boards.current
 );
 
 const selectAllBoardsWithTitle = createSelector(
@@ -17,7 +16,7 @@ const selectAllBoardsWithTitle = createSelector(
 
 const selectCurrentBoardTitle = createSelector(
   [selectCurrentBoardId, selectAllBoards],
-  (id, all) => all[id].title
+  (id, all) => (all[id] ? all[id].title : "")
 );
 
 const selectCurrentBoard = createSelector(
@@ -42,7 +41,7 @@ const selectAllTasks = createSelector([selectTasks], tasks => tasks.all);
 /* Combined Selectors */
 const selectCurrentBoardColumnIds = createSelector(
   [selectAllBoards, selectCurrentBoardId],
-  (all, id) => all[id].columnIds
+  (all, id) => (all[id] ? all[id].columnIds : [])
 );
 
 const selectCurrentBoardColumns = createSelector(
@@ -79,3 +78,5 @@ export {
   selectTaskIds,
   selectAllTasks
 };
+
+//FIXME: clean up

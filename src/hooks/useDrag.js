@@ -22,7 +22,7 @@ const useDrag = (currentBoard, columns, columnIds) => {
 
         dispatch(
           columnReordered({
-            boardId: currentBoard.id,
+            boardId: currentBoard,
             columnOrder
           })
         );

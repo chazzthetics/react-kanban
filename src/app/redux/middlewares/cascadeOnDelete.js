@@ -1,5 +1,3 @@
-import { arrayToObject } from "../../../utils/arrayToObject";
-
 const BOARD_REMOVED = "boards/boardRemoved";
 const COLUMN_REMOVED = "columns/columnRemoved";
 
@@ -10,28 +8,27 @@ export const cascadeOnDelete = store => next => action => {
   switch (action.type) {
     case BOARD_REMOVED:
       const boardIds = state.boards.ids;
-      const boardColumnIds = state.boards.all[boardId].columnIds;
+      const boardColumnIds = state.boards.all[boardId]
+        ? state.boards.all[boardId].columnIds
+        : [];
+
       const columns = state.columns.all;
-      const boardColumnsArray = boardColumnIds.map(
-        columnId => columns[columnId]
-      );
-      const removedBoardColumns = arrayToObject(boardColumnsArray);
-      console.log(removedBoardColumns);
+      const removedColumns = boardColumnIds.map(columnId => columns[columnId]);
 
       return next({
         type: action.type,
         payload: {
           ...action.payload,
           boardIds,
-          boardColumns: removedBoardColumns
+          removed: removedColumns
         }
       });
     case COLUMN_REMOVED:
       const columnIds = state.columns.ids;
       const columnTaskIds = state.columns.all[columnId].taskIds;
       const tasks = state.tasks.all;
-      const columnTasksArray = columnTaskIds.map(taskId => tasks[taskId]);
-      const columnTasks = arrayToObject(columnTasksArray);
+      const columnTasks = columnTaskIds.map(taskId => tasks[taskId]);
+
       return next({
         type: action.type,
         payload: { ...action.payload, columnIds, columnTasks }
@@ -42,3 +39,4 @@ export const cascadeOnDelete = store => next => action => {
 };
 
 // TODO: REFACTOR! make into thunk instead? use selectors? move into separate reducer? something...
+// TODO: need to remove tasks when board is deleted

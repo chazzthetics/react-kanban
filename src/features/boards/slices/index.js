@@ -78,6 +78,7 @@ const boardIdsSlice = createSlice({
     boardRemoved(state, action) {
       const { boardId } = action.payload;
       const boardIndex = state.indexOf(boardId);
+
       if (boardIndex >= 0) {
         state.splice(boardIndex, 1);
       }
@@ -93,24 +94,23 @@ const boardIdsReducer = boardIdsSlice.reducer;
  */
 const currentBoardSlice = createSlice({
   name: "boards",
-  initialState: { id: "board1" },
+  initialState: "board1",
   reducers: {
     boardAdded(state, action) {
       const { board } = action.payload;
-      state.id = board.id;
+      return board.id;
     },
     boardRemoved(state, action) {
-      const { boardIds } = action.payload;
-
-      if (boardIds.length > 0) {
-        state.id = boardIds[boardIds.length - 2];
-      } else {
-        state.id = boardIds[0];
-      }
+      const { boardId, boardIds } = action.payload;
+      const updatedBoardIds = boardIds.filter(id => id !== boardId);
+      const previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
+      return previousBoard || "";
+      // FIXME: go from 1 to 2 to 3, not 1 to 3 to 2
+      // const previousBoard = updatedBoardIds[updatedBoardIds.length - 2];
     },
     boardChanged(state, action) {
       const { boardId } = action.payload;
-      state.id = boardId;
+      return boardId;
     }
   },
   extraReducers: {}

@@ -1,4 +1,6 @@
 import { createSlice, createAction, combineReducers } from "@reduxjs/toolkit";
+import { arrayToObject } from "../../../utils/arrayToObject";
+const boardRemoved = createAction("boards/boardRemoved");
 const columnRemoved = createAction("columns/columnRemoved");
 
 /**
@@ -49,9 +51,18 @@ const allTasksSlice = createSlice({
     }
   },
   extraReducers: {
+    [boardRemoved]: (state, action) => {
+      const { removed } = action.payload;
+      const taskIds = removed.flatMap(column => column.taskIds);
+      taskIds.forEach(taskId => {
+        if (state[taskId]) {
+          delete state[taskId];
+        }
+      });
+    },
     [columnRemoved]: (state, action) => {
       const { columnTasks } = action.payload;
-      const columnTaskIds = Object.keys(columnTasks);
+      const columnTaskIds = Object.keys(arrayToObject(columnTasks));
       const taskIds = Object.keys(state);
       const newTaskIds = taskIds.filter(
         columnId => !columnTaskIds.includes(columnId)
@@ -89,9 +100,14 @@ const taskIdsSlice = createSlice({
     }
   },
   extraReducers: {
+    [boardRemoved]: (state, action) => {
+      const { removed } = action.payload;
+      const taskIds = removed.flatMap(column => column.taskIds);
+      return state.filter(taskId => !taskIds.includes(taskId));
+    },
     [columnRemoved]: (state, action) => {
       const { columnTasks } = action.payload;
-      const taskIds = Object.keys(columnTasks);
+      const taskIds = Object.keys(arrayToObject(columnTasks));
       return state.filter(taskId => !taskIds.includes(taskId));
     }
   }

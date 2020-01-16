@@ -1,5 +1,6 @@
 import { createSlice, createAction, combineReducers } from "@reduxjs/toolkit";
 import { taskAdded, taskRemoved } from "../../tasks/slices";
+import { arrayToObject } from "../../../utils/arrayToObject";
 export const boardRemoved = createAction("boards/boardRemoved");
 
 /**
@@ -59,12 +60,13 @@ const allColumnsSlice = createSlice({
   },
   extraReducers: {
     [boardRemoved]: (state, action) => {
-      const { boardColumns } = action.payload;
-      const boardColumnIds = Object.keys(boardColumns);
+      const { removed } = action.payload;
+      const boardColumnIds = Object.keys(arrayToObject(removed));
       const columnIds = Object.keys(state);
       const newColumnIds = columnIds.filter(
         columnId => !boardColumnIds.includes(columnId)
       );
+
       const newColumns = {};
       for (const columnId of newColumnIds) {
         newColumns[columnId] = state[columnId];
@@ -116,9 +118,8 @@ const columnIdsSlice = createSlice({
   },
   extraReducers: {
     [boardRemoved]: (state, action) => {
-      const { boardColumns } = action.payload;
-      const boardColumnIds = Object.keys(boardColumns);
-
+      const { removed } = action.payload;
+      const boardColumnIds = Object.keys(arrayToObject(removed));
       return state.filter(columnId => !boardColumnIds.includes(columnId));
     }
   }
