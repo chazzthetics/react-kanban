@@ -1,7 +1,7 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { selectCurrentBoardColumns } from "../../boards/utils/boardSelectors";
+import { selectCurrentBoardColumns } from "../../../app/redux/selectors";
 import ColumnItem from "./ColumnItem";
 import AddNewColumnForm from "./AddNewColumnForm";
 

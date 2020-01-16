@@ -70,6 +70,7 @@ const allColumnsSlice = createSlice({
         newColumns[columnId] = state[columnId];
       }
       return newColumns;
+      //TODO: refactor (see tasks slice columnRemoved)
     },
     [taskAdded]: (state, action) => {
       const { task, columnId } = action.payload;

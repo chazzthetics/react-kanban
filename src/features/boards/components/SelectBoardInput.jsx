@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { boardChanged } from "../slices";
 import {
   selectCurrentBoard,
   selectAllBoardsWithTitle
-} from "../utils/boardSelectors";
-import { boardChanged } from "../slices";
+} from "../../../app/redux/selectors";
 
 const SelectBoardInput = () => {
   const currentBoard = useSelector(selectCurrentBoard);

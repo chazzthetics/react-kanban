@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { selectColumnTasks } from "../../boards/utils/boardSelectors";
+import { selectColumnTasks } from "../../../app/redux/selectors";
 import TaskItem from "./TaskItem";
 
 const TaskList = ({ column }) => {

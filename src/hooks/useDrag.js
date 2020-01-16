@@ -9,66 +9,63 @@ import {
 const useDrag = (currentBoard, columns, columnIds) => {
   const dispatch = useDispatch();
 
-  const onDragEnd = result => {
+  return result => {
     const { source, destination, type } = result;
 
-    const startColumn = columns[source.droppableId];
-    const endColumn = columns[destination.droppableId];
-    console.log(endColumn);
-
-    const getReorderType = () => {
-      if (type === "column") return "COLUMNS";
-      if (startColumn === endColumn) return "TASKS";
-      return "BETWEEN";
-    };
-
     if (shouldReorder(source, destination)) {
-      switch (getReorderType()) {
-        case "COLUMNS":
-          const columnOrder = reorder(source, destination, columnIds);
+      const startColumn = columns[source.droppableId];
+      const endColumn = columns[destination.droppableId];
 
-          dispatch(
-            columnReordered({
-              boardId: currentBoard.id,
-              columnOrder
-            })
-          );
-          return;
-        case "TASKS":
-          const taskOrder = reorder(source, destination, startColumn.taskIds);
+      // Reorder column
+      if (type === "column") {
+        const columnOrder = reorder(source.index, destination.index, columnIds);
 
-          dispatch(
-            taskReordered({
-              columnId: startColumn.id,
-              taskOrder
-            })
-          );
-          return;
-        case "BETWEEN":
-          const [startTaskOrder, endTaskOrder] = reorder(
-            source,
-            destination,
-            startColumn.taskIds,
-            endColumn.taskIds
-          );
-
-          dispatch(
-            taskReorderedBetweenColumns({
-              startColumnId: startColumn.id,
-              endColumnId: endColumn.id,
-              startTaskOrder,
-              endTaskOrder
-            })
-          );
-
-          return;
-        default:
-          return;
+        dispatch(
+          columnReordered({
+            boardId: currentBoard.id,
+            columnOrder
+          })
+        );
+        return;
       }
+
+      // Reorder task inside column
+      if (startColumn.id === endColumn.id) {
+        const taskOrder = reorder(
+          source.index,
+          destination.index,
+          startColumn.taskIds
+        );
+
+        dispatch(
+          taskReordered({
+            columnId: startColumn.id,
+            taskOrder
+          })
+        );
+        return;
+      }
+
+      // Reorder task between columns
+      const [startTaskOrder, endTaskOrder] = reorder(
+        source.index,
+        destination.index,
+        startColumn.taskIds,
+        endColumn.taskIds
+      );
+
+      dispatch(
+        taskReorderedBetweenColumns({
+          startColumnId: startColumn.id,
+          endColumnId: endColumn.id,
+          startTaskOrder,
+          endTaskOrder
+        })
+      );
+
+      return;
     }
   };
-
-  return onDragEnd;
 };
 
 export default useDrag;

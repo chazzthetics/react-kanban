@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { selectCurrentBoardId } from "../../boards/utils/boardSelectors";
+import { selectCurrentBoardId } from "../../../app/redux/selectors";
 import { TaskList, AddNewTaskForm } from "../../tasks/components";
 import RemoveColumnButtom from "./RemoveColumnButton";
 

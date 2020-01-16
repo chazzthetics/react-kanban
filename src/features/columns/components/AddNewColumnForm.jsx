@@ -1,9 +1,9 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCurrentBoardId } from "../../boards/utils/boardSelectors";
 import { columnAdded } from "../slices";
-import { makeColumn } from "../utils/makeColumn";
 import { useForm } from "../../../hooks";
+import { makeColumn } from "../utils/makeColumn";
+import { selectCurrentBoardId } from "../../../app/redux/selectors";
 
 const initialValues = { columnTitle: "" };
 

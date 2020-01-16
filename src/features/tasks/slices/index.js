@@ -61,6 +61,7 @@ const allTasksSlice = createSlice({
         newTasks[taskId] = state[taskId];
       }
       return newTasks;
+      //TODO: refactor (see column slice boardRemoved)
     }
   }
 });
