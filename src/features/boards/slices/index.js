@@ -31,9 +31,22 @@ const allBoardsSlice = createSlice({
       const { board } = action.payload;
       state[board.id] = board;
     },
-    boardRemoved: (state, action) => {
+    boardRemoved(state, action) {
       const { boardId } = action.payload;
       delete state[boardId];
+    },
+    boardTitleEditing(state, action) {
+      const { boardId } = action.payload;
+      state[boardId].isEditing = true;
+    },
+    boardTitleEditingCancelled(state, action) {
+      const { boardId } = action.payload;
+      state[boardId].isEditing = false;
+    },
+    boardTitleUpdated(state, action) {
+      const { boardId, newTitle } = action.payload;
+      state[boardId].title = newTitle;
+      state[boardId].isEditing = false;
     },
     columnReordered(state, action) {
       const { boardId, columnOrder } = action.payload;
@@ -60,6 +73,9 @@ const allBoardsSlice = createSlice({
 export const {
   boardAdded,
   boardRemoved,
+  boardTitleEditing,
+  boardTitleEditingCancelled,
+  boardTitleUpdated,
   columnReordered
 } = allBoardsSlice.actions;
 const allBoardsReducer = allBoardsSlice.reducer;
@@ -103,10 +119,8 @@ const currentBoardSlice = createSlice({
     boardRemoved(state, action) {
       const { boardId, boardIds } = action.payload;
       const updatedBoardIds = boardIds.filter(id => id !== boardId);
-      const previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
-      return previousBoard || "";
-      // FIXME: go from 1 to 2 to 3, not 1 to 3 to 2
-      // const previousBoard = updatedBoardIds[updatedBoardIds.length - 2];
+      const previousBoard = updatedBoardIds[0];
+      return previousBoard ? previousBoard : "";
     },
     boardChanged(state, action) {
       const { boardId } = action.payload;

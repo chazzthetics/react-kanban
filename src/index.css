@@ -11,3 +11,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, "Courier New",
     monospace;
 }
+
+/* TODO: Delete later!!! */
+input:focus {
+  border: 2px lightblue solid;
+}

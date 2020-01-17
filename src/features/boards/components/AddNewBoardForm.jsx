@@ -32,6 +32,7 @@ const AddNewBoardForm = () => {
         onChange={handleChange}
         placeholder="Add New Board"
       />
+      <button type="submit">Add Board</button>
     </form>
   );
 };

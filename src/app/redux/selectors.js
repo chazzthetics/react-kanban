@@ -20,8 +20,8 @@ const selectCurrentBoardTitle = createSelector(
 );
 
 const selectCurrentBoard = createSelector(
-  [selectCurrentBoardId, selectCurrentBoardTitle],
-  (id, title) => ({ id, title })
+  [selectCurrentBoardId, selectAllBoards],
+  (id, all) => all[id]
 );
 
 /* Column Selectors */

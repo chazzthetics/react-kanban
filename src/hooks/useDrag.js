@@ -12,7 +12,7 @@ const useDrag = (currentBoard, columns, columnIds) => {
   return result => {
     const { source, destination, type } = result;
 
-    if (shouldReorder(source, destination)) {
+    if (shouldReorder(source, destination) && currentBoard) {
       const startColumn = columns[source.droppableId];
       const endColumn = columns[destination.droppableId];
 
@@ -22,7 +22,7 @@ const useDrag = (currentBoard, columns, columnIds) => {
 
         dispatch(
           columnReordered({
-            boardId: currentBoard,
+            boardId: currentBoard.id,
             columnOrder
           })
         );
