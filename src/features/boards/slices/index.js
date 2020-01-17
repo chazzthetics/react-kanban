@@ -1,5 +1,5 @@
 import { createSlice, combineReducers } from "@reduxjs/toolkit";
-import { columnAdded, columnRemoved } from "../../columns/slices";
+import { columnCreated, columnRemoved } from "../../columns/slices";
 
 /**
  * All Boards Slice
@@ -27,7 +27,7 @@ const allBoardsSlice = createSlice({
     }
   },
   reducers: {
-    boardAdded(state, action) {
+    boardCreated(state, action) {
       const { board } = action.payload;
       state[board.id] = board;
     },
@@ -54,7 +54,7 @@ const allBoardsSlice = createSlice({
     }
   },
   extraReducers: {
-    [columnAdded]: (state, action) => {
+    [columnCreated]: (state, action) => {
       const { column, boardId } = action.payload;
       state[boardId].columnIds.push(column.id);
     },
@@ -71,7 +71,7 @@ const allBoardsSlice = createSlice({
 });
 
 export const {
-  boardAdded,
+  boardCreated,
   boardRemoved,
   boardTitleEditing,
   boardTitleEditingCancelled,
@@ -87,7 +87,7 @@ const boardIdsSlice = createSlice({
   name: "boards",
   initialState: ["board1", "board2", "board3"],
   reducers: {
-    boardAdded(state, action) {
+    boardCreated(state, action) {
       const { board } = action.payload;
       state.push(board.id);
     },
@@ -112,7 +112,7 @@ const currentBoardSlice = createSlice({
   name: "boards",
   initialState: "board1",
   reducers: {
-    boardAdded(state, action) {
+    boardCreated(state, action) {
       const { board } = action.payload;
       return board.id;
     },

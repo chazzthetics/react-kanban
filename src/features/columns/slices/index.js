@@ -1,5 +1,5 @@
 import { createSlice, createAction, combineReducers } from "@reduxjs/toolkit";
-import { taskAdded, taskRemoved } from "../../tasks/slices";
+import { taskCreated, taskRemoved } from "../../tasks/slices";
 import { arrayToObject } from "../../../utils/arrayToObject";
 export const boardRemoved = createAction("boards/boardRemoved");
 
@@ -35,7 +35,7 @@ const allColumnsSlice = createSlice({
     }
   },
   reducers: {
-    columnAdded(state, action) {
+    columnCreated(state, action) {
       const { column } = action.payload;
       state[column.id] = column;
     },
@@ -74,7 +74,7 @@ const allColumnsSlice = createSlice({
       return newColumns;
       //TODO: refactor (see tasks slice columnRemoved)
     },
-    [taskAdded]: (state, action) => {
+    [taskCreated]: (state, action) => {
       const { task, columnId } = action.payload;
       state[columnId].taskIds.push(task.id);
     },
@@ -90,7 +90,7 @@ const allColumnsSlice = createSlice({
 });
 
 export const {
-  columnAdded,
+  columnCreated,
   columnRemoved,
   taskReordered,
   taskReorderedBetweenColumns
@@ -104,7 +104,7 @@ const columnIdsSlice = createSlice({
   name: "columns",
   initialState: ["column1", "column2", "column3", "column4"],
   reducers: {
-    columnAdded(state, action) {
+    columnCreated(state, action) {
       const { column } = action.payload;
       state.push(column.id);
     },

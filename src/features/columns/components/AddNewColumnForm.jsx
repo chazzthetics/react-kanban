@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { columnAdded } from "../slices";
+import { columnCreated } from "../slices";
 import { useForm } from "../../../hooks";
 import { makeColumn } from "../utils/makeColumn";
 import { selectCurrentBoardId } from "../../../app/redux/selectors";
@@ -21,7 +21,7 @@ const AddNewColumnForm = () => {
 
   function submit() {
     const column = makeColumn({ title: columnTitle });
-    dispatch(columnAdded({ column, boardId }));
+    dispatch(columnCreated({ column, boardId }));
     resetForm();
   }
 

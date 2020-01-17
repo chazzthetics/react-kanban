@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { taskAdded } from "../slices";
+import { taskCreated } from "../slices";
 import { makeTask } from "../utils/makeTasks";
 import { useForm } from "../../../hooks";
 
@@ -19,7 +19,7 @@ const AddNewTaskForm = ({ column }) => {
 
   function submit() {
     const task = makeTask({ content: taskContent });
-    dispatch(taskAdded({ task, columnId: column.id }));
+    dispatch(taskCreated({ task, columnId: column.id }));
     resetForm();
   }
 
