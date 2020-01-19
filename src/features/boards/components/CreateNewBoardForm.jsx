@@ -14,9 +14,10 @@ const CreateNewBoardForm = () => {
   return (
     <CreateForm
       inputName="boardTitle"
-      placeholder="Add new board...test"
+      placeholder="Add new board..."
       initialValues={{ boardTitle: "" }}
       create={create}
+      submitValue="Add Board"
     />
   );
 };

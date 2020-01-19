@@ -1,7 +1,13 @@
 import React from "react";
 import { useForm } from "../hooks";
 
-const CreateForm = ({ inputName, placeholder, initialValues, create }) => {
+const CreateForm = ({
+  inputName,
+  placeholder,
+  initialValues,
+  create,
+  submitValue
+}) => {
   const { values, handleChange, handleSubmit } = useForm(initialValues, () =>
     create(values[inputName])
   );
@@ -15,7 +21,7 @@ const CreateForm = ({ inputName, placeholder, initialValues, create }) => {
         value={values[inputName]}
         onChange={handleChange}
       />
-      <button type="submit">Add Board</button>
+      <button type="submit">{submitValue}</button>
     </form>
   );
 };

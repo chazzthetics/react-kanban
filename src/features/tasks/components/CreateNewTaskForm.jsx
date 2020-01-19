@@ -5,11 +5,11 @@ import { taskCreated } from "../slices";
 import { makeTask } from "../utils/makeTasks";
 import { CreateForm } from "../../../components";
 
-const CreateNewTaskForm = ({ column }) => {
+const CreateNewTaskForm = ({ columnId }) => {
   const dispatch = useDispatch();
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
-    dispatch(taskCreated({ task, columnId: column.id }));
+    dispatch(taskCreated({ task, columnId }));
   }
 
   return (
@@ -18,17 +18,13 @@ const CreateNewTaskForm = ({ column }) => {
       placeholder="Add new task"
       initialValues={{ taskContent: "" }}
       create={create}
+      submitValue="Add Task"
     />
   );
 };
 
 CreateNewTaskForm.propTypes = {
-  column: PropTypes.shape({
-    id: PropTypes.string,
-    title: PropTypes.string,
-    taskIds: PropTypes.arrayOf(PropTypes.string),
-    isEditing: PropTypes.bool
-  }).isRequired
+  columnId: PropTypes.string.isRequired
 };
 
 export default CreateNewTaskForm;

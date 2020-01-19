@@ -17,7 +17,7 @@ const ColumnList = () => {
           {...provided.droppableProps}
         >
           {boardColumns.map((column, index) => (
-            <ColumnItem key={column.id} index={index} column={column} />
+            <ColumnItem key={column.id} index={index} columnId={column.id} />
           ))}
           {provided.placeholder}
           <CreateNewColumnForm />

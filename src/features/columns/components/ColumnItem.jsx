@@ -1,33 +1,33 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { selectCurrentBoardId } from "../../../app/redux/selectors";
+import { Draggable, Droppable } from "react-beautiful-dnd";
 import { TaskList, CreateNewTaskForm } from "../../tasks/components";
+import { selectColumnTitle } from "../../../app/redux/selectors";
 import RemoveColumnButtom from "./RemoveColumnButton";
 
-const ColumnItem = ({ index, column }) => {
-  const boardId = useSelector(selectCurrentBoardId);
+const ColumnItem = ({ index, columnId }) => {
+  const columnTitle = useSelector(state => selectColumnTitle(state, columnId));
 
   return (
-    <Draggable draggableId={column.id} index={index}>
+    <Draggable draggableId={columnId} index={index}>
       {provided => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <h4>{column.title}</h4>
-          <RemoveColumnButtom columnId={column.id} boardId={boardId} />
-          <Droppable droppableId={column.id} type="task">
+          <h4>{columnTitle}</h4>
+          <RemoveColumnButtom columnId={columnId} />
+          <Droppable droppableId={columnId} type="task">
             {provided => (
               <div ref={provided.innerRef} {...provided.droppableProps}>
-                <TaskList column={column} />
+                <TaskList columnId={columnId} />
                 {provided.placeholder}
               </div>
             )}
           </Droppable>
-          <CreateNewTaskForm column={column} />
+          <CreateNewTaskForm columnId={columnId} />
         </div>
       )}
     </Draggable>
@@ -35,9 +35,8 @@ const ColumnItem = ({ index, column }) => {
 };
 
 ColumnItem.propTypes = {
-  column: PropTypes.object
+  index: PropTypes.number.isRequired,
+  columnId: PropTypes.string.isRequired
 };
 
 export default ColumnItem;
-
-//TODO: proptypes

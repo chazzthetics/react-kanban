@@ -20,6 +20,7 @@ const CreateNewColumnForm = () => {
       placeholder="Add new list"
       initialValues={{ columnTitle: "" }}
       create={create}
+      submitValue="Add List"
     />
   );
 };

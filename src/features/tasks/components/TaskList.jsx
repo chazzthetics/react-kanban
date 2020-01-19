@@ -5,8 +5,8 @@ import { useSelector } from "react-redux";
 import { selectColumnTasks } from "../../../app/redux/selectors";
 import TaskItem from "./TaskItem";
 
-const TaskList = ({ column }) => {
-  const tasks = useSelector(state => selectColumnTasks(state, column));
+const TaskList = ({ columnId }) => {
+  const tasks = useSelector(state => selectColumnTasks(state, columnId));
 
   return tasks.map((task, index) => (
     <Draggable key={task.id} index={index} draggableId={task.id}>
@@ -16,7 +16,7 @@ const TaskList = ({ column }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <TaskItem task={task} columnId={column.id} />
+          <TaskItem taskId={task.id} columnId={columnId} />
         </div>
       )}
     </Draggable>
@@ -24,9 +24,7 @@ const TaskList = ({ column }) => {
 };
 
 TaskList.propTypes = {
-  column: PropTypes.object
+  columnId: PropTypes.string.isRequired
 };
 
 export default TaskList;
-
-//TODO: proptypes
