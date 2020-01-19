@@ -9,7 +9,12 @@ const useForm = (initialValues, submit) => {
 
   const handleSubmit = e => {
     e.preventDefault();
-    submit();
+    try {
+      submit();
+      resetForm();
+    } catch (ex) {
+      console.error(ex); // FIXME: error handling
+    }
   };
 
   const resetForm = () => {
@@ -18,7 +23,5 @@ const useForm = (initialValues, submit) => {
 
   return { values, handleChange, handleSubmit, resetForm };
 };
-
-// TODO: validation
 
 export default useForm;

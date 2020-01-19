@@ -4,7 +4,7 @@ import { useSelector, useDispatch } from "react-redux";
 import { useDrag } from "../../../hooks";
 import RemoveBoardButton from "./RemoveBoardButton";
 import SelectBoardInput from "./SelectBoardInput";
-import AddNewBoardForm from "./AddNewBoardForm";
+import CreateNewBoardForm from "./CreateNewBoardForm";
 import EditBoardTitleForm from "./EditBoardTitleForm";
 import { ColumnList } from "../../columns/components";
 import { arrayToObject } from "../../../utils/arrayToObject";
@@ -25,7 +25,7 @@ const MainBoard = () => {
 
   const handleDragEnd = useDrag(currentBoard, currentBoardColumns, columnIds);
 
-  // enable edit board title
+  // **enable edit board title
   const dispatch = useDispatch();
   const handleEditBoardTitle = () => {
     dispatch(boardTitleEditing({ boardId: currentBoard.id }));
@@ -33,7 +33,7 @@ const MainBoard = () => {
 
   return (
     <div>
-      <AddNewBoardForm />
+      <CreateNewBoardForm />
       {currentBoard && currentBoard.id ? (
         <div>
           <RemoveBoardButton />

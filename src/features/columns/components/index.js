@@ -1,6 +1,6 @@
 import ColumnList from "./ColumnList";
 import ColumnItem from "./ColumnItem";
-import AddNewColumnForm from "./AddNewColumnForm";
+import CreateNewColumnForm from "./CreateNewColumnForm";
 import RemoveColumnButton from "./RemoveColumnButton";
 
-export { ColumnList, ColumnItem, AddNewColumnForm, RemoveColumnButton };
+export { ColumnList, ColumnItem, CreateNewColumnForm, RemoveColumnButton };

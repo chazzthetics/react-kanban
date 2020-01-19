@@ -8,7 +8,7 @@ const EditBoardTitleForm = () => {
   const inputRef = useFocus();
   const currentBoard = useSelector(selectCurrentBoard);
 
-  const { values, handleChange, handleSubmit, resetForm } = useForm(
+  const { values, handleChange, handleSubmit } = useForm(
     { boardTitle: currentBoard.title },
     submit
   );
@@ -24,7 +24,6 @@ const EditBoardTitleForm = () => {
     dispatch(
       boardTitleUpdated({ boardId: currentBoard.id, newTitle: boardTitle })
     );
-    resetForm();
   }
 
   return (

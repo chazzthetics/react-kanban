@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { selectCurrentBoardId } from "../../../app/redux/selectors";
-import { TaskList, AddNewTaskForm } from "../../tasks/components";
+import { TaskList, CreateNewTaskForm } from "../../tasks/components";
 import RemoveColumnButtom from "./RemoveColumnButton";
 
 const ColumnItem = ({ index, column }) => {
@@ -27,7 +27,7 @@ const ColumnItem = ({ index, column }) => {
               </div>
             )}
           </Droppable>
-          <AddNewTaskForm column={column} />
+          <CreateNewTaskForm column={column} />
         </div>
       )}
     </Draggable>

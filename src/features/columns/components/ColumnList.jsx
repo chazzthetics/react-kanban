@@ -3,7 +3,7 @@ import { Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { selectCurrentBoardColumns } from "../../../app/redux/selectors";
 import ColumnItem from "./ColumnItem";
-import AddNewColumnForm from "./AddNewColumnForm";
+import CreateNewColumnForm from "./CreateNewColumnForm";
 
 const ColumnList = () => {
   const boardColumns = useSelector(selectCurrentBoardColumns);
@@ -20,7 +20,7 @@ const ColumnList = () => {
             <ColumnItem key={column.id} index={index} column={column} />
           ))}
           {provided.placeholder}
-          <AddNewColumnForm />
+          <CreateNewColumnForm />
         </div>
       )}
     </Droppable>
