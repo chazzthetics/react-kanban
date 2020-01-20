@@ -1,4 +1,5 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { useForm } from "../hooks";
 
 const CreateForm = ({
@@ -28,5 +29,10 @@ const CreateForm = ({
 
 export default CreateForm;
 
-// FIXME: only works for single inputs
-// TODO: proptypes
+CreateForm.propTypes = {
+  inputName: PropTypes.string.isRequired,
+  placeholder: PropTypes.string.isRequired,
+  initialValues: PropTypes.object.isRequired,
+  create: PropTypes.func.isRequired,
+  submitValue: PropTypes.string.isRequired
+};

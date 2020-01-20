@@ -7,6 +7,7 @@ import { CreateForm } from "../../../components";
 
 const CreateNewTaskForm = ({ columnId }) => {
   const dispatch = useDispatch();
+
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
     dispatch(taskCreated({ task, columnId }));

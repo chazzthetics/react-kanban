@@ -6,6 +6,7 @@ import { CreateForm } from "../../../components";
 
 const CreateNewBoardForm = () => {
   const dispatch = useDispatch();
+
   function create(boardTitle) {
     const board = makeBoard({ title: boardTitle });
     dispatch(boardCreated({ board }));

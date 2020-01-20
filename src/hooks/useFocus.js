@@ -1,15 +1,15 @@
 import { useEffect, useRef } from "react";
 
 const useFocus = () => {
-  const inputRef = useRef(null);
+  const focusRef = useRef(null);
 
   useEffect(() => {
-    if (inputRef.current) {
-      inputRef.current.focus();
+    if (focusRef.current) {
+      focusRef.current.focus();
     }
   }, []);
 
-  return inputRef;
+  return focusRef;
 };
 
 export default useFocus;

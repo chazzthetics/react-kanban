@@ -43,6 +43,19 @@ const allColumnsSlice = createSlice({
       const { columnId } = action.payload;
       delete state[columnId];
     },
+    columnTitleEditing(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isEditing = true;
+    },
+    columnTitleEditingCancelled(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isEditing = false;
+    },
+    columnTitleUpdated(state, action) {
+      const { columnId, newTitle } = action.payload;
+      state[columnId].title = newTitle;
+      state[columnId].isEditing = false;
+    },
     taskReordered(state, action) {
       const { columnId, taskOrder } = action.payload;
       state[columnId].taskIds = taskOrder;
@@ -92,6 +105,9 @@ const allColumnsSlice = createSlice({
 export const {
   columnCreated,
   columnRemoved,
+  columnTitleEditing,
+  columnTitleEditingCancelled,
+  columnTitleUpdated,
   taskReordered,
   taskReorderedBetweenColumns
 } = allColumnsSlice.actions;

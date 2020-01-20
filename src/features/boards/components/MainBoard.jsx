@@ -34,7 +34,7 @@ const MainBoard = () => {
   return (
     <div>
       <CreateNewBoardForm />
-      {currentBoard && currentBoard.id ? (
+      {currentBoard ? (
         <div>
           <RemoveBoardButton />
           <p>Current Id: {currentBoard.id}</p>

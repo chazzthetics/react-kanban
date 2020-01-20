@@ -24,6 +24,11 @@ const selectCurrentBoard = createSelector(
   (id, all) => all[id]
 );
 
+const selectCurrentBoardIsEditing = createSelector(
+  [selectCurrentBoard],
+  board => board.isEditing
+);
+
 /* Column Selectors */
 const selectColumns = createSelector(
   [state => state.columns],
@@ -32,9 +37,15 @@ const selectColumns = createSelector(
 
 const selectColumnIds = createSelector(selectColumns, columns => columns.ids);
 const selectAllColumns = createSelector(selectColumns, columns => columns.all);
+
 const selectColumnTitle = createSelector(
   [selectAllColumns, (_, columnId) => columnId],
   (all, columnId) => all[columnId].title
+);
+
+const selectColumnIsEditing = createSelector(
+  [selectAllColumns, (_, columnId) => columnId],
+  (all, columnId) => all[columnId].isEditing
 );
 
 /* Task Selectors */
@@ -74,6 +85,7 @@ export {
   selectCurrentBoard,
   selectCurrentBoardId,
   selectCurrentBoardTitle,
+  selectCurrentBoardIsEditing,
   selectAllBoardsWithTitle,
   selectColumns,
   selectColumnIds,
@@ -83,6 +95,7 @@ export {
   selectColumnTitle,
   selectColumnTasks,
   selectColumnTaskIds,
+  selectColumnIsEditing,
   selectTasks,
   selectTaskIds,
   selectAllTasks,

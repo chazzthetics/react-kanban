@@ -5,6 +5,7 @@ import { taskRemoved } from "../slices";
 
 const RemoveTaskButton = ({ taskId, columnId }) => {
   const dispatch = useDispatch();
+
   const handleRemove = e => {
     dispatch(taskRemoved({ taskId, columnId }));
   };

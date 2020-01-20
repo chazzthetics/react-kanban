@@ -1,44 +1,37 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { useFocus, useForm } from "../../../hooks";
-import { selectCurrentBoard } from "../../../app/redux/selectors";
+import {
+  selectCurrentBoardId,
+  selectCurrentBoardTitle,
+  selectCurrentBoardIsEditing
+} from "../../../app/redux/selectors";
 import { boardTitleEditingCancelled, boardTitleUpdated } from "../slices";
+import { EditForm } from "../../../components";
 
 const EditBoardTitleForm = () => {
-  const inputRef = useFocus();
-  const currentBoard = useSelector(selectCurrentBoard);
-
-  const { values, handleChange, handleSubmit } = useForm(
-    { boardTitle: currentBoard.title },
-    submit
-  );
-
-  const { boardTitle } = values;
-
-  const handleCancelEdit = () => {
-    dispatch(boardTitleEditingCancelled({ boardId: currentBoard.id }));
-  };
+  const currentBoardId = useSelector(selectCurrentBoardId);
+  const currentBoardTitle = useSelector(selectCurrentBoardTitle);
+  const isEditing = useSelector(selectCurrentBoardIsEditing);
 
   const dispatch = useDispatch();
-  function submit() {
+  const onCancel = () => {
+    dispatch(boardTitleEditingCancelled({ boardId: currentBoardId }));
+  };
+
+  function update(boardTitle) {
     dispatch(
-      boardTitleUpdated({ boardId: currentBoard.id, newTitle: boardTitle })
+      boardTitleUpdated({ boardId: currentBoardId, newTitle: boardTitle })
     );
   }
 
   return (
-    <form onSubmit={handleSubmit}>
-      <input
-        ref={inputRef}
-        type="text"
-        name="boardTitle"
-        value={boardTitle}
-        onChange={handleChange}
-      />
-      <button type="button" onClick={handleCancelEdit}>
-        Cancel
-      </button>
-    </form>
+    <EditForm
+      inputName="boardTitle"
+      initialValues={{ boardTitle: currentBoardTitle }}
+      isEditing={isEditing}
+      onCancel={onCancel}
+      update={update}
+    />
   );
 };
 
