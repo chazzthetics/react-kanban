@@ -1,13 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useForm } from "../../hooks";
+import { Input, Button, Textarea } from "@chakra-ui/core";
 
 const CreateForm = ({
   inputName,
   placeholder,
   initialValues,
   create,
-  submitValue
+  submitValue,
+  textarea = false
 }) => {
   const { values, handleChange, handleSubmit } = useForm(initialValues, () =>
     create(values[inputName])
@@ -15,14 +17,18 @@ const CreateForm = ({
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
-        type="text"
-        onChange={handleChange}
-        value={values[inputName]}
-        name={inputName}
-        placeholder={placeholder}
-      />
-      <button type="submit">{submitValue}</button>
+      {!textarea ? (
+        <Input
+          type="text"
+          onChange={handleChange}
+          value={values[inputName]}
+          name={inputName}
+          placeholder={placeholder}
+        />
+      ) : (
+        <Textarea />
+      )}
+      <Button type="submit">{submitValue}</Button>
     </form>
   );
 };
@@ -34,5 +40,6 @@ CreateForm.propTypes = {
   placeholder: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,
   create: PropTypes.func.isRequired,
-  submitValue: PropTypes.string.isRequired
+  submitValue: PropTypes.string.isRequired,
+  textarea: PropTypes.bool
 };

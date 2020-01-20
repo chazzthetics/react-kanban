@@ -17,11 +17,9 @@ const BoardHeader = () => {
   };
 
   return (
-    <div>
-      <h3 style={{ cursor: "pointer" }} onClick={handleEditBoardTitle}>
-        Current Board Title: {boardTitle}
-      </h3>
-    </div>
+    <h3 style={{ cursor: "pointer" }} onClick={handleEditBoardTitle}>
+      {boardTitle}
+    </h3>
   );
 };
 

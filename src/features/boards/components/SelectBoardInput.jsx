@@ -5,6 +5,7 @@ import {
   selectCurrentBoardId,
   selectAllBoardsWithTitle
 } from "../../../app/redux/selectors";
+import { Select } from "@chakra-ui/core";
 
 const SelectBoardInput = () => {
   const currentBoardId = useSelector(selectCurrentBoardId);
@@ -17,15 +18,13 @@ const SelectBoardInput = () => {
   };
 
   return (
-    <div>
-      <select value={currentBoardId} onChange={handleBoardChange}>
-        {boards.map(board => (
-          <option key={board.id} value={board.id}>
-            {board.title}
-          </option>
-        ))}
-      </select>
-    </div>
+    <Select value={currentBoardId} onChange={handleBoardChange}>
+      {boards.map(board => (
+        <option key={board.id} value={board.id}>
+          {board.title}
+        </option>
+      ))}
+    </Select>
   );
 };
 

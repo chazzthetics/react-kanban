@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { taskRemoved } from "../slices";
+import { RemoveButton } from "../../../components";
 
 const RemoveTaskButton = ({ taskId, columnId }) => {
   const dispatch = useDispatch();
@@ -10,11 +11,7 @@ const RemoveTaskButton = ({ taskId, columnId }) => {
     dispatch(taskRemoved({ taskId, columnId }));
   };
 
-  return (
-    <button type="button" onClick={handleRemove}>
-      &times;
-    </button>
-  );
+  return <RemoveButton onRemove={handleRemove} value="&times;" />;
 };
 
 RemoveTaskButton.propTypes = {
@@ -23,5 +20,3 @@ RemoveTaskButton.propTypes = {
 };
 
 export default RemoveTaskButton;
-
-//TODO: proptypes

@@ -3,27 +3,22 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { columnRemoved } from "../slices";
 import { selectCurrentBoardId } from "../../../app/redux/selectors";
+import { RemoveButton } from "../../../components";
 
 const RemoveColumnButton = ({ columnId }) => {
-  const dispatch = useDispatch();
   const boardId = useSelector(selectCurrentBoardId);
 
-  const handleRemove = () => {
+  const dispatch = useDispatch();
+
+  const handleRemoveColumn = () => {
     dispatch(columnRemoved({ columnId, boardId }));
   };
 
-  return (
-    <button type="button" onClick={handleRemove}>
-      Delete
-    </button>
-  );
+  return <RemoveButton onRemove={handleRemoveColumn} value="Remove Column" />;
 };
 
 RemoveColumnButton.propTypes = {
-  columnId: PropTypes.string,
-  boardId: PropTypes.string
+  columnId: PropTypes.string.isRequired
 };
 
 export default RemoveColumnButton;
-
-//TODO: proptypes

@@ -4,11 +4,16 @@ import { Provider } from "react-redux";
 import store from "./app/redux/store";
 import "./index.css";
 import App from "./app/App";
+import { ThemeProvider } from "@chakra-ui/core";
 import * as serviceWorker from "./serviceWorker";
+import { CSSReset } from "@chakra-ui/core";
 
 ReactDOM.render(
   <Provider store={store}>
-    <App />
+    <ThemeProvider>
+      <CSSReset />
+      <App />
+    </ThemeProvider>
   </Provider>,
   document.getElementById("root")
 );

@@ -35,7 +35,6 @@ const MainBoard = () => {
       {currentBoardId ? (
         <div>
           <RemoveBoardButton />
-          <p>Current Id: {currentBoardId}</p>
           {!isEditing ? <BoardTitle /> : <EditBoardTitleForm />}
           <SelectBoardInput />
           <DragDropContext onDragEnd={handleDragEnd}>

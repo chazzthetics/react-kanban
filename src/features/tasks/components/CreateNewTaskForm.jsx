@@ -1,12 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import { taskCreated } from "../slices";
+import { selectColumnTaskIds } from "../../../app/redux/selectors";
 import { makeTask } from "../utils/makeTasks";
 import { CreateForm } from "../../../components";
 
 const CreateNewTaskForm = ({ columnId }) => {
   const dispatch = useDispatch();
+  const hasTask = useSelector(state => selectColumnTaskIds(state, columnId))
+    .length;
 
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
@@ -19,7 +22,8 @@ const CreateNewTaskForm = ({ columnId }) => {
       placeholder="Add new task"
       initialValues={{ taskContent: "" }}
       create={create}
-      submitValue="Add Task"
+      submitValue={hasTask ? "Add another task" : "Add a task"}
+      textarea={true}
     />
   );
 };
