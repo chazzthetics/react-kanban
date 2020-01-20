@@ -1,15 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { selectTask } from "../../../app/redux/selectors";
+import { selectTaskContent } from "../../../app/redux/selectors";
 import RemoveTaskButton from "./RemoveTaskButton";
 
 const TaskItem = ({ taskId, columnId }) => {
-  const task = useSelector(state => selectTask(state, taskId));
-
+  const taskContent = useSelector(state => selectTaskContent(state, taskId));
   return (
     <div>
-      {task.content}
+      {taskContent}
       <RemoveTaskButton taskId={taskId} columnId={columnId} />
     </div>
   );

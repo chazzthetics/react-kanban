@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { selectColumnTasks } from "../../../app/redux/selectors";
-import TaskItem from "./TaskItem";
+import { TaskItem } from "./";
 
 const TaskList = ({ columnId }) => {
   const tasks = useSelector(state => selectColumnTasks(state, columnId));

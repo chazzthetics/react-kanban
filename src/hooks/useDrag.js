@@ -6,13 +6,13 @@ import {
   taskReorderedBetweenColumns
 } from "../features/columns/slices";
 
-const useDrag = (currentBoard, columns, columnIds) => {
+const useDrag = (currentBoardId, columns, columnIds) => {
   const dispatch = useDispatch();
 
   return result => {
     const { source, destination, type } = result;
 
-    if (shouldReorder(source, destination) && currentBoard) {
+    if (shouldReorder(source, destination) && currentBoardId) {
       const startColumn = columns[source.droppableId];
       const endColumn = columns[destination.droppableId];
 
@@ -22,7 +22,7 @@ const useDrag = (currentBoard, columns, columnIds) => {
 
         dispatch(
           columnReordered({
-            boardId: currentBoard.id,
+            boardId: currentBoardId,
             columnOrder
           })
         );

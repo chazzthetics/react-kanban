@@ -9,19 +9,17 @@ import { boardTitleEditingCancelled, boardTitleUpdated } from "../slices";
 import { EditForm } from "../../../components";
 
 const EditBoardTitleForm = () => {
-  const currentBoardId = useSelector(selectCurrentBoardId);
+  const boardId = useSelector(selectCurrentBoardId);
   const currentBoardTitle = useSelector(selectCurrentBoardTitle);
   const isEditing = useSelector(selectCurrentBoardIsEditing);
 
   const dispatch = useDispatch();
   const onCancel = () => {
-    dispatch(boardTitleEditingCancelled({ boardId: currentBoardId }));
+    dispatch(boardTitleEditingCancelled({ boardId: boardId }));
   };
 
   function update(boardTitle) {
-    dispatch(
-      boardTitleUpdated({ boardId: currentBoardId, newTitle: boardTitle })
-    );
+    dispatch(boardTitleUpdated({ boardId, newTitle: boardTitle }));
   }
 
   return (

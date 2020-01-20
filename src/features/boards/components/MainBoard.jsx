@@ -2,39 +2,41 @@ import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { useDrag } from "../../../hooks";
+import { ColumnList } from "../../columns/components";
+import { arrayToObject } from "../../../utils/arrayToObject";
 import {
-  BoardHeader,
+  BoardTitle,
   RemoveBoardButton,
   SelectBoardInput,
   CreateNewBoardForm,
   EditBoardTitleForm
 } from "./";
-import { ColumnList } from "../../columns/components";
-import { arrayToObject } from "../../../utils/arrayToObject";
 import {
-  selectCurrentBoard,
+  selectCurrentBoardId,
   selectCurrentBoardColumns,
-  selectCurrentBoardColumnIds
+  selectCurrentBoardColumnIds,
+  selectCurrentBoardIsEditing
 } from "../../../app/redux/selectors";
 
 const MainBoard = () => {
+  const isEditing = useSelector(selectCurrentBoardIsEditing);
+  const currentBoardId = useSelector(selectCurrentBoardId);
   const columnIds = useSelector(selectCurrentBoardColumnIds);
-  const currentBoard = useSelector(selectCurrentBoard);
 
   const currentBoardColumns = arrayToObject(
     useSelector(selectCurrentBoardColumns)
   );
 
-  const handleDragEnd = useDrag(currentBoard, currentBoardColumns, columnIds);
+  const handleDragEnd = useDrag(currentBoardId, currentBoardColumns, columnIds);
 
   return (
     <div>
       <CreateNewBoardForm />
-      {currentBoard ? (
+      {currentBoardId ? (
         <div>
           <RemoveBoardButton />
-          <p>Current Id: {currentBoard.id}</p>
-          {!currentBoard.isEditing ? <BoardHeader /> : <EditBoardTitleForm />}
+          <p>Current Id: {currentBoardId}</p>
+          {!isEditing ? <BoardTitle /> : <EditBoardTitleForm />}
           <SelectBoardInput />
           <DragDropContext onDragEnd={handleDragEnd}>
             <ColumnList />

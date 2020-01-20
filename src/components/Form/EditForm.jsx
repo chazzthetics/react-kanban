@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useCancel, useFocus, useForm } from "../hooks";
+import { useCancel, useFocus, useForm } from "../../hooks";
 
 const EditForm = ({
   inputName,

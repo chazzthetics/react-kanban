@@ -26,7 +26,7 @@ const selectCurrentBoard = createSelector(
 
 const selectCurrentBoardIsEditing = createSelector(
   [selectCurrentBoard],
-  board => board.isEditing
+  board => (board ? board.isEditing : null)
 );
 
 /* Column Selectors */
@@ -37,15 +37,19 @@ const selectColumns = createSelector(
 
 const selectColumnIds = createSelector(selectColumns, columns => columns.ids);
 const selectAllColumns = createSelector(selectColumns, columns => columns.all);
+const selectColumn = createSelector(
+  [selectAllColumns, (_, columnId) => columnId],
+  (all, columnId) => all[columnId]
+);
 
 const selectColumnTitle = createSelector(
-  [selectAllColumns, (_, columnId) => columnId],
-  (all, columnId) => all[columnId].title
+  [selectColumn],
+  column => column.title
 );
 
 const selectColumnIsEditing = createSelector(
-  [selectAllColumns, (_, columnId) => columnId],
-  (all, columnId) => all[columnId].isEditing
+  [selectColumn],
+  column => column.isEditing
 );
 
 /* Task Selectors */
@@ -56,6 +60,8 @@ const selectTask = createSelector(
   [selectAllTasks, (_, taskId) => taskId],
   (all, taskId) => all[taskId]
 );
+
+const selectTaskContent = createSelector([selectTask], task => task.content);
 
 /* Combined Selectors */
 const selectCurrentBoardColumnIds = createSelector(
@@ -99,7 +105,8 @@ export {
   selectTasks,
   selectTaskIds,
   selectAllTasks,
-  selectTask
+  selectTask,
+  selectTaskContent
 };
 
 //FIXME: clean up
