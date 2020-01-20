@@ -24,8 +24,8 @@ const EditForm = ({
   return (
     <form onSubmit={handleSubmit} ref={cancelRef}>
       <input
-        ref={focusRef}
         type="text"
+        ref={focusRef}
         name={inputName}
         value={values[inputName]}
         onChange={handleChange}

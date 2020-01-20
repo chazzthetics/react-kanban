@@ -17,12 +17,14 @@ const CreateForm = ({
     <form onSubmit={handleSubmit}>
       <input
         type="text"
-        placeholder={placeholder}
-        name={inputName}
-        value={values[inputName]}
         onChange={handleChange}
+        value={values[inputName]}
+        name={inputName}
+        placeholder={placeholder}
       />
-      <button type="submit">{submitValue}</button>
+      <button type="submit" iconBefore="plus" appearance="primary">
+        {submitValue}
+      </button>
     </form>
   );
 };
