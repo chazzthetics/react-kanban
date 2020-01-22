@@ -18,7 +18,12 @@ const SelectBoardInput = () => {
   };
 
   return (
-    <Select value={currentBoardId} onChange={handleBoardChange}>
+    <Select
+      value={currentBoardId}
+      onChange={handleBoardChange}
+      variant="filled"
+      width="25%"
+    >
       {boards.map(board => (
         <option key={board.id} value={board.id}>
           {board.title}
@@ -29,5 +34,3 @@ const SelectBoardInput = () => {
 };
 
 export default SelectBoardInput;
-
-//TODO: pull data from redux, or pass through props from parent?

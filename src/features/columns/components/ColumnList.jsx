@@ -4,6 +4,7 @@ import { useSelector } from "react-redux";
 import { selectCurrentBoardColumns } from "../../../app/redux/selectors";
 import ColumnItem from "./ColumnItem";
 import CreateNewColumnForm from "./CreateNewColumnForm";
+import { Box } from "@chakra-ui/core";
 
 const ColumnList = () => {
   const boardColumns = useSelector(selectCurrentBoardColumns);
@@ -11,8 +12,9 @@ const ColumnList = () => {
   return (
     <Droppable droppableId="all-columns" direction="horizontal" type="column">
       {provided => (
-        <div
-          style={{ display: "flex", border: "1px solid green" }}
+        <Box
+          className="column-list"
+          display="flex"
           ref={provided.innerRef}
           {...provided.droppableProps}
         >
@@ -21,7 +23,7 @@ const ColumnList = () => {
           ))}
           {provided.placeholder}
           <CreateNewColumnForm />
-        </div>
+        </Box>
       )}
     </Droppable>
   );

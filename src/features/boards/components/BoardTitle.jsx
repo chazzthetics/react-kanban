@@ -5,6 +5,7 @@ import {
   selectCurrentBoardId
 } from "../../../app/redux/selectors";
 import { boardTitleEditing } from "../slices";
+import { Heading } from "@chakra-ui/core";
 
 const BoardHeader = () => {
   const boardTitle = useSelector(selectCurrentBoardTitle);
@@ -17,9 +18,14 @@ const BoardHeader = () => {
   };
 
   return (
-    <h3 style={{ cursor: "pointer" }} onClick={handleEditBoardTitle}>
+    <Heading
+      as="h2"
+      style={{ cursor: "pointer" }}
+      size="md"
+      onClick={handleEditBoardTitle}
+    >
       {boardTitle}
-    </h3>
+    </Heading>
   );
 };
 

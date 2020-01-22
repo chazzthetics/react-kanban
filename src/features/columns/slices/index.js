@@ -150,5 +150,3 @@ export default combineReducers({
   all: allColumnsReducer,
   ids: columnIdsReducer
 });
-
-// export const test = () => (dispatch, getState) => {};

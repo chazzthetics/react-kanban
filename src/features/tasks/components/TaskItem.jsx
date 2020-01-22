@@ -2,7 +2,8 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { selectTaskContent } from "../../../app/redux/selectors";
-import RemoveTaskButton from "./RemoveTaskButton";
+import { RemoveTaskButton } from "./";
+import { AddLabelButton } from "../../labels/components";
 
 const TaskItem = ({ taskId, columnId }) => {
   const taskContent = useSelector(state => selectTaskContent(state, taskId));
@@ -10,6 +11,7 @@ const TaskItem = ({ taskId, columnId }) => {
     <div>
       {taskContent}
       <RemoveTaskButton taskId={taskId} columnId={columnId} />
+      <AddLabelButton />
     </div>
   );
 };
@@ -19,5 +21,4 @@ TaskItem.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-//FIXME: check proptypes
 export default TaskItem;
