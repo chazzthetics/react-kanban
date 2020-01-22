@@ -26,7 +26,12 @@ const CreateForm = ({
           placeholder={placeholder}
         />
       ) : (
-        <Textarea />
+        <Textarea
+          onChange={handleChange}
+          value={values[inputName]}
+          name={inputName}
+          placeholder={placeholder}
+        />
       )}
       <Button type="submit">{submitValue}</Button>
     </form>

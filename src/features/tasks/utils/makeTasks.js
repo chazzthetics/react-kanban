@@ -3,6 +3,7 @@ export function makeTask({ content }) {
     id: `taskNew${Math.floor(Math.random() * 20)}`,
     content,
     completed: false,
-    isEditing: false
+    isEditing: false,
+    labelIds: []
   };
 }

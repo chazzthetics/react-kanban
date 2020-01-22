@@ -13,31 +13,36 @@ const allTasksSlice = createSlice({
       id: "task1",
       content: "Walk the dog",
       completed: false,
-      isEditing: false
+      isEditing: false,
+      labelIds: ["label1"]
     },
     task2: {
       id: "task2",
       content: "Milk the cows",
       completed: false,
-      isEditing: false
+      isEditing: false,
+      labelIds: []
     },
     task3: {
       id: "task3",
       content: "Learn more about Redux",
       completed: false,
-      isEditing: false
+      isEditing: false,
+      labelIds: []
     },
     task4: {
       id: "task4",
       content: "Go fishing next weekend",
       completed: false,
-      isEditing: false
+      isEditing: false,
+      labelIds: []
     },
     task5: {
       id: "task5",
       content: "Learn more about Laravel",
       completed: false,
-      isEditing: false
+      isEditing: false,
+      labelIds: []
     }
   },
   reducers: {
@@ -48,6 +53,21 @@ const allTasksSlice = createSlice({
     taskRemoved(state, action) {
       const { taskId } = action.payload;
       delete state[taskId];
+    },
+    labelAdded(state, action) {
+      const { taskId, labelId } = action.payload;
+      const labelIds = state[taskId].labelIds;
+      if (!labelIds.includes(labelId)) {
+        labelIds.push(labelId);
+      }
+    },
+    taskLabelRemoved(state, action) {
+      const { taskId, labelId } = action.payload;
+      const labelIds = state[taskId].labelIds;
+      const labelIndex = labelIds.indexOf(labelId);
+      if (labelIds.includes(labelId)) {
+        labelIds.splice(labelIndex, 1);
+      }
     }
   },
   extraReducers: {
@@ -77,7 +97,12 @@ const allTasksSlice = createSlice({
   }
 });
 
-export const { taskCreated, taskRemoved } = allTasksSlice.actions;
+export const {
+  taskCreated,
+  taskRemoved,
+  labelAdded,
+  taskLabelRemoved
+} = allTasksSlice.actions;
 const allTasksReducer = allTasksSlice.reducer;
 
 /**

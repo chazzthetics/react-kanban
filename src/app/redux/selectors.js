@@ -62,6 +62,12 @@ const selectTask = createSelector(
 );
 
 const selectTaskContent = createSelector([selectTask], task => task.content);
+const selectTaskLabelIds = createSelector([selectTask], task => task.labelIds);
+
+/* Label Selectors */
+const selectLabels = createSelector([state => state.labels], labels => labels);
+const selectLabelIds = createSelector([selectLabels], labels => labels.id);
+const selectAllLabels = createSelector([selectLabels], labels => labels.all);
 
 /* Combined Selectors */
 const selectCurrentBoardColumnIds = createSelector(
@@ -82,6 +88,11 @@ const selectColumnTaskIds = createSelector(
 const selectColumnTasks = createSelector(
   [selectColumnTaskIds, selectAllTasks],
   (columnTaskIds, all) => columnTaskIds.map(taskId => all[taskId])
+);
+
+const selectTaskLabels = createSelector(
+  [selectTaskLabelIds, selectAllLabels],
+  (labelIds, all) => labelIds.map(labelId => all[labelId])
 );
 
 export {
@@ -106,7 +117,11 @@ export {
   selectTaskIds,
   selectAllTasks,
   selectTask,
-  selectTaskContent
+  selectTaskContent,
+  selectTaskLabelIds,
+  selectLabelIds,
+  selectAllLabels,
+  selectTaskLabels
 };
 
 //FIXME: clean up
