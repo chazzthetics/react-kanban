@@ -1,6 +1,15 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/core";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverCloseButton,
+  Button,
+  PopoverContent,
+  PopoverHeader,
+  PopoverArrow,
+  PopoverBody
+} from "@chakra-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { labelAdded } from "../../tasks/slices";
 import { CreateLabelForm } from "./";
@@ -16,20 +25,35 @@ const AddLabelMenu = ({ taskId }) => {
   };
 
   return (
-    <Menu>
-      <MenuButton as={Button} rightIcon="chevron-down">
-        Label
-      </MenuButton>
-      <MenuList>
-        {labelIds.map(labelId => (
-          <MenuItem key={labelId} onClick={() => handleAddLabel(labelId)}>
-            <span style={{ color: `${allLabels[labelId].color}` }}>
-              {allLabels[labelId].color} | {allLabels[labelId].name}
-            </span>
-          </MenuItem>
-        ))}
-      </MenuList>
-    </Menu>
+    <Popover closeOnBlur={true} placement="bottom-end">
+      <PopoverTrigger>
+        <Button>Labels</Button>
+      </PopoverTrigger>
+      <PopoverContent zIndex={4} bg="gray.200">
+        <PopoverHeader>Add Label</PopoverHeader>
+        <PopoverCloseButton />
+        <PopoverArrow />
+        <PopoverBody>
+          {labelIds.map(labelId => (
+            <Button
+              key={labelId}
+              onClick={() => handleAddLabel(labelId)}
+              display="block"
+            >
+              {allLabels[labelId].name || allLabels[labelId].color}
+            </Button>
+          ))}
+          <Popover>
+            <PopoverTrigger>
+              <Button variantColor="blue">Create</Button>
+            </PopoverTrigger>
+            <PopoverContent zIndex={4} placement="bottom-start">
+              <CreateLabelForm />
+            </PopoverContent>
+          </Popover>
+        </PopoverBody>
+      </PopoverContent>
+    </Popover>
   );
 };
 

@@ -2,14 +2,8 @@ import React from "react";
 import { useDispatch } from "react-redux";
 import { labelCreated } from "../slices";
 import { useForm } from "../../../hooks";
-
-function makeLabel({ color, name }) {
-  return {
-    id: `labelNew${Math.floor(Math.random() * 20)}`,
-    color,
-    name
-  };
-}
+import { makeLabel } from "../utils/makeLabel";
+import { Input } from "@chakra-ui/core";
 
 const CreateLabelForm = () => {
   const dispatch = useDispatch();
@@ -26,14 +20,14 @@ const CreateLabelForm = () => {
 
   return (
     <form onSubmit={handleSubmit}>
-      <input
+      <Input
         type="text"
         name="color"
         value={color}
         onChange={handleChange}
         placeholder="color"
       />
-      <input
+      <Input
         type="text"
         name="name"
         value={name}

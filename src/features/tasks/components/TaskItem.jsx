@@ -3,11 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { selectTaskContent } from "../../../app/redux/selectors";
 import { RemoveTaskButton } from "./";
-import {
-  LabelList,
-  AddLabelMenu,
-  CreateLabelForm
-} from "../../labels/components";
+import { LabelList, AddLabelMenu } from "../../labels/components";
 
 const TaskItem = ({ taskId, columnId }) => {
   const taskContent = useSelector(state => selectTaskContent(state, taskId));
@@ -18,8 +14,6 @@ const TaskItem = ({ taskId, columnId }) => {
       {taskContent}
       <RemoveTaskButton taskId={taskId} columnId={columnId} />
       <AddLabelMenu taskId={taskId} />
-      <button>Create Label</button>
-      <CreateLabelForm />
     </div>
   );
 };
