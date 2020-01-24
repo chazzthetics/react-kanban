@@ -16,12 +16,10 @@ const ColumnItem = ({ index, columnId }) => {
     <Draggable draggableId={columnId} index={index}>
       {provided => (
         <Box
-          border="1px solid blue"
           bg="gray.300"
           mr={3}
           py={2}
           px={4}
-          borderRadius={5}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
