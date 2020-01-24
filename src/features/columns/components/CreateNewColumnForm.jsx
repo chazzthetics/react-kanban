@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { columnCreated } from "../slices";
 import { makeColumn } from "../utils/makeColumn";
@@ -6,14 +6,12 @@ import {
   selectCurrentBoardId,
   selectCurrentBoardColumnIds
 } from "../../../app/redux/selectors";
+import { useToggle } from "../../../hooks";
 import { CreateForm } from "../../../components";
-import { Button, CloseButton, IconButton, Flex } from "@chakra-ui/core";
+import { Button, CloseButton, Flex } from "@chakra-ui/core";
 
 const CreateNewColumnForm = () => {
-  const [isOpen, setIsOpen] = useState(false);
-  const handleToggleForm = () => {
-    setIsOpen(state => !state);
-  };
+  const { isOpen, close, open } = useToggle();
 
   const boardId = useSelector(selectCurrentBoardId);
   const hasColumn = useSelector(selectCurrentBoardColumnIds).length;
@@ -22,7 +20,7 @@ const CreateNewColumnForm = () => {
   function create(columnTitle) {
     const column = makeColumn({ title: columnTitle });
     dispatch(columnCreated({ column, boardId }));
-    handleToggleForm();
+    close();
   }
 
   return isOpen ? (
@@ -32,20 +30,22 @@ const CreateNewColumnForm = () => {
       initialValues={{ columnTitle: "" }}
       create={create}
       isOpen={isOpen}
-      onCancel={handleToggleForm}
+      onCancel={close}
     >
       <Flex align="center">
-        <IconButton type="submit" icon="add" aria-label="Add a new list" />
+        <Button type="submit" icon="add" aria-label="Add a new list">
+          Add List
+        </Button>
         <CloseButton
           type="button"
           aria-label="Cancel"
-          onClick={handleToggleForm}
+          onClick={close}
           color="white"
         />
       </Flex>
     </CreateForm>
   ) : (
-    <Button onClick={handleToggleForm}>
+    <Button onClick={open} leftIcon="add">
       {hasColumn ? "Add another list" : "Add a list"}
     </Button>
   );

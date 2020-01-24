@@ -1,15 +1,10 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
 import { selectTaskLabels } from "../../../app/redux/selectors";
-import { taskLabelRemoved } from "../../tasks/slices";
+import { LabelItem } from "./";
 
 const LabelList = ({ taskId }) => {
   const taskLabels = useSelector(state => selectTaskLabels(state, taskId));
-  const dispatch = useDispatch();
-
-  const handleRemoveLabelFromTask = labelId => {
-    dispatch(taskLabelRemoved({ taskId, labelId }));
-  };
 
   return taskLabels.map(taskLabel => (
     <div
@@ -17,17 +12,11 @@ const LabelList = ({ taskId }) => {
       style={{ width: "20px", height: "100%" }}
       key={taskLabel.id}
     >
-      <div
-        onClick={() => handleRemoveLabelFromTask(taskLabel.id)}
-        style={{
-          cursor: "pointer",
-          height: "10px",
-          padding: "10px",
-          backgroundColor: `${taskLabel.color}`
-        }}
-      ></div>
+      <LabelItem taskId={taskId} taskLabel={taskLabel} />
     </div>
   ));
 };
 
 export default LabelList;
+
+//TODO: refactor

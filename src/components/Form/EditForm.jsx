@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useCancel, useFocus, useForm } from "../../hooks";
-import { Input, Button } from "@chakra-ui/core";
+import { Input } from "@chakra-ui/core";
 
 const EditForm = ({
   inputName,
@@ -10,30 +10,23 @@ const EditForm = ({
   update,
   onCancel
 }) => {
-  const focusRef = useFocus();
-
   const { values, handleChange, handleSubmit } = useForm(initialValues, () =>
     update(values[inputName])
   );
 
-  const handleCancelEdit = () => {
-    onCancel();
-  };
-
+  const focusRef = useFocus();
   const cancelRef = useCancel(isEditing, onCancel);
 
   return (
-    <form onSubmit={handleSubmit} ref={cancelRef}>
+    <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "40px" }}>
       <Input
         type="text"
         ref={focusRef}
         name={inputName}
         value={values[inputName]}
         onChange={handleChange}
+        width={40}
       />
-      <Button type="button" onClick={handleCancelEdit}>
-        Cancel
-      </Button>
     </form>
   );
 };

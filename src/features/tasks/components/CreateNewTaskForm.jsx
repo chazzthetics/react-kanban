@@ -1,18 +1,15 @@
-import React, { useState } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { taskCreated } from "../slices";
 import { selectColumnTaskIds } from "../../../app/redux/selectors";
+import { useToggle } from "../../../hooks";
 import { makeTask } from "../utils/makeTasks";
 import { CreateForm } from "../../../components";
-import { Button, CloseButton, IconButton, Flex } from "@chakra-ui/core";
+import { Button, CloseButton, Flex } from "@chakra-ui/core";
 
 const CreateNewTaskForm = ({ columnId }) => {
-  const [isOpen, setIsOpen] = useState(false);
-
-  const handleToggleForm = () => {
-    setIsOpen(state => !state);
-  };
+  const { isOpen, close, open } = useToggle();
 
   const hasTask = useSelector(state => selectColumnTaskIds(state, columnId))
     .length;
@@ -21,7 +18,6 @@ const CreateNewTaskForm = ({ columnId }) => {
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
     dispatch(taskCreated({ task, columnId }));
-    handleToggleForm();
   }
 
   return isOpen ? (
@@ -31,20 +27,18 @@ const CreateNewTaskForm = ({ columnId }) => {
       initialValues={{ taskContent: "" }}
       create={create}
       isOpen={isOpen}
-      onCancel={handleToggleForm}
+      onCancel={close}
       textarea={true}
     >
       <Flex align="center">
-        <IconButton type="submit" icon="add" aria-label="Add a new task" />
-        <CloseButton
-          type="button"
-          aria-label="Cancel"
-          onClick={handleToggleForm}
-        />
+        <Button type="submit" aria-label="Add a new task">
+          Add Task
+        </Button>
+        <CloseButton type="button" aria-label="Cancel" onClick={close} />
       </Flex>
     </CreateForm>
   ) : (
-    <Button onClick={handleToggleForm}>
+    <Button onClick={open} leftIcon="add">
       {hasTask ? "Add another task" : "Add a task"}
     </Button>
   );

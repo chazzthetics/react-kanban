@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useForm, useCancel } from "../../hooks";
+import { useForm, useFocus, useCancel } from "../../hooks";
 import { Input, Textarea } from "@chakra-ui/core";
 
 const CreateForm = ({
@@ -18,6 +18,8 @@ const CreateForm = ({
   );
 
   const cancelRef = useCancel(isOpen, onCancel);
+  const focusRef = useFocus();
+
   return (
     <form onSubmit={handleSubmit} ref={cancelRef}>
       {!textarea ? (
@@ -27,6 +29,7 @@ const CreateForm = ({
           value={values[inputName]}
           name={inputName}
           placeholder={placeholder}
+          ref={focusRef}
         />
       ) : (
         <Textarea
@@ -34,6 +37,8 @@ const CreateForm = ({
           value={values[inputName]}
           name={inputName}
           placeholder={placeholder}
+          resize="none"
+          ref={focusRef}
         />
       )}
       {children}

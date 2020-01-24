@@ -3,7 +3,7 @@ import CreateNewBoardForm from "./CreateNewBoardForm";
 import EditBoardTitleForm from "./EditBoardTitleForm";
 import SelectBoardInput from "./SelectBoardInput";
 import RemoveBoardButton from "./RemoveBoardButton";
-import BoardTitle from "./BoardTitle";
+import BoardHeader from "./BoardHeader";
 
 export {
   MainBoard,
@@ -11,5 +11,5 @@ export {
   CreateNewBoardForm,
   EditBoardTitleForm,
   RemoveBoardButton,
-  BoardTitle
+  BoardHeader
 };

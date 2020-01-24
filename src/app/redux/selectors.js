@@ -66,7 +66,7 @@ const selectTaskLabelIds = createSelector([selectTask], task => task.labelIds);
 
 /* Label Selectors */
 const selectLabels = createSelector([state => state.labels], labels => labels);
-const selectLabelIds = createSelector([selectLabels], labels => labels.id);
+const selectLabelIds = createSelector([selectLabels], labels => labels.ids);
 const selectAllLabels = createSelector([selectLabels], labels => labels.all);
 
 /* Combined Selectors */

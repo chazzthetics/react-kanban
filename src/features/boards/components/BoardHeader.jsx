@@ -20,6 +20,8 @@ const BoardHeader = () => {
   return (
     <Heading
       as="h2"
+      color="white"
+      py={4}
       style={{ cursor: "pointer" }}
       size="md"
       onClick={handleEditBoardTitle}

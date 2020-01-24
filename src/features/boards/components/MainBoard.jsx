@@ -5,7 +5,7 @@ import { useDrag } from "../../../hooks";
 import { ColumnList } from "../../columns/components";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import {
-  BoardTitle,
+  BoardHeader,
   RemoveBoardButton,
   SelectBoardInput,
   CreateNewBoardForm,
@@ -35,7 +35,7 @@ const MainBoard = () => {
       {currentBoardId ? (
         <div>
           <RemoveBoardButton />
-          {!isEditing ? <BoardTitle /> : <EditBoardTitleForm />}
+          {!isEditing ? <BoardHeader /> : <EditBoardTitleForm />}
           <SelectBoardInput />
           <DragDropContext onDragEnd={handleDragEnd}>
             <ColumnList />

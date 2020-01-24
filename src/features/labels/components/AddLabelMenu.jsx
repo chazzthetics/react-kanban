@@ -13,13 +13,13 @@ import {
 import { useSelector, useDispatch } from "react-redux";
 import { labelAdded } from "../../tasks/slices";
 import { CreateLabelForm } from "./";
+import { selectAllLabels, selectLabelIds } from "../../../app/redux/selectors";
 
 const AddLabelMenu = ({ taskId }) => {
+  const allLabels = useSelector(selectAllLabels);
+  const labelIds = useSelector(selectLabelIds);
+
   const dispatch = useDispatch();
-
-  const allLabels = useSelector(state => state.labels.all);
-  const labelIds = useSelector(state => state.labels.ids);
-
   const handleAddLabel = labelId => {
     dispatch(labelAdded({ taskId, labelId }));
   };
@@ -63,5 +63,4 @@ AddLabelMenu.propTypes = {
 
 export default AddLabelMenu;
 
-//TODO: refactor, switch to POPOVER?
-// TODO: selectors
+// TODO: refactor
