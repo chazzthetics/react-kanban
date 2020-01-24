@@ -1,35 +1,69 @@
-import React from "react";
+import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
 import { boardCreated } from "../slices";
 import { makeBoard } from "../utils/makeBoard";
 import { useToggle } from "../../../hooks";
 import { CreateForm } from "../../../components";
-import { IconButton } from "@chakra-ui/core";
+import {
+  Popover,
+  PopoverTrigger,
+  PopoverContent,
+  PopoverHeader,
+  PopoverCloseButton,
+  IconButton,
+  Button
+} from "@chakra-ui/core";
 
 const CreateNewBoardForm = () => {
   const { isOpen, close, open } = useToggle();
 
-  const dispatch = useDispatch();
+  const firstFieldRef = useRef(null);
 
+  const dispatch = useDispatch();
   function create(boardTitle) {
     const board = makeBoard({ title: boardTitle });
     dispatch(boardCreated({ board }));
     close();
   }
 
-  return isOpen ? (
-    <CreateForm
-      inputName="boardTitle"
-      placeholder="Add new board..."
-      initialValues={{ boardTitle: "" }}
-      create={create}
+  return (
+    <Popover
+      placement="bottom"
       isOpen={isOpen}
-      onCancel={close}
+      onOpen={open}
+      onClose={close}
+      initialFocusRef={firstFieldRef}
+      usePortal
     >
-      <h2 style={{ color: "white" }}>Create Board</h2>
-    </CreateForm>
-  ) : (
-    <IconButton icon="add" onClick={open} aria-label="Add new board" />
+      <PopoverTrigger>
+        <IconButton
+          icon="add"
+          aria-label="Add new board"
+          size="sm"
+          fontSize="1rem"
+        />
+      </PopoverTrigger>
+      <PopoverContent>
+        <PopoverHeader>Create a New Board</PopoverHeader>
+        <PopoverCloseButton />
+        <CreateForm
+          inputName="boardTitle"
+          initialValues={{ boardTitle: "" }}
+          create={create}
+          firstFieldRef={firstFieldRef}
+          popover={true}
+        >
+          <Button type="submit">Create</Button>
+          <IconButton
+            icon="close"
+            aria-label="Close form"
+            size="sm"
+            fontSize="1rem"
+            onClick={close}
+          />
+        </CreateForm>
+      </PopoverContent>
+    </Popover>
   );
 };
 

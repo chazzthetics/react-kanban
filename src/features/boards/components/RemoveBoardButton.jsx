@@ -13,7 +13,13 @@ const RemoveBoardButton = () => {
     dispatch(boardRemoved({ boardId }));
   };
 
-  return <RemoveButton onRemove={handleRemoveBoard} value="Remove Board" />;
+  return (
+    <RemoveButton
+      onRemove={handleRemoveBoard}
+      value="Remove Board"
+      leftIcon="delete"
+    />
+  );
 };
 
 export default RemoveBoardButton;

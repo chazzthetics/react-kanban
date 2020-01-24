@@ -14,7 +14,6 @@ import {
   BoardHeader,
   RemoveBoardButton,
   ClearBoardButton,
-  CreateNewBoardForm,
   EditBoardTitleForm
 } from "./";
 
@@ -31,7 +30,6 @@ const MainBoard = () => {
 
   return (
     <div>
-      <CreateNewBoardForm />
       {currentBoardId ? (
         <div>
           <ClearBoardButton />

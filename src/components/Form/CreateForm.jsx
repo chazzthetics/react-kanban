@@ -5,12 +5,14 @@ import { Input, Textarea } from "@chakra-ui/core";
 
 const CreateForm = ({
   inputName,
-  placeholder,
   initialValues,
   create,
   children,
   isOpen,
   onCancel,
+  firstFieldRef = null,
+  popover = false,
+  placeholder = "",
   textarea = false
 }) => {
   const { values, handleChange, handleSubmit } = useForm(initialValues, () =>
@@ -29,7 +31,7 @@ const CreateForm = ({
           value={values[inputName]}
           name={inputName}
           placeholder={placeholder}
-          ref={focusRef}
+          ref={popover ? firstFieldRef : focusRef}
         />
       ) : (
         <Textarea
@@ -38,7 +40,7 @@ const CreateForm = ({
           name={inputName}
           placeholder={placeholder}
           resize="none"
-          ref={focusRef}
+          ref={popover ? firstFieldRef : focusRef}
         />
       )}
       {children}
@@ -48,16 +50,20 @@ const CreateForm = ({
 
 CreateForm.propTypes = {
   inputName: PropTypes.string.isRequired,
-  placeholder: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,
   create: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
   textarea: PropTypes.bool,
-  isOpen: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired,
+  popover: PropTypes.bool,
+  isOpen: PropTypes.bool,
+  firstFieldRef: PropTypes.shape({ current: PropTypes.any }),
+  onCancel: PropTypes.func,
   children: PropTypes.oneOfType([
     PropTypes.node,
     PropTypes.arrayOf(PropTypes.node)
-  ]).isRequired
+  ])
 };
 
 export default CreateForm;
+
+//TODO: fix proptypes

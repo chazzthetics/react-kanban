@@ -32,7 +32,7 @@ const CreateNewColumnForm = () => {
       onCancel={close}
     >
       <Flex align="center">
-        <Button type="submit" icon="add" aria-label="Add a new list">
+        <Button type="submit" icon="add" aria-label="Add a new list" size="sm">
           Add List
         </Button>
         <CloseButton

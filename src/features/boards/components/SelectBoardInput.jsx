@@ -21,8 +21,8 @@ const SelectBoardInput = () => {
     <Select
       value={currentBoardId}
       onChange={handleBoardChange}
-      variant="filled"
-      width="25%"
+      size="sm"
+      borderRadius={4}
     >
       {boards.map(board => (
         <option key={board.id} value={board.id}>

@@ -5,7 +5,7 @@ import { Box } from "@chakra-ui/core";
 
 const App = () => {
   return (
-    <Box className="App" p={2} bg="gray.700" h="100vh">
+    <Box className="App" bg="gray.700" h="100vh">
       <AppBar />
       <MainBoard />
     </Box>
