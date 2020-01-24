@@ -5,7 +5,7 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import { selectColumnIsEditing } from "../../../app/redux/selectors";
 import { ColumnTitle, RemoveColumnButton, EditColumnTitleForm } from "./";
 import { TaskList, CreateNewTaskForm } from "../../tasks/components";
-import { Box } from "@chakra-ui/core";
+import { Box, Flex } from "@chakra-ui/core";
 
 const ColumnItem = ({ index, columnId }) => {
   const isEditing = useSelector(state =>
@@ -17,7 +17,11 @@ const ColumnItem = ({ index, columnId }) => {
       {provided => (
         <Box
           border="1px solid blue"
-          height="100%"
+          bg="gray.300"
+          mr={3}
+          py={2}
+          px={4}
+          borderRadius={5}
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -30,10 +34,17 @@ const ColumnItem = ({ index, columnId }) => {
           <RemoveColumnButton columnId={columnId} />
           <Droppable droppableId={columnId} type="task">
             {provided => (
-              <Box ref={provided.innerRef} {...provided.droppableProps}>
+              <Flex
+                direction="column"
+                align="stretch"
+                justify="center"
+                mb={2}
+                ref={provided.innerRef}
+                {...provided.droppableProps}
+              >
                 <TaskList columnId={columnId} />
                 {provided.placeholder}
-              </Box>
+              </Flex>
             )}
           </Droppable>
           <CreateNewTaskForm columnId={columnId} />

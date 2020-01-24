@@ -11,7 +11,7 @@ const selectCurrentBoardId = createSelector(
 
 const selectAllBoardsWithTitle = createSelector(
   [selectBoardIds, selectAllBoards],
-  (ids, all) => ids.map(id => ({ id, title: all[id].title }))
+  (ids, all) => (ids ? ids.map(id => ({ id, title: all[id].title })) : [])
 );
 
 const selectCurrentBoardTitle = createSelector(
