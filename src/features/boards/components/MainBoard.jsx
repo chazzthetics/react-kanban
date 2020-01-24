@@ -5,18 +5,18 @@ import { useDrag } from "../../../hooks";
 import { ColumnList } from "../../columns/components";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import {
+  selectCurrentBoardId,
+  selectCurrentBoardColumns,
+  selectCurrentBoardColumnIds,
+  selectCurrentBoardIsEditing
+} from "../../../app/redux/selectors";
+import {
   BoardHeader,
   RemoveBoardButton,
   SelectBoardInput,
   CreateNewBoardForm,
   EditBoardTitleForm
 } from "./";
-import {
-  selectCurrentBoardId,
-  selectCurrentBoardColumns,
-  selectCurrentBoardColumnIds,
-  selectCurrentBoardIsEditing
-} from "../../../app/redux/selectors";
 
 const MainBoard = () => {
   const isEditing = useSelector(selectCurrentBoardIsEditing);

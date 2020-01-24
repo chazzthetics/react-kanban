@@ -20,7 +20,6 @@ const CreateNewColumnForm = () => {
   function create(columnTitle) {
     const column = makeColumn({ title: columnTitle });
     dispatch(columnCreated({ column, boardId }));
-    close();
   }
 
   return isOpen ? (
