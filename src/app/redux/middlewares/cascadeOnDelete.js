@@ -1,5 +1,6 @@
 const BOARD_REMOVED = "boards/boardRemoved";
 const COLUMN_REMOVED = "columns/columnRemoved";
+const BOARD_CLEARED = "boards/boardCleared";
 
 export const cascadeOnDelete = store => next => action => {
   const state = store.getState();
@@ -7,6 +8,7 @@ export const cascadeOnDelete = store => next => action => {
 
   switch (action.type) {
     case BOARD_REMOVED:
+    case BOARD_CLEARED:
       const boardIds = state.boards.ids;
       const boardColumnIds = state.boards.all[boardId]
         ? state.boards.all[boardId].columnIds

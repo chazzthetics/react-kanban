@@ -9,6 +9,11 @@ const useForm = (initialValues, submit) => {
 
   const handleSubmit = e => {
     e.preventDefault();
+    // Check if empty values
+    for (let key of Object.keys(values)) {
+      if (!values[key]) return;
+    }
+
     try {
       submit();
       resetForm();

@@ -2,6 +2,7 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import { taskCreated, taskRemoved } from "../../tasks/slices";
 const boardRemoved = createAction("boards/boardRemoved");
+const boardCleared = createAction("boards/boardCleared");
 
 /**
  * All Columns Slice
@@ -72,21 +73,8 @@ const allColumnsSlice = createSlice({
     }
   },
   extraReducers: {
-    [boardRemoved]: (state, action) => {
-      const { removed } = action.payload;
-      const boardColumnIds = Object.keys(arrayToObject(removed));
-      const columnIds = Object.keys(state);
-      const newColumnIds = columnIds.filter(
-        columnId => !boardColumnIds.includes(columnId)
-      );
-
-      const newColumns = {};
-      for (const columnId of newColumnIds) {
-        newColumns[columnId] = state[columnId];
-      }
-      return newColumns;
-      //TODO: refactor (see tasks slice columnRemoved)
-    },
+    [boardRemoved]: removeColumnsFromBoard,
+    [boardCleared]: removeColumnsFromBoard,
     [taskCreated]: (state, action) => {
       const { task, columnId } = action.payload;
       state[columnId].taskIds.push(task.id);
@@ -101,6 +89,21 @@ const allColumnsSlice = createSlice({
     }
   }
 });
+
+function removeColumnsFromBoard(state, action) {
+  const { removed } = action.payload;
+  const boardColumnIds = Object.keys(arrayToObject(removed));
+  const columnIds = Object.keys(state);
+  const newColumnIds = columnIds.filter(
+    columnId => !boardColumnIds.includes(columnId)
+  );
+
+  const newColumns = {};
+  for (const columnId of newColumnIds) {
+    newColumns[columnId] = state[columnId];
+  }
+  return newColumns;
+}
 
 export const {
   columnCreated,

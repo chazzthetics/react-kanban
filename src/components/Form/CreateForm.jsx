@@ -46,8 +46,6 @@ const CreateForm = ({
   );
 };
 
-export default CreateForm;
-
 CreateForm.propTypes = {
   inputName: PropTypes.string.isRequired,
   placeholder: PropTypes.string.isRequired,
@@ -55,7 +53,11 @@ CreateForm.propTypes = {
   create: PropTypes.func.isRequired,
   textarea: PropTypes.bool,
   isOpen: PropTypes.bool.isRequired,
-  onCancel: PropTypes.func.isRequired
+  onCancel: PropTypes.func.isRequired,
+  children: PropTypes.oneOfType([
+    PropTypes.node,
+    PropTypes.arrayOf(PropTypes.node)
+  ]).isRequired
 };
 
-//TODO: children proptypes
+export default CreateForm;

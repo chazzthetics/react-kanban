@@ -13,7 +13,7 @@ import {
 import {
   BoardHeader,
   RemoveBoardButton,
-  SelectBoardInput,
+  ClearBoardButton,
   CreateNewBoardForm,
   EditBoardTitleForm
 } from "./";
@@ -34,9 +34,9 @@ const MainBoard = () => {
       <CreateNewBoardForm />
       {currentBoardId ? (
         <div>
+          <ClearBoardButton />
           <RemoveBoardButton />
           {!isEditing ? <BoardHeader /> : <EditBoardTitleForm />}
-          <SelectBoardInput />
           <DragDropContext onDragEnd={handleDragEnd}>
             <ColumnList />
           </DragDropContext>

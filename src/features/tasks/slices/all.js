@@ -1,6 +1,7 @@
 import { createSlice, createAction } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
 const boardRemoved = createAction("boards/boardRemoved");
+const boardCleared = createAction("boards/boardCleared");
 const columnRemoved = createAction("columns/columnRemoved");
 
 /**
@@ -72,6 +73,15 @@ const allTasksSlice = createSlice({
   },
   extraReducers: {
     [boardRemoved]: (state, action) => {
+      const { removed } = action.payload;
+      const taskIds = removed.flatMap(column => column.taskIds);
+      taskIds.forEach(taskId => {
+        if (state[taskId]) {
+          delete state[taskId];
+        }
+      }); // TODO: refactor duplicate logic below
+    },
+    [boardCleared]: (state, action) => {
       const { removed } = action.payload;
       const taskIds = removed.flatMap(column => column.taskIds);
       taskIds.forEach(taskId => {

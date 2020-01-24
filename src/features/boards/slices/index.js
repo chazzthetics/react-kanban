@@ -3,6 +3,7 @@ import {
   allBoardsReducer,
   boardCreated,
   boardRemoved,
+  boardCleared,
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,
@@ -26,6 +27,7 @@ export default combineReducers({
 export {
   boardCreated,
   boardRemoved,
+  boardCleared,
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,

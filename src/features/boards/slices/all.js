@@ -1,5 +1,6 @@
-import { createSlice } from "@reduxjs/toolkit";
-import { columnCreated, columnRemoved } from "../../columns/slices";
+import { createSlice, createAction } from "@reduxjs/toolkit";
+const columnCreated = createAction("columns/columnCreated");
+const columnRemoved = createAction("columns/columnRemoved");
 
 /**
  * All Boards Slice
@@ -34,6 +35,10 @@ const allBoardsSlice = createSlice({
     boardRemoved(state, action) {
       const { boardId } = action.payload;
       delete state[boardId];
+    },
+    boardCleared(state, action) {
+      const { boardId } = action.payload;
+      state[boardId].columnIds = [];
     },
     boardTitleEditing(state, action) {
       const { boardId } = action.payload;
@@ -73,6 +78,7 @@ const allBoardsSlice = createSlice({
 export const {
   boardCreated,
   boardRemoved,
+  boardCleared,
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,

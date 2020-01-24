@@ -12,10 +12,10 @@ import {
 } from "@chakra-ui/core";
 import { useSelector, useDispatch } from "react-redux";
 import { labelAdded } from "../../tasks/slices";
-import { CreateLabelForm } from "./";
+import { CreateLabelForm } from ".";
 import { selectAllLabels, selectLabelIds } from "../../../app/redux/selectors";
 
-const AddLabelMenu = ({ taskId }) => {
+const AddLabelPopover = ({ taskId }) => {
   const allLabels = useSelector(selectAllLabels);
   const labelIds = useSelector(selectLabelIds);
 
@@ -25,7 +25,7 @@ const AddLabelMenu = ({ taskId }) => {
   };
 
   return (
-    <Popover closeOnBlur={true} placement="bottom-end">
+    <Popover closeOnBlur={true} placement="bottom">
       <PopoverTrigger>
         <Button>Labels</Button>
       </PopoverTrigger>
@@ -57,10 +57,10 @@ const AddLabelMenu = ({ taskId }) => {
   );
 };
 
-AddLabelMenu.propTypes = {
+AddLabelPopover.propTypes = {
   taskId: PropTypes.string.isRequired
 };
 
-export default AddLabelMenu;
+export default AddLabelPopover;
 
 // TODO: refactor
