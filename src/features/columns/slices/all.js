@@ -1,40 +1,19 @@
 import { createSlice, createAction } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import { taskCreated, taskRemoved } from "../../tasks/slices";
+import axios from "axios";
+import uuid from "uuid/v4";
+
 const boardRemoved = createAction("boards/boardRemoved");
 const boardCleared = createAction("boards/boardCleared");
+const requestSuccess = "request/requestSuccess";
 
 /**
  * All Columns Slice
  */
 const allColumnsSlice = createSlice({
   name: "columns",
-  initialState: {
-    column1: {
-      id: "column1",
-      title: "COLUMN 1",
-      taskIds: ["task1", "task2"],
-      isEditing: false
-    },
-    column2: {
-      id: "column2",
-      title: "COLUMN 2",
-      taskIds: ["task3", "task4"],
-      isEditing: false
-    },
-    column3: {
-      id: "column3",
-      title: "COLUMN 3",
-      taskIds: [],
-      isEditing: false
-    },
-    column4: {
-      id: "column4",
-      title: "COLUMN 4",
-      taskIds: ["task5"],
-      isEditing: false
-    }
-  },
+  initialState: {},
   reducers: {
     columnCreated(state, action) {
       const { column } = action.payload;
@@ -73,6 +52,10 @@ const allColumnsSlice = createSlice({
     }
   },
   extraReducers: {
+    [requestSuccess]: (state, action) => {
+      const { columns } = action.payload;
+      return columns;
+    },
     [boardRemoved]: removeColumnsFromBoard,
     [boardCleared]: removeColumnsFromBoard,
     [taskCreated]: (state, action) => {
@@ -115,3 +98,24 @@ export const {
   taskReorderedBetweenColumns
 } = allColumnsSlice.actions;
 export const allColumnsReducer = allColumnsSlice.reducer;
+
+// TODO: cleanup
+export const createColumn = ({ column, boardId }) => async dispatch => {
+  const newColumn = { title: column.title, board_id: boardId };
+  const client = { id: uuid(), title: column.title, taskIds: [] };
+  try {
+    dispatch(columnCreated({ column: client, boardId }));
+    await axios.post("/api/columns", newColumn);
+  } catch (ex) {
+    console.error(ex); //FIXME:
+  }
+};
+
+export const removeColumn = ({ columnId, boardId }) => async dispatch => {
+  try {
+    dispatch(columnRemoved({ columnId, boardId }));
+    await axios.delete(`/api/columns/${columnId}`);
+  } catch (ex) {
+    console.error(ex);
+  }
+};

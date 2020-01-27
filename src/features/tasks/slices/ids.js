@@ -3,13 +3,15 @@ import { arrayToObject } from "../../../utils/arrayToObject";
 const boardRemoved = createAction("boards/boardRemoved");
 const boardCleared = createAction("boards/boardCleared");
 const columnRemoved = createAction("columns/columnRemoved");
+const requestSuccess = "request/requestSuccess";
 
 /**
  * Task Ids Slice
  */
 const taskIdsSlice = createSlice({
   name: "tasks",
-  initialState: ["task1", "task2", "task3", "task4", "task5"],
+  // initialState: ["task1", "task2", "task3", "task4", "task5"],
+  initialState: [],
   reducers: {
     taskCreated(state, action) {
       const { task } = action.payload;
@@ -24,6 +26,10 @@ const taskIdsSlice = createSlice({
     }
   },
   extraReducers: {
+    [requestSuccess]: (state, action) => {
+      const { tasks } = action.payload;
+      return Object.keys(tasks);
+    },
     [boardRemoved]: removeTasksFromColumn,
     [boardCleared]: removeTasksFromColumn,
     [columnRemoved]: (state, action) => {

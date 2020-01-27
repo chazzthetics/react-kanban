@@ -1,13 +1,13 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import {
   allBoardsReducer,
-  boardCreated,
-  boardRemoved,
   boardCleared,
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,
-  columnReordered
+  columnReordered,
+  createBoard,
+  removeBoard
 } from "./all";
 import { boardIdsReducer } from "./ids";
 import { currentBoardReducer, boardChanged } from "./current";
@@ -25,12 +25,12 @@ export default combineReducers({
  * Board Actions
  */
 export {
-  boardCreated,
-  boardRemoved,
   boardCleared,
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,
   columnReordered,
-  boardChanged
+  boardChanged,
+  createBoard,
+  removeBoard
 };

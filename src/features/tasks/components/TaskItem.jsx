@@ -10,7 +10,7 @@ const TaskItem = ({ taskId, columnId }) => {
 
   return (
     <div>
-      <LabelList taskId={taskId} />
+      {/* <LabelList taskId={taskId} /> */}
       {taskContent}
       <RemoveTaskButton taskId={taskId} columnId={columnId} />
       <AddLabelPopover taskId={taskId} />

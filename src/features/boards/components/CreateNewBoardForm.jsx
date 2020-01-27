@@ -1,6 +1,6 @@
 import React, { useRef } from "react";
 import { useDispatch } from "react-redux";
-import { boardCreated } from "../slices";
+import { createBoard } from "../slices";
 import { makeBoard } from "../utils/makeBoard";
 import { useToggle } from "../../../hooks";
 import { CreateForm } from "../../../components";
@@ -22,7 +22,7 @@ const CreateNewBoardForm = () => {
   const dispatch = useDispatch();
   function create(boardTitle) {
     const board = makeBoard({ title: boardTitle });
-    dispatch(boardCreated({ board }));
+    dispatch(createBoard(board));
     close();
   }
 

@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+const requestSuccess = "request/requestSuccess";
 
 /**
  * Board Ids Slice
  */
 const boardIdsSlice = createSlice({
   name: "boards",
-  initialState: ["board1", "board2", "board3"],
+  initialState: [],
   reducers: {
     boardCreated(state, action) {
       const { board } = action.payload;
@@ -18,6 +19,12 @@ const boardIdsSlice = createSlice({
       if (boardIndex >= 0) {
         state.splice(boardIndex, 1);
       }
+    }
+  },
+  extraReducers: {
+    [requestSuccess]: (state, action) => {
+      const { boards } = action.payload;
+      return Object.keys(boards);
     }
   }
 });

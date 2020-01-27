@@ -1,15 +1,6 @@
-import ColumnList from "./ColumnList";
-import ColumnTitle from "./ColumnTitle";
-import ColumnItem from "./ColumnItem";
-import CreateNewColumnForm from "./CreateNewColumnForm";
-import EditColumnTitleForm from "./EditColumnTitleForm";
-import RemoveColumnButton from "./RemoveColumnButton";
-
-export {
-  ColumnList,
-  ColumnTitle,
-  ColumnItem,
-  CreateNewColumnForm,
-  EditColumnTitleForm,
-  RemoveColumnButton
-};
+export { default as ColumnItem } from "./ColumnItem";
+export { default as ColumnList } from "./ColumnList";
+export { default as ColumnTitle } from "./ColumnTitle";
+export { default as CreateNewColumnForm } from "./CreateNewColumnForm";
+export { default as EditColumnTitleForm } from "./EditColumnTitleForm";
+export { default as RemoveColumnButton } from "./RemoveColumnButton";

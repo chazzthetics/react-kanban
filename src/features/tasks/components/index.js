@@ -1,6 +1,4 @@
-import TaskList from "./TaskList";
-import TaskItem from "./TaskItem";
-import CreateNewTaskForm from "./CreateNewTaskForm";
-import RemoveTaskButton from "./RemoveTaskButton";
-
-export { TaskItem, TaskList, CreateNewTaskForm, RemoveTaskButton };
+export { default as TaskList } from "./TaskList";
+export { default as TaskItem } from "./TaskItem";
+export { default as CreateNewTaskForm } from "./CreateNewTaskForm";
+export { default as RemoveTaskButton } from "./RemoveTaskButton";

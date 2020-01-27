@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+const requestSuccess = "request/requestSuccess";
 /**
  * Current Board Slice
  */
 const currentBoardSlice = createSlice({
   name: "boards",
-  initialState: "board1",
+  initialState: "",
   reducers: {
     boardCreated(state, action) {
       const { board } = action.payload;
@@ -14,12 +15,19 @@ const currentBoardSlice = createSlice({
     boardRemoved(state, action) {
       const { boardId, boardIds } = action.payload;
       const updatedBoardIds = boardIds.filter(id => id !== boardId);
-      const previousBoard = updatedBoardIds[0];
+      const previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
+
       return previousBoard ? previousBoard : "";
     },
     boardChanged(state, action) {
       const { boardId } = action.payload;
       return boardId;
+    }
+  },
+  extraReducers: {
+    [requestSuccess]: (state, action) => {
+      const { boards } = action.payload;
+      return Object.keys(boards)[0];
     }
   }
 });

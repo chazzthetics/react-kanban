@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { columnCreated } from "../slices";
+import { createColumn } from "../slices";
 import { makeColumn } from "../utils/makeColumn";
 import {
   selectCurrentBoardId,
@@ -19,7 +19,7 @@ const CreateNewColumnForm = () => {
   const dispatch = useDispatch();
   function create(columnTitle) {
     const column = makeColumn({ title: columnTitle });
-    dispatch(columnCreated({ column, boardId }));
+    dispatch(createColumn({ column, boardId }));
   }
 
   return isOpen ? (

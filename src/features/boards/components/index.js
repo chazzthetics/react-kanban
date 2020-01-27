@@ -1,17 +1,7 @@
-import MainBoard from "./MainBoard";
-import CreateNewBoardForm from "./CreateNewBoardForm";
-import EditBoardTitleForm from "./EditBoardTitleForm";
-import SelectBoardInput from "./SelectBoardInput";
-import RemoveBoardButton from "./RemoveBoardButton";
-import ClearBoardButton from "./ClearBoardButton";
-import BoardHeader from "./BoardHeader";
-
-export {
-  MainBoard,
-  SelectBoardInput,
-  CreateNewBoardForm,
-  EditBoardTitleForm,
-  RemoveBoardButton,
-  ClearBoardButton,
-  BoardHeader
-};
+export { default as MainBoard } from "./MainBoard";
+export { default as CreateNewBoardForm } from "./CreateNewBoardForm";
+export { default as EditBoardTitleForm } from "./EditBoardTitleForm";
+export { default as SelectBoardInput } from "./SelectBoardInput";
+export { default as RemoveBoardButton } from "./RemoveBoardButton";
+export { default as ClearBoardButton } from "./ClearBoardButton";
+export { default as BoardHeader } from "./BoardHeader";

@@ -3,48 +3,48 @@ import { arrayToObject } from "../../../utils/arrayToObject";
 const boardRemoved = createAction("boards/boardRemoved");
 const boardCleared = createAction("boards/boardCleared");
 const columnRemoved = createAction("columns/columnRemoved");
-
+const requestSuccess = "request/requestSuccess";
 /**
  * All Tasks Slice
  */
 const allTasksSlice = createSlice({
   name: "tasks",
   initialState: {
-    task1: {
-      id: "task1",
-      content: "Walk the dog",
-      completed: false,
-      isEditing: false,
-      labelIds: ["label1"]
-    },
-    task2: {
-      id: "task2",
-      content: "Milk the cows",
-      completed: false,
-      isEditing: false,
-      labelIds: []
-    },
-    task3: {
-      id: "task3",
-      content: "Learn more about Redux",
-      completed: false,
-      isEditing: false,
-      labelIds: []
-    },
-    task4: {
-      id: "task4",
-      content: "Go fishing next weekend",
-      completed: false,
-      isEditing: false,
-      labelIds: []
-    },
-    task5: {
-      id: "task5",
-      content: "Learn more about Laravel",
-      completed: false,
-      isEditing: false,
-      labelIds: []
-    }
+    // task1: {
+    //   id: "task1",
+    //   content: "Walk the dog",
+    //   completed: false,
+    //   isEditing: false,
+    //   labelIds: ["label1"]
+    // },
+    // task2: {
+    //   id: "task2",
+    //   content: "Milk the cows",
+    //   completed: false,
+    //   isEditing: false,
+    //   labelIds: []
+    // },
+    // task3: {
+    //   id: "task3",
+    //   content: "Learn more about Redux",
+    //   completed: false,
+    //   isEditing: false,
+    //   labelIds: []
+    // },
+    // task4: {
+    //   id: "task4",
+    //   content: "Go fishing next weekend",
+    //   completed: false,
+    //   isEditing: false,
+    //   labelIds: []
+    // },
+    // task5: {
+    //   id: "task5",
+    //   content: "Learn more about Laravel",
+    //   completed: false,
+    //   isEditing: false,
+    //   labelIds: []
+    // }
   },
   reducers: {
     taskCreated(state, action) {
@@ -72,6 +72,10 @@ const allTasksSlice = createSlice({
     }
   },
   extraReducers: {
+    [requestSuccess]: (state, action) => {
+      const { tasks } = action.payload;
+      return tasks;
+    },
     [boardRemoved]: (state, action) => {
       const { removed } = action.payload;
       const taskIds = removed.flatMap(column => column.taskIds);

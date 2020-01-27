@@ -13,7 +13,7 @@ const ColumnItem = ({ index, columnId }) => {
   );
 
   return (
-    <Draggable draggableId={columnId} index={index}>
+    <Draggable draggableId={`column-${columnId}`} index={index}>
       {provided => (
         <Box
           bg="gray.300"

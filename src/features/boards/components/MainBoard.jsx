@@ -22,26 +22,26 @@ const MainBoard = () => {
   const currentBoardId = useSelector(selectCurrentBoardId);
   const columnIds = useSelector(selectCurrentBoardColumnIds);
 
+  const loading = useSelector(state => state.request.loading);
+
   const currentBoardColumns = arrayToObject(
     useSelector(selectCurrentBoardColumns)
   );
 
   const handleDragEnd = useDrag(currentBoardId, currentBoardColumns, columnIds);
 
+  if (loading) return <h3 style={{ color: "white" }}>Loading...</h3>;
+  if (!loading && !currentBoardId)
+    return <h3 style={{ color: "white" }}>No Boards</h3>;
+
   return (
     <div>
-      {currentBoardId ? (
-        <div>
-          <ClearBoardButton />
-          <RemoveBoardButton />
-          {!isEditing ? <BoardHeader /> : <EditBoardTitleForm />}
-          <DragDropContext onDragEnd={handleDragEnd}>
-            <ColumnList />
-          </DragDropContext>
-        </div>
-      ) : (
-        <h2>NO BOARDS</h2>
-      )}
+      <ClearBoardButton />
+      <RemoveBoardButton />
+      {!isEditing ? <BoardHeader /> : <EditBoardTitleForm />}
+      <DragDropContext onDragEnd={handleDragEnd}>
+        <ColumnList />
+      </DragDropContext>
     </div>
   );
 };

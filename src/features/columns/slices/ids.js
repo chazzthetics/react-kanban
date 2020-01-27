@@ -2,10 +2,11 @@ import { createSlice, createAction } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
 const boardRemoved = createAction("boards/boardRemoved");
 const boardCleared = createAction("boards/boardCleared");
+const requestSuccess = "request/requestSuccess";
 
 const columnIdsSlice = createSlice({
   name: "columns",
-  initialState: ["column1", "column2", "column3", "column4"],
+  initialState: [],
   reducers: {
     columnCreated(state, action) {
       const { column } = action.payload;
@@ -20,6 +21,10 @@ const columnIdsSlice = createSlice({
     }
   },
   extraReducers: {
+    [requestSuccess]: (state, action) => {
+      const { columns } = action.payload;
+      return Object.keys(columns);
+    },
     [boardRemoved]: removeColumnIdsFromBoard,
     [boardCleared]: removeColumnIdsFromBoard
   }

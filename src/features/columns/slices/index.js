@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import {
   allColumnsReducer,
-  columnCreated,
-  columnRemoved,
+  createColumn,
+  removeColumn,
   columnTitleEditing,
   columnTitleEditingCancelled,
   columnTitleUpdated,
@@ -23,8 +23,8 @@ export default combineReducers({
  * Column Actions
  */
 export {
-  columnCreated,
-  columnRemoved,
+  createColumn,
+  removeColumn,
   columnTitleEditing,
   columnTitleEditingCancelled,
   columnTitleUpdated,

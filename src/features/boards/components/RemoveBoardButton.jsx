@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { boardRemoved } from "../slices";
+import { removeBoard } from "../slices";
 import { selectCurrentBoardId } from "../../../app/redux/selectors";
 import { RemoveButton } from "../../../components";
 
@@ -10,7 +10,7 @@ const RemoveBoardButton = () => {
   const dispatch = useDispatch();
 
   const handleRemoveBoard = () => {
-    dispatch(boardRemoved({ boardId }));
+    dispatch(removeBoard(boardId));
   };
 
   return (

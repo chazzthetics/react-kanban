@@ -1,6 +1,4 @@
-import AppBar from "./Layout/AppBar";
-import CreateForm from "./Form/CreateForm";
-import EditForm from "./Form/EditForm";
-import RemoveButton from "./Button/RemoveButton";
-
-export { AppBar, CreateForm, EditForm, RemoveButton };
+export { default as AppBar } from "./Layout/AppBar";
+export { default as CreateForm } from "./Form/CreateForm";
+export { default as EditForm } from "./Form/EditForm";
+export { default as RemoveButton } from "./Button/RemoveButton";
