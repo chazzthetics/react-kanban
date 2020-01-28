@@ -1,11 +1,13 @@
 import { createSlice, createAction } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import { taskCreated, taskRemoved } from "../../tasks/slices";
 import axios from "axios";
 import uuid from "uuid/v4";
+import { silentFetchData } from "../../../api/requestSlice";
 
 const boardRemoved = createAction("boards/boardRemoved");
 const boardCleared = createAction("boards/boardCleared");
+const taskCreated = "tasks/taskCreated";
+const taskRemoved = "tasks/taskRemoved";
 const requestSuccess = "request/requestSuccess";
 
 /**
@@ -106,8 +108,10 @@ export const createColumn = ({ column, boardId }) => async dispatch => {
   try {
     dispatch(columnCreated({ column: client, boardId }));
     await axios.post("/api/columns", newColumn);
+
+    dispatch(silentFetchData(boardId));
   } catch (ex) {
-    console.error(ex); //FIXME:
+    console.error(ex);
   }
 };
 

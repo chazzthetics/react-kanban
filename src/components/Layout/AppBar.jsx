@@ -15,9 +15,14 @@ import {
 
 const AppBar = () => {
   return (
-    <Box as="header" h="4vh" bg="gray.500" mb="2rem" p="4px">
+    <Box as="header" h="40px" bg="gray.300" p="4px">
       <Flex as="nav" align="center" justify="space-between" h="100%">
-        <List d="flex" align="center" justify="flex-start" flexBasis="14rem">
+        <List
+          d="flex"
+          alignItems="center"
+          justifyContent="flex-start"
+          flexBasis="14rem"
+        >
           <ListItem mr={1}>
             <IconButton
               aria-label="Go to Home"
@@ -33,10 +38,23 @@ const AppBar = () => {
         <Box>
           <Heading fontSize="1rem">React Kanban</Heading>
         </Box>
-        <List d="flex" align="center" justify="flex-end" flexBasis="14rem">
-          <ListItem>
+        <List
+          d="flex"
+          alignItems="center"
+          justifyContent="flex-end"
+          flexBasis="14rem"
+        >
+          <ListItem mr={1}>
             <CreateNewBoardForm />
           </ListItem>
+          {/* Temporary placeholders */}
+          <ListItem mr={1}>
+            <IconButton icon="star" size="sm" />
+          </ListItem>
+          <ListItem>
+            <IconButton icon="question" size="sm" />
+          </ListItem>
+          {/* ********************** */}
         </List>
       </Flex>
     </Box>

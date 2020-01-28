@@ -1,8 +1,8 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import {
   allTasksReducer,
-  taskCreated,
-  taskRemoved,
+  createTask,
+  removeTask,
   labelAdded,
   taskLabelRemoved
 } from "./all";
@@ -19,4 +19,4 @@ export default combineReducers({
 /**
  * Task Actions
  */
-export { taskCreated, taskRemoved, labelAdded, taskLabelRemoved };
+export { createTask, removeTask, labelAdded, taskLabelRemoved };

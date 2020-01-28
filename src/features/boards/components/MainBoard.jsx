@@ -7,18 +7,12 @@ import { arrayToObject } from "../../../utils/arrayToObject";
 import {
   selectCurrentBoardId,
   selectCurrentBoardColumns,
-  selectCurrentBoardColumnIds,
-  selectCurrentBoardIsEditing
+  selectCurrentBoardColumnIds
 } from "../../../app/redux/selectors";
-import {
-  BoardHeader,
-  RemoveBoardButton,
-  ClearBoardButton,
-  EditBoardTitleForm
-} from "./";
+import { Box } from "@chakra-ui/core";
+import { BoardHeader } from "./";
 
 const MainBoard = () => {
-  const isEditing = useSelector(selectCurrentBoardIsEditing);
   const currentBoardId = useSelector(selectCurrentBoardId);
   const columnIds = useSelector(selectCurrentBoardColumnIds);
 
@@ -35,14 +29,12 @@ const MainBoard = () => {
     return <h3 style={{ color: "white" }}>No Boards</h3>;
 
   return (
-    <div>
-      <ClearBoardButton />
-      <RemoveBoardButton />
-      {!isEditing ? <BoardHeader /> : <EditBoardTitleForm />}
+    <Box>
+      <BoardHeader />
       <DragDropContext onDragEnd={handleDragEnd}>
         <ColumnList />
       </DragDropContext>
-    </div>
+    </Box>
   );
 };
 

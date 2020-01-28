@@ -18,14 +18,20 @@ const EditForm = ({
   const cancelRef = useCancel(isEditing, onCancel);
 
   return (
-    <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "40px" }}>
+    <form onSubmit={handleSubmit} ref={cancelRef}>
       <Input
         type="text"
         ref={focusRef}
         name={inputName}
         value={values[inputName]}
         onChange={handleChange}
-        width={40}
+        w="7rem"
+        px={2}
+        mr={2}
+        size="sm"
+        fontSize="1rem"
+        fontWeight="bold"
+        textTransform="uppercase"
       />
     </form>
   );

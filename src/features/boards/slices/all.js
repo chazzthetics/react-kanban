@@ -1,10 +1,13 @@
 import { createSlice, createAction } from "@reduxjs/toolkit";
 import axios from "axios";
 import uuid from "uuid/v4";
+import { fetchBoards } from "../../../api/requestSlice";
 
 const columnCreated = createAction("columns/columnCreated");
 const columnRemoved = createAction("columns/columnRemoved");
 const requestSuccess = "request/requestSuccess";
+const requestBoardsSuccess = "request/requestBoardsSuccess";
+
 /**
  * All Boards Slice
  */
@@ -48,6 +51,10 @@ const allBoardsSlice = createSlice({
       const { boards } = action.payload;
       return boards;
     },
+    [requestBoardsSuccess]: (state, action) => {
+      const { boards } = action.payload;
+      return boards;
+    },
     [columnCreated]: (state, action) => {
       const { column, boardId } = action.payload;
       state[boardId].columnIds.push(column.id);
@@ -81,9 +88,11 @@ export const createBoard = board => async dispatch => {
   try {
     const client = { id: uuid(), title: board.title, columnIds: [] };
     dispatch(boardCreated({ board: client }));
-    await axios.post("/api/boards", board);
+    const { data } = await axios.post("/api/boards", board);
+
+    dispatch(fetchBoards(data.id));
   } catch (ex) {
-    console.error(ex); //FIXME: dispatch error
+    console.error(ex);
   }
 };
 
@@ -91,6 +100,15 @@ export const removeBoard = boardId => async dispatch => {
   try {
     dispatch(boardRemoved({ boardId }));
     await axios.delete(`/api/boards/${boardId}`);
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const clearBoard = boardId => async dispatch => {
+  try {
+    dispatch(boardCleared({ boardId }));
+    await axios.delete(`/api/columns/${boardId}/clear`);
   } catch (ex) {
     console.error(ex);
   }

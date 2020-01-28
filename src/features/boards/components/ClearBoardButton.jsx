@@ -1,7 +1,7 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentBoardId } from "../../../app/redux/selectors";
-import { boardCleared } from "../slices";
+import { clearBoard } from "../slices";
 import { Button } from "@chakra-ui/core";
 
 const ClearBoardButton = () => {
@@ -10,7 +10,7 @@ const ClearBoardButton = () => {
   const boardId = useSelector(selectCurrentBoardId);
 
   const handleClearBoard = () => {
-    dispatch(boardCleared({ boardId }));
+    dispatch(clearBoard(boardId));
   };
 
   return (
@@ -18,6 +18,7 @@ const ClearBoardButton = () => {
       aria-label="Clear Board"
       size="sm"
       leftIcon="warning"
+      mr={1}
       onClick={handleClearBoard}
     >
       Clear Board
@@ -26,5 +27,3 @@ const ClearBoardButton = () => {
 };
 
 export default ClearBoardButton;
-
-//TODO: change icon, just temp for now

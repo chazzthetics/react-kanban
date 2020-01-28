@@ -13,7 +13,7 @@ const App = () => {
   }, [dispatch]);
 
   return (
-    <Box className="App" bg="gray.700" h="100vh">
+    <Box className="App" h="100vh">
       <AppBar />
       <MainBoard />
     </Box>

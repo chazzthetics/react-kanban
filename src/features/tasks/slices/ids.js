@@ -10,7 +10,6 @@ const requestSuccess = "request/requestSuccess";
  */
 const taskIdsSlice = createSlice({
   name: "tasks",
-  // initialState: ["task1", "task2", "task3", "task4", "task5"],
   initialState: [],
   reducers: {
     taskCreated(state, action) {

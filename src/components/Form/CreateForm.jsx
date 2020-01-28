@@ -32,6 +32,9 @@ const CreateForm = ({
           name={inputName}
           placeholder={placeholder}
           ref={popover ? firstFieldRef : focusRef}
+          size="sm"
+          w="17rem"
+          h="36px"
         />
       ) : (
         <Textarea

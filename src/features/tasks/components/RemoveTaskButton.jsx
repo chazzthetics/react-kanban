@@ -1,14 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { taskRemoved } from "../slices";
+import { removeTask } from "../slices";
 import { RemoveButton } from "../../../components";
 
 const RemoveTaskButton = ({ taskId, columnId }) => {
   const dispatch = useDispatch();
 
-  const handleRemove = e => {
-    dispatch(taskRemoved({ taskId, columnId }));
+  const handleRemove = () => {
+    dispatch(removeTask({ taskId, columnId }));
   };
 
   return <RemoveButton onRemove={handleRemove} value="&times;" />;

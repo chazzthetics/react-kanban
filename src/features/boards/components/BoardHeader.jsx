@@ -1,33 +1,38 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useSelector } from "react-redux";
+import { selectCurrentBoardIsEditing } from "../../../app/redux/selectors";
+import { FiStar } from "react-icons/fi";
+import { Flex, Box, IconButton } from "@chakra-ui/core";
 import {
-  selectCurrentBoardTitle,
-  selectCurrentBoardId
-} from "../../../app/redux/selectors";
-import { boardTitleEditing } from "../slices";
-import { Heading } from "@chakra-ui/core";
+  EditBoardTitleForm,
+  RemoveBoardButton,
+  ClearBoardButton,
+  BoardTitle
+} from "./";
 
 const BoardHeader = () => {
-  const boardTitle = useSelector(selectCurrentBoardTitle);
-  const boardId = useSelector(selectCurrentBoardId);
-
-  const dispatch = useDispatch();
-
-  const handleEditBoardTitle = () => {
-    dispatch(boardTitleEditing({ boardId }));
-  };
+  const isEditing = useSelector(selectCurrentBoardIsEditing);
 
   return (
-    <Heading
-      as="h2"
-      color="white"
-      py={4}
-      style={{ cursor: "pointer" }}
-      size="md"
-      onClick={handleEditBoardTitle}
+    <Flex
+      align="center"
+      justify="space-between"
+      px={1}
+      py={2}
+      h="40px"
+      bg="gray.400"
     >
-      {boardTitle}
-    </Heading>
+      <Flex justify="flex-start" align="center">
+        <Box maxW="15rem" w="100%">
+          {!isEditing ? <BoardTitle /> : <EditBoardTitleForm />}
+        </Box>
+        <IconButton icon={FiStar} fontSize="1.3rem" size="sm" />
+      </Flex>
+      <Flex justify="flex-end" align="center" mx={2}>
+        <ClearBoardButton />
+        <RemoveBoardButton />
+      </Flex>
+    </Flex>
   );
 };
 

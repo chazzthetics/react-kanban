@@ -1,6 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 const requestSuccess = "request/requestSuccess";
+const requestBoardsSuccess = "request/requestBoardsSuccess";
 /**
  * Current Board Slice
  */
@@ -26,7 +27,17 @@ const currentBoardSlice = createSlice({
   },
   extraReducers: {
     [requestSuccess]: (state, action) => {
-      const { boards } = action.payload;
+      const { boards, boardId } = action.payload;
+      if (boardId) {
+        return boardId;
+      }
+      return Object.keys(boards)[0];
+    },
+    [requestBoardsSuccess]: (state, action) => {
+      const { boards, boardId } = action.payload;
+      if (boardId) {
+        return boardId;
+      }
       return Object.keys(boards)[0];
     }
   }

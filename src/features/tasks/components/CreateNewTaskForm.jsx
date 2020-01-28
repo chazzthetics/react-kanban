@@ -1,8 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { taskCreated } from "../slices";
-import { selectColumnTaskIds } from "../../../app/redux/selectors";
+import { createTask } from "../slices";
+import {
+  selectColumnTaskIds,
+  selectCurrentBoardId
+} from "../../../app/redux/selectors";
 import { useToggle } from "../../../hooks";
 import { makeTask } from "../utils/makeTasks";
 import { CreateForm } from "../../../components";
@@ -14,10 +17,12 @@ const CreateNewTaskForm = ({ columnId }) => {
   const hasTask = useSelector(state => selectColumnTaskIds(state, columnId))
     .length;
 
+  const currentBoard = useSelector(selectCurrentBoardId);
+
   const dispatch = useDispatch();
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
-    dispatch(taskCreated({ task, columnId }));
+    dispatch(createTask({ task, columnId, boardId: currentBoard }));
   }
 
   return isOpen ? (
