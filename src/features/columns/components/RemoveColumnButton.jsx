@@ -1,11 +1,11 @@
-import React from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { removeColumn } from "../slices";
 import { selectCurrentBoardId } from "../../../app/redux/selectors";
-import { RemoveButton } from "../../../components";
+import { Button } from "@chakra-ui/core";
 
-const RemoveColumnButton = ({ columnId }) => {
+const RemoveColumnButton = forwardRef(({ columnId }, ref) => {
   const boardId = useSelector(selectCurrentBoardId);
 
   const dispatch = useDispatch();
@@ -14,8 +14,20 @@ const RemoveColumnButton = ({ columnId }) => {
     dispatch(removeColumn({ columnId, boardId }));
   };
 
-  return <RemoveButton onRemove={handleRemoveColumn} value="Remove Column" />;
-};
+  return (
+    <Button
+      onClick={handleRemoveColumn}
+      size="sm"
+      fontWeight="normal"
+      variant="ghost"
+      pr="205px"
+      mb={1}
+      ref={ref}
+    >
+      Remove List
+    </Button>
+  );
+});
 
 RemoveColumnButton.propTypes = {
   columnId: PropTypes.string.isRequired

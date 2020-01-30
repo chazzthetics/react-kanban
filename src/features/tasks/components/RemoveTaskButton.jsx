@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { removeTask } from "../slices";
-import { RemoveButton } from "../../../components";
+import { Button } from "@chakra-ui/core";
 
 const RemoveTaskButton = ({ taskId, columnId }) => {
   const dispatch = useDispatch();
@@ -11,7 +11,7 @@ const RemoveTaskButton = ({ taskId, columnId }) => {
     dispatch(removeTask({ taskId, columnId }));
   };
 
-  return <RemoveButton onRemove={handleRemove} value="&times;" />;
+  return <Button onClick={handleRemove}>Remove</Button>;
 };
 
 RemoveTaskButton.propTypes = {

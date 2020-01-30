@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { Heading } from "@chakra-ui/core";
+import { Heading, PseudoBox } from "@chakra-ui/core";
 import { boardTitleEditing } from "../slices";
 import {
   selectCurrentBoardId,
@@ -18,17 +18,27 @@ const BoardTitle = () => {
   };
 
   return (
-    <Heading
-      as="h2"
-      cursor="pointer"
-      size="sm"
-      onClick={handleEditBoardTitle}
-      textTransform="uppercase"
-      mx={2}
+    <PseudoBox
+      h="32px"
+      d="flex"
+      alignItems="center"
+      mr={1}
+      borderRadius={4}
+      _hover={{ backgroundColor: "gray.400" }}
     >
-      {boardTitle}
-    </Heading>
+      <Heading
+        as="h2"
+        cursor="pointer"
+        size="sm"
+        mx={3}
+        onClick={handleEditBoardTitle}
+      >
+        {boardTitle}
+      </Heading>
+    </PseudoBox>
   );
 };
 
 export default BoardTitle;
+
+// TODO: change to Editiable chakra component

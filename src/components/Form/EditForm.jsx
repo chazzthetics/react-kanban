@@ -25,13 +25,14 @@ const EditForm = ({
         name={inputName}
         value={values[inputName]}
         onChange={handleChange}
-        w="7rem"
-        px={2}
-        mr={2}
+        pl={1}
+        pr={2}
+        mr={1}
+        minW="1rem"
+        borderRadius={4}
         size="sm"
         fontSize="1rem"
         fontWeight="bold"
-        textTransform="uppercase"
       />
     </form>
   );
@@ -46,3 +47,5 @@ EditForm.propTypes = {
 };
 
 export default EditForm;
+
+//TODO: checkout style props

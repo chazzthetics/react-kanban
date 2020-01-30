@@ -2,8 +2,11 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { selectColumnIsEditing } from "../../../app/redux/selectors";
-import { ColumnTitle, RemoveColumnButton, EditColumnTitleForm } from "./";
+import {
+  selectColumnIsEditing,
+  selectColumnOptionsOpened
+} from "../../../app/redux/selectors";
+import { ColumnHeader, EditColumnTitleForm } from "./";
 import { TaskList, CreateNewTaskForm } from "../../tasks/components";
 import { Box, Flex } from "@chakra-ui/core";
 
@@ -12,24 +15,34 @@ const ColumnItem = ({ index, columnId }) => {
     selectColumnIsEditing(state, columnId)
   );
 
+  const isOpened = useSelector(state =>
+    selectColumnOptionsOpened(state, columnId)
+  );
+
   return (
-    <Draggable draggableId={`column-${columnId}`} index={index}>
+    <Draggable
+      draggableId={`column-${columnId}`}
+      index={index}
+      isDragDisabled={isOpened}
+    >
       {provided => (
         <Box
           bg="gray.300"
-          mr={3}
+          mr={2}
+          h="100%"
+          px={2}
           py={2}
-          px={4}
+          borderRadius={4}
+          w="18rem"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
           {!isEditing ? (
-            <ColumnTitle columnId={columnId} />
+            <ColumnHeader columnId={columnId} />
           ) : (
             <EditColumnTitleForm columnId={columnId} />
           )}
-          <RemoveColumnButton columnId={columnId} />
           <Droppable droppableId={columnId} type="task">
             {provided => (
               <Flex

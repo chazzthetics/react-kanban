@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { removeBoard } from "../slices";
 import { selectCurrentBoardId } from "../../../app/redux/selectors";
-import { RemoveButton } from "../../../components";
+import { IconButton } from "@chakra-ui/core";
 
 const RemoveBoardButton = () => {
   const boardId = useSelector(selectCurrentBoardId);
@@ -14,10 +14,12 @@ const RemoveBoardButton = () => {
   };
 
   return (
-    <RemoveButton
-      onRemove={handleRemoveBoard}
-      value="Remove Board"
-      leftIcon="delete"
+    <IconButton
+      aria-label="Remove Board"
+      icon="delete"
+      size="sm"
+      fontSize="1.3rem"
+      onClick={handleRemoveBoard}
     />
   );
 };

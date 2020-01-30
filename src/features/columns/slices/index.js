@@ -6,6 +6,8 @@ import {
   columnTitleEditing,
   columnTitleEditingCancelled,
   columnTitleUpdated,
+  columnOptionsOpened,
+  columnOptionsClosed,
   taskReordered,
   taskReorderedBetweenColumns
 } from "./all";
@@ -28,6 +30,8 @@ export {
   columnTitleEditing,
   columnTitleEditingCancelled,
   columnTitleUpdated,
+  columnOptionsOpened,
+  columnOptionsClosed,
   taskReordered,
   taskReorderedBetweenColumns
 };

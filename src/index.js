@@ -6,15 +6,11 @@ import "./index.css";
 import App from "./app/App";
 import { ThemeProvider } from "@chakra-ui/core";
 // import * as serviceWorker from "./serviceWorker";
-import { CSSReset, theme } from "@chakra-ui/core";
-
-const custom = {
-  ...theme
-};
+import { CSSReset } from "@chakra-ui/core";
 
 ReactDOM.render(
   <Provider store={store}>
-    <ThemeProvider theme={custom}>
+    <ThemeProvider>
       <CSSReset />
       <App />
     </ThemeProvider>

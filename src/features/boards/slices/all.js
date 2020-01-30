@@ -113,3 +113,17 @@ export const clearBoard = boardId => async dispatch => {
     console.error(ex);
   }
 };
+
+export const reorderColumn = ({ boardId, columnOrder }) => async dispatch => {
+  try {
+    dispatch(columnReordered({ boardId, columnOrder }));
+    // await axios.patch(`/api/boards/${boardId}/columns`, {
+    //   id: boardId,
+    //   columnIds: columnOrder
+    // });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+//FIXME: check thunks, esp error handling, urls etc

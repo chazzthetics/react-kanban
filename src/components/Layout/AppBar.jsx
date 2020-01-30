@@ -1,12 +1,14 @@
 import React from "react";
-import { FiHome } from "react-icons/fi";
+import { FiHome, FiCode } from "react-icons/fi";
 import {
   Flex,
   Heading,
+  ButtonGroup,
   IconButton,
   Box,
   List,
-  ListItem
+  ListItem,
+  Avatar
 } from "@chakra-ui/core";
 import {
   SelectBoardInput,
@@ -15,7 +17,7 @@ import {
 
 const AppBar = () => {
   return (
-    <Box as="header" h="40px" bg="gray.300" p="4px">
+    <Box as="header" h="40px" bg="gray.400" p="4px">
       <Flex as="nav" align="center" justify="space-between" h="100%">
         <List
           d="flex"
@@ -23,17 +25,19 @@ const AppBar = () => {
           justifyContent="flex-start"
           flexBasis="14rem"
         >
-          <ListItem mr={1}>
-            <IconButton
-              aria-label="Go to Home"
-              icon={FiHome}
-              size="sm"
-              fontSize="1.3rem"
-            />
-          </ListItem>
-          <ListItem>
-            <SelectBoardInput />
-          </ListItem>
+          <ButtonGroup d="flex" spacing={1}>
+            <ListItem>
+              <IconButton
+                aria-label="Go to Home"
+                icon={FiHome}
+                size="sm"
+                fontSize="1.3rem"
+              />
+            </ListItem>
+            <ListItem>
+              <SelectBoardInput />
+            </ListItem>
+          </ButtonGroup>
         </List>
         <Box>
           <Heading fontSize="1rem">React Kanban</Heading>
@@ -44,17 +48,22 @@ const AppBar = () => {
           justifyContent="flex-end"
           flexBasis="14rem"
         >
-          <ListItem mr={1}>
-            <CreateNewBoardForm />
-          </ListItem>
-          {/* Temporary placeholders */}
-          <ListItem mr={1}>
-            <IconButton icon="star" size="sm" />
-          </ListItem>
-          <ListItem>
-            <IconButton icon="question" size="sm" />
-          </ListItem>
-          {/* ********************** */}
+          <ButtonGroup d="flex" spacing={1}>
+            <ListItem>
+              <CreateNewBoardForm />
+            </ListItem>
+            {/* Temporary placeholders */}
+            <ListItem>
+              <IconButton icon={FiCode} size="sm" />
+            </ListItem>
+            <ListItem>
+              <IconButton icon="question" size="sm" />
+            </ListItem>
+            <ListItem cursor="pointer">
+              <Avatar name="C L" size="sm" />
+            </ListItem>
+            {/* ********************** */}
+          </ButtonGroup>
         </List>
       </Flex>
     </Box>
@@ -63,4 +72,4 @@ const AppBar = () => {
 
 export default AppBar;
 
-// TODO: Fix button placements - move create board to end
+// TODO: keep ListItem?

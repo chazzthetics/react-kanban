@@ -24,9 +24,8 @@ const MainBoard = () => {
 
   const handleDragEnd = useDrag(currentBoardId, currentBoardColumns, columnIds);
 
-  if (loading) return <h3 style={{ color: "white" }}>Loading...</h3>;
-  if (!loading && !currentBoardId)
-    return <h3 style={{ color: "white" }}>No Boards</h3>;
+  if (loading) return <h3>Loading...</h3>;
+  if (!loading && !currentBoardId) return <h3>No Boards</h3>;
 
   return (
     <Box>

@@ -10,9 +10,9 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverCloseButton,
-  IconButton,
-  Button
+  IconButton
 } from "@chakra-ui/core";
+import { AddButtonGroup } from "../../../components";
 
 const CreateNewBoardForm = () => {
   const { isOpen, close, open } = useToggle();
@@ -33,7 +33,6 @@ const CreateNewBoardForm = () => {
       onOpen={open}
       onClose={close}
       initialFocusRef={firstFieldRef}
-      usePortal
     >
       <PopoverTrigger>
         <IconButton
@@ -43,23 +42,33 @@ const CreateNewBoardForm = () => {
           fontSize="1rem"
         />
       </PopoverTrigger>
-      <PopoverContent>
-        <PopoverHeader>Create a New Board</PopoverHeader>
+      <PopoverContent
+        p={4}
+        borderRadius={4}
+        position="absolute"
+        right={0}
+        zIndex={4}
+        boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+      >
+        <PopoverHeader textAlign="center" mb={4}>
+          Create a New Board
+        </PopoverHeader>
         <PopoverCloseButton />
         <CreateForm
           inputName="boardTitle"
           initialValues={{ boardTitle: "" }}
+          placeholder="Enter board title..."
           create={create}
           firstFieldRef={firstFieldRef}
           popover={true}
+          size="sm"
+          p={2}
+          mb={4}
         >
-          <Button type="submit">Create</Button>
-          <IconButton
-            icon="close"
-            aria-label="Close form"
-            size="sm"
-            fontSize="1rem"
-            onClick={close}
+          <AddButtonGroup
+            onClose={close}
+            value="Create Board"
+            iconColor="black"
           />
         </CreateForm>
       </PopoverContent>

@@ -38,6 +38,14 @@ const allColumnsSlice = createSlice({
       state[columnId].title = newTitle;
       state[columnId].isEditing = false;
     },
+    columnOptionsOpened(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isOpen = true;
+    },
+    columnOptionsClosed(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isOpen = false;
+    },
     taskReordered(state, action) {
       const { columnId, taskOrder } = action.payload;
       state[columnId].taskIds = taskOrder;
@@ -96,6 +104,8 @@ export const {
   columnTitleEditing,
   columnTitleEditingCancelled,
   columnTitleUpdated,
+  columnOptionsOpened,
+  columnOptionsClosed,
   taskReordered,
   taskReorderedBetweenColumns
 } = allColumnsSlice.actions;

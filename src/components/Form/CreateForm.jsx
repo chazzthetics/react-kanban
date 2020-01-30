@@ -13,7 +13,8 @@ const CreateForm = ({
   firstFieldRef = null,
   popover = false,
   placeholder = "",
-  textarea = false
+  textarea = false,
+  ...props
 }) => {
   const { values, handleChange, handleSubmit } = useForm(initialValues, () =>
     create(values[inputName])
@@ -32,9 +33,8 @@ const CreateForm = ({
           name={inputName}
           placeholder={placeholder}
           ref={popover ? firstFieldRef : focusRef}
-          size="sm"
-          w="17rem"
-          h="36px"
+          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          {...props}
         />
       ) : (
         <Textarea
@@ -44,6 +44,8 @@ const CreateForm = ({
           placeholder={placeholder}
           resize="none"
           ref={popover ? firstFieldRef : focusRef}
+          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          {...props}
         />
       )}
       {children}
@@ -70,3 +72,4 @@ CreateForm.propTypes = {
 export default CreateForm;
 
 //TODO: fix proptypes
+//FIX: fix rest props

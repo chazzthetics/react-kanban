@@ -4,7 +4,7 @@ import {
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,
-  columnReordered,
+  reorderColumn,
   createBoard,
   removeBoard,
   clearBoard
@@ -28,9 +28,9 @@ export {
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,
-  columnReordered,
   boardChanged,
   createBoard,
   removeBoard,
-  clearBoard
+  clearBoard,
+  reorderColumn
 };

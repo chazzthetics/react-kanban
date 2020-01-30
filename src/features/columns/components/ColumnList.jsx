@@ -17,7 +17,10 @@ const ColumnList = () => {
           wrap="nowrap"
           justify="flex-start"
           align="flex-start"
-          mx={2}
+          overflowX="auto"
+          h="100%"
+          minH="calc(100vh - 88px)"
+          mx={3}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >

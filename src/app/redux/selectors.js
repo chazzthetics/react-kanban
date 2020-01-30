@@ -52,6 +52,11 @@ const selectColumnIsEditing = createSelector(
   column => column.isEditing
 );
 
+const selectColumnOptionsOpened = createSelector(
+  [selectColumn],
+  column => column.isOpen
+);
+
 /* Task Selectors */
 const selectTasks = createSelector([state => state.tasks], tasks => tasks);
 const selectTaskIds = createSelector([selectTasks], tasks => tasks.ids);
@@ -113,6 +118,7 @@ export {
   selectColumnTasks,
   selectColumnTaskIds,
   selectColumnIsEditing,
+  selectColumnOptionsOpened,
   selectTasks,
   selectTaskIds,
   selectAllTasks,

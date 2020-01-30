@@ -1,6 +1,6 @@
 import { useDispatch } from "react-redux";
 import { shouldReorder, reorder } from "../utils/reorder";
-import { columnReordered } from "../features/boards/slices";
+import { reorderColumn } from "../features/boards/slices";
 import {
   taskReordered,
   taskReorderedBetweenColumns
@@ -21,7 +21,7 @@ const useDrag = (currentBoardId, columns, columnIds) => {
         const columnOrder = reorder(source.index, destination.index, columnIds);
 
         dispatch(
-          columnReordered({
+          reorderColumn({
             boardId: currentBoardId,
             columnOrder
           })

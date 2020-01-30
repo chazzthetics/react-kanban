@@ -2,20 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { createTask } from "../slices";
-import {
-  selectColumnTaskIds,
-  selectCurrentBoardId
-} from "../../../app/redux/selectors";
+import { selectCurrentBoardId } from "../../../app/redux/selectors";
 import { useToggle } from "../../../hooks";
 import { makeTask } from "../utils/makeTasks";
-import { CreateForm } from "../../../components";
-import { Button, CloseButton, Flex } from "@chakra-ui/core";
+import { CreateForm, AddButtonGroup } from "../../../components";
+import { CreateTaskButton } from "./";
 
 const CreateNewTaskForm = ({ columnId }) => {
   const { isOpen, close, open } = useToggle();
-
-  const hasTask = useSelector(state => selectColumnTaskIds(state, columnId))
-    .length;
 
   const currentBoard = useSelector(selectCurrentBoardId);
 
@@ -25,27 +19,26 @@ const CreateNewTaskForm = ({ columnId }) => {
     dispatch(createTask({ task, columnId, boardId: currentBoard }));
   }
 
-  return isOpen ? (
+  return !isOpen ? (
+    <CreateTaskButton onOpen={open} columnId={columnId} />
+  ) : (
     <CreateForm
       inputName="taskContent"
-      placeholder="Add new task"
+      placeholder="Add new task..."
       initialValues={{ taskContent: "" }}
       create={create}
       isOpen={isOpen}
       onCancel={close}
       textarea={true}
+      w="17rem"
+      h="36px"
+      px={2}
+      size="sm"
+      mb={2}
+      borderRadius={4}
     >
-      <Flex align="center">
-        <Button type="submit" aria-label="Add a new task">
-          Add Task
-        </Button>
-        <CloseButton type="button" aria-label="Cancel" onClick={close} />
-      </Flex>
+      <AddButtonGroup onClose={close} value="Add Task" iconColor="white" />
     </CreateForm>
-  ) : (
-    <Button onClick={open} leftIcon="add">
-      {hasTask ? "Add another task" : "Add a task"}
-    </Button>
   );
 };
 

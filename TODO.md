@@ -2,5 +2,8 @@
 - refactor redux middleware
 - finish async events
 - server/api
-- ui
+- finish and refactor ui
 - clean up reducers
+- save form value in add task form after clickoutside
+- keep form value in add column form after clickoutside
+- REDO all styles -- use ...rest props, im so fuking stupid!!
