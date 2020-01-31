@@ -1,4 +1,4 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import uuid from "uuid/v4";
 import { fetchBoards } from "../../../api/requestSlice";

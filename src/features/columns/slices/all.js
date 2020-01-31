@@ -46,6 +46,14 @@ const allColumnsSlice = createSlice({
       const { columnId } = action.payload;
       state[columnId].isOpen = false;
     },
+    columnLocked(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isLocked = true;
+    },
+    columnUnlocked(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isLocked = false;
+    },
     taskReordered(state, action) {
       const { columnId, taskOrder } = action.payload;
       state[columnId].taskIds = taskOrder;
@@ -106,6 +114,8 @@ export const {
   columnTitleUpdated,
   columnOptionsOpened,
   columnOptionsClosed,
+  columnLocked,
+  columnUnlocked,
   taskReordered,
   taskReorderedBetweenColumns
 } = allColumnsSlice.actions;

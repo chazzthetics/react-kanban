@@ -20,6 +20,7 @@ const ColumnList = () => {
           overflowX="auto"
           h="100%"
           minH="calc(100vh - 88px)"
+          cursor="pointer"
           mx={3}
           ref={provided.innerRef}
           {...provided.droppableProps}

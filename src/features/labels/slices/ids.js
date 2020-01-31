@@ -5,7 +5,7 @@ import { createSlice } from "@reduxjs/toolkit";
  */
 const labelIdsSlice = createSlice({
   name: "labels",
-  initialState: ["label1", "label2", "label3", "label4"],
+  initialState: ["label1", "label2", "label3", "label4", "label5"],
   reducers: {
     labelCreated(state, action) {
       const { label } = action.payload;

@@ -8,23 +8,28 @@ const allLabelsSlice = createSlice({
   initialState: {
     label1: {
       id: "label1",
-      color: "blue",
+      color: "blue.300",
       name: "work"
     },
     label2: {
       id: "label2",
-      color: "green",
+      color: "green.300",
       name: "personal"
     },
     label3: {
       id: "label3",
-      color: "yellow",
-      name: ""
+      color: "yellow.300",
+      name: "vacation"
     },
     label4: {
       id: "label4",
-      color: "red",
-      name: ""
+      color: "red.300",
+      name: "finances"
+    },
+    label5: {
+      id: "label5",
+      color: "purple.200",
+      name: "wedding"
     }
   },
   reducers: {

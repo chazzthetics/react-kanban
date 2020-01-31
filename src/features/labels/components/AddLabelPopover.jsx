@@ -1,20 +1,26 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useToggle } from "../../../hooks";
+import { labelAdded, taskEditingCancelled } from "../../tasks/slices";
+import { CreateLabelForm } from ".";
+import {
+  makeSelectTaskLabels,
+  selectAllLabels,
+  selectLabelIds,
+  selectTaskLabelIds
+} from "../../../app/redux/selectors";
 import {
   Popover,
   PopoverTrigger,
   PopoverCloseButton,
+  PseudoBox,
   Button,
   PopoverContent,
   PopoverHeader,
-  PopoverArrow,
-  PopoverBody
+  PopoverBody,
+  PopoverFooter
 } from "@chakra-ui/core";
-import { useToggle } from "../../../hooks";
-import { labelAdded } from "../../tasks/slices";
-import { CreateLabelForm } from ".";
-import { selectAllLabels, selectLabelIds } from "../../../app/redux/selectors";
 
 const AddLabelPopover = ({ taskId }) => {
   const { isOpen, close, open } = useToggle();
@@ -22,36 +28,80 @@ const AddLabelPopover = ({ taskId }) => {
   const allLabels = useSelector(selectAllLabels);
   const labelIds = useSelector(selectLabelIds);
 
+  const taskLabelsSelector = useMemo(makeSelectTaskLabels, []);
+  const taskLabels = useSelector(state => taskLabelsSelector(state, taskId));
+
   const dispatch = useDispatch();
+
   const handleAddLabel = labelId => {
     dispatch(labelAdded({ taskId, labelId }));
   };
 
+  const handleSave = () => {
+    dispatch(taskEditingCancelled({ taskId }));
+  };
+
   return (
-    <Popover placement="bottom" isOpen={isOpen} onClose={close} onOpen={open}>
+    <Popover
+      placement="bottom"
+      isOpen={isOpen}
+      onClose={close}
+      onOpen={open}
+      closeOnBlur={false}
+    >
       <PopoverTrigger>
         <Button size="sm" boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)">
           Add Label
         </Button>
       </PopoverTrigger>
-      <PopoverContent zIndex={4} bg="gray.200">
-        <PopoverHeader>Label</PopoverHeader>
+      <PopoverContent zIndex={4} bg="gray.50">
+        <PopoverHeader textAlign="center">Labels</PopoverHeader>
         <PopoverCloseButton />
-        <PopoverArrow />
         <PopoverBody>
           {labelIds.map(labelId => (
-            <Button key={labelId} onClick={() => handleAddLabel(labelId)}>
-              {allLabels[labelId].name || allLabels[labelId].color}
-            </Button>
+            <PseudoBox
+              as="button"
+              type="button"
+              key={labelId}
+              w="100%"
+              h="24px"
+              borderRadius={4}
+              onClick={() => handleAddLabel(labelId)}
+              bg={allLabels[labelId].color}
+              opacity={taskLabels.includes(labelId) ? 1 : 0.7}
+              _hover={{ opacity: ".9" }}
+            ></PseudoBox>
           ))}
-          <Popover>
-            <PopoverTrigger>
-              <Button variantColor="blue">Create</Button>
-            </PopoverTrigger>
-            <PopoverContent zIndex={4} placement="bottom-start">
-              <CreateLabelForm />
-            </PopoverContent>
-          </Popover>
+          <PopoverFooter
+            d="flex"
+            alignItems="center"
+            justifyContent="flex-end"
+            px={0}
+          >
+            <Popover closeOnBlur={false}>
+              <Button
+                type="button"
+                size="sm"
+                mr={1}
+                boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+                onClick={handleSave}
+              >
+                Save
+              </Button>
+              <PopoverTrigger>
+                <Button
+                  type="button"
+                  size="sm"
+                  boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+                >
+                  Create Label
+                </Button>
+              </PopoverTrigger>
+              <PopoverContent zIndex={4} placement="bottom-start">
+                <CreateLabelForm />
+              </PopoverContent>
+            </Popover>
+          </PopoverFooter>
         </PopoverBody>
       </PopoverContent>
     </Popover>
@@ -65,3 +115,4 @@ AddLabelPopover.propTypes = {
 export default AddLabelPopover;
 
 // TODO: refactor
+//FIXME: form cant be child of form , maybe use modal instead of popover

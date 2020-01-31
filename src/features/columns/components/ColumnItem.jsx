@@ -3,6 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Draggable, Droppable } from "react-beautiful-dnd";
 import {
+  selectColumnIsLocked,
   selectColumnIsEditing,
   selectColumnOptionsOpened
 } from "../../../app/redux/selectors";
@@ -19,11 +20,13 @@ const ColumnItem = ({ index, columnId }) => {
     selectColumnOptionsOpened(state, columnId)
   );
 
+  const isLocked = useSelector(state => selectColumnIsLocked(state, columnId));
+
   return (
     <Draggable
       draggableId={`column-${columnId}`}
       index={index}
-      isDragDisabled={isOpened}
+      isDragDisabled={isOpened || isLocked}
     >
       {provided => (
         <Box
@@ -35,6 +38,7 @@ const ColumnItem = ({ index, columnId }) => {
           borderRadius={4}
           w="18rem"
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          cursor="pointer"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -51,6 +55,7 @@ const ColumnItem = ({ index, columnId }) => {
                 align="stretch"
                 justify="center"
                 mb={2}
+                cursor="pointer"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >
@@ -72,3 +77,5 @@ ColumnItem.propTypes = {
 };
 
 export default ColumnItem;
+
+//TODO: unlocked column can't be moved into locked column's position

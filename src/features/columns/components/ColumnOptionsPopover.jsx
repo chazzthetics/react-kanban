@@ -16,7 +16,7 @@ import {
   PopoverBody,
   PopoverCloseButton
 } from "@chakra-ui/core";
-import { RemoveColumnButton } from "./";
+import { RemoveColumnButton, LockColumnButton } from "./";
 
 const ColumnOptionsPopover = ({ columnId }) => {
   const { isOpen, close, open } = useToggle();
@@ -57,14 +57,7 @@ const ColumnOptionsPopover = ({ columnId }) => {
           <PopoverBody>
             <ButtonGroup>
               <RemoveColumnButton columnId={columnId} ref={initialFocusRef} />
-              <Button
-                size="sm"
-                fontWeight="normal"
-                variant="ghost"
-                pr="calc(100% - 67px)"
-              >
-                Lock List
-              </Button>
+              <LockColumnButton columnId={columnId} />
             </ButtonGroup>
           </PopoverBody>
         </PopoverContent>

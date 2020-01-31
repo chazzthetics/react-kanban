@@ -34,8 +34,10 @@ const allTasksSlice = createSlice({
     },
     taskContentUpdated(state, action) {
       const { taskId, taskContent } = action.payload;
-      state[taskId].content = taskContent;
-      state[taskId].isEditing = false;
+      if (state[taskId].content !== taskContent) {
+        state[taskId].content = taskContent;
+        state[taskId].isEditing = false;
+      }
     },
     labelAdded(state, action) {
       const { taskId, labelId } = action.payload;

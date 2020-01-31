@@ -52,6 +52,11 @@ const selectColumnIsEditing = createSelector(
   column => column.isEditing
 );
 
+const selectColumnIsLocked = createSelector(
+  [selectColumn],
+  column => column.isLocked
+);
+
 const selectColumnOptionsOpened = createSelector(
   [selectColumn],
   column => column.isOpen
@@ -61,10 +66,12 @@ const selectColumnOptionsOpened = createSelector(
 const selectTasks = createSelector([state => state.tasks], tasks => tasks);
 const selectTaskIds = createSelector([selectTasks], tasks => tasks.ids);
 const selectAllTasks = createSelector([selectTasks], tasks => tasks.all);
+
 const selectTask = createSelector(
   [selectAllTasks, (_, taskId) => taskId],
   (all, taskId) => all[taskId]
-);
+); //FIXME: delete?
+
 const selectTaskIsEditing = createSelector(
   [selectTask],
   task => task.isEditing
@@ -99,9 +106,14 @@ const selectColumnTasks = createSelector(
   (columnTaskIds, all) => columnTaskIds.map(taskId => all[taskId])
 );
 
+export const makeSelectTaskLabels = () =>
+  createSelector(
+    [selectTaskLabelIds, selectAllLabels],
+    (labelIds, all) => labelIds && labelIds.map(labelId => all[labelId])
+  );
 const selectTaskLabels = createSelector(
   [selectTaskLabelIds, selectAllLabels],
-  (labelIds, all) => labelIds.map(labelId => all[labelId])
+  (labelIds, all) => labelIds && labelIds.map(labelId => all[labelId])
 );
 
 export {
@@ -122,6 +134,7 @@ export {
   selectColumnTasks,
   selectColumnTaskIds,
   selectColumnIsEditing,
+  selectColumnIsLocked,
   selectColumnOptionsOpened,
   selectTasks,
   selectTaskIds,

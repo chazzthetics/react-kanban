@@ -1,17 +1,26 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { selectColumnTitle } from "../../../app/redux/selectors";
-import { columnTitleEditing } from "../slices";
-import { Flex, Heading } from "@chakra-ui/core";
+import {
+  selectColumnTitle,
+  selectColumnIsLocked
+} from "../../../app/redux/selectors";
+import { columnTitleEditing, columnUnlocked } from "../slices";
+import { Flex, Heading, IconButton, ButtonGroup } from "@chakra-ui/core";
 import { ColumnOptionsPopover } from "./";
 
 const ColumnHeader = ({ columnId }) => {
   const columnTitle = useSelector(state => selectColumnTitle(state, columnId));
+  const isLocked = useSelector(state => selectColumnIsLocked(state, columnId));
 
   const dispatch = useDispatch();
+
   const handleEditColumnTitle = () => {
     dispatch(columnTitleEditing({ columnId }));
+  };
+
+  const handleUnlockColumn = () => {
+    dispatch(columnUnlocked({ columnId }));
   };
 
   return (
@@ -19,6 +28,7 @@ const ColumnHeader = ({ columnId }) => {
       h="36px"
       align="center"
       justify="space-between"
+      cursor="pointer"
       borderRadius={4}
       mb={2}
     >
@@ -33,7 +43,17 @@ const ColumnHeader = ({ columnId }) => {
       >
         {columnTitle}
       </Heading>
-      <ColumnOptionsPopover columnId={columnId} />
+      <ButtonGroup d="flex" spacing={0}>
+        {isLocked && (
+          <IconButton
+            size="sm"
+            icon="lock"
+            variant="ghost"
+            onClick={handleUnlockColumn}
+          />
+        )}
+        <ColumnOptionsPopover columnId={columnId} />
+      </ButtonGroup>
     </Flex>
   );
 };

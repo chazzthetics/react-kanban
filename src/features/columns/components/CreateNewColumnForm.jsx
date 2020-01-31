@@ -6,7 +6,7 @@ import { selectCurrentBoardId } from "../../../app/redux/selectors";
 import { useToggle } from "../../../hooks";
 import { CreateForm, AddButtonGroup } from "../../../components";
 import { CreateColumnButton } from "./";
-import { Box } from "@chakra-ui/core";
+import { Flex } from "@chakra-ui/core";
 
 const CreateNewColumnForm = () => {
   const { isOpen, close, open } = useToggle();
@@ -23,13 +23,15 @@ const CreateNewColumnForm = () => {
   return !isOpen ? (
     <CreateColumnButton onOpen={open} />
   ) : (
-    <Box
+    <Flex
       bg="gray.300"
       h="96px"
       p="8px"
       borderRadius={4}
       width="17rem"
       boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+      flexDir="column"
+      justify="space-around"
     >
       <CreateForm
         inputName="columnTitle"
@@ -46,9 +48,11 @@ const CreateNewColumnForm = () => {
         px={2}
         borderRadius={4}
       >
-        <AddButtonGroup onClose={close} value="Add List" mt={0} />
+        <Flex alignItems="flex-end">
+          <AddButtonGroup onClose={close} value="Add List" mt={0} />
+        </Flex>
       </CreateForm>
-    </Box>
+    </Flex>
   );
 };
 

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { AppBar } from "../components";
 import { MainBoard } from "../features/boards/components";
 import { Box } from "@chakra-ui/core";
@@ -8,7 +8,8 @@ import { fetchData } from "../api/requestSlice";
 
 const App = () => {
   const dispatch = useDispatch();
-  React.useEffect(() => {
+
+  useEffect(() => {
     dispatch(fetchData());
   }, [dispatch]);
 

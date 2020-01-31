@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { taskEditing } from "../slices";
@@ -14,8 +14,8 @@ const TaskItem = ({ taskId, columnId }) => {
   const [isHover, setIsHover] = useState(false);
 
   const taskContent = useSelector(state => selectTaskContent(state, taskId));
-  const isEditing = useSelector(state => selectTaskIsEditing(state, taskId));
 
+  const isEditing = useSelector(state => selectTaskIsEditing(state, taskId));
   const dispatch = useDispatch();
 
   const handleOpenEdit = () => {
@@ -42,14 +42,18 @@ const TaskItem = ({ taskId, columnId }) => {
     >
       {!isEditing ? (
         <>
-          <LabelList taskId={taskId} />
-          <Text fontSize=".9rem" maxW="180px" overflowWrap="break-word">
-            {taskContent}
-          </Text>
+          <Flex flexDir="column">
+            <Flex>
+              <LabelList taskId={taskId} />
+            </Flex>
+            <Text fontSize=".9rem" maxW="180px" overflowWrap="break-word">
+              {taskContent}
+            </Text>
+          </Flex>
           {isHover && (
             <ButtonGroup d="flex" alignItems="center">
-              <RemoveTaskButton taskId={taskId} columnId={columnId} />
               <EditTaskButton taskId={taskId} />
+              <RemoveTaskButton taskId={taskId} columnId={columnId} />
             </ButtonGroup>
           )}
         </>
@@ -66,6 +70,3 @@ TaskItem.propTypes = {
 };
 
 export default TaskItem;
-
-/* <LabelList taskId={taskId} /> */
-/* <AddLabelPopover taskId={taskId} /> */

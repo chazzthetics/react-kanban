@@ -2,17 +2,18 @@ import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
 import store from "./app/redux/store";
-import "./index.css";
 import App from "./app/App";
-import { ThemeProvider } from "@chakra-ui/core";
+import { CSSReset, ThemeProvider } from "@chakra-ui/core";
+import ErrorBoundary from "./components/Layout/ErrorBoundary";
 // import * as serviceWorker from "./serviceWorker";
-import { CSSReset } from "@chakra-ui/core";
 
 ReactDOM.render(
   <Provider store={store}>
     <ThemeProvider>
       <CSSReset />
-      <App />
+      <ErrorBoundary render={(error, errorMessage) => <div>Error!!</div>}>
+        <App />
+      </ErrorBoundary>
     </ThemeProvider>
   </Provider>,
   document.getElementById("root")
