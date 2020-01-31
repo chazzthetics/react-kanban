@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { Button, ButtonGroup, CloseButton } from "@chakra-ui/core";
 
-const AddButtonGroup = ({ onClose, value, iconColor, ...props }) => {
+const AddButtonGroup = ({ onClose, value, iconColor = "black", ...props }) => {
   return (
     <ButtonGroup d="flex" alignItems="center" {...props}>
       <Button
@@ -28,7 +28,7 @@ const AddButtonGroup = ({ onClose, value, iconColor, ...props }) => {
 AddButtonGroup.propTypes = {
   onClose: PropTypes.func.isRequired,
   value: PropTypes.string.isRequired,
-  iconColor: PropTypes.string.isRequired
+  iconColor: PropTypes.string
 };
 
 export default AddButtonGroup;

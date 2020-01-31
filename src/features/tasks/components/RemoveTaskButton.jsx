@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { removeTask } from "../slices";
-import { Button } from "@chakra-ui/core";
+import { IconButton } from "@chakra-ui/core";
 
 const RemoveTaskButton = ({ taskId, columnId }) => {
   const dispatch = useDispatch();
@@ -11,7 +11,14 @@ const RemoveTaskButton = ({ taskId, columnId }) => {
     dispatch(removeTask({ taskId, columnId }));
   };
 
-  return <Button onClick={handleRemove}>Remove</Button>;
+  return (
+    <IconButton
+      onClick={handleRemove}
+      size="sm"
+      aria-label="Remove Task"
+      icon="delete"
+    />
+  );
 };
 
 RemoveTaskButton.propTypes = {

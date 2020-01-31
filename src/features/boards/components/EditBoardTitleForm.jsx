@@ -29,6 +29,8 @@ const EditBoardTitleForm = () => {
       isEditing={isEditing}
       onCancel={onCancel}
       update={update}
+      maxW="180px"
+      pl="10px"
     />
   );
 };

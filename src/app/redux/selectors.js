@@ -65,6 +65,10 @@ const selectTask = createSelector(
   [selectAllTasks, (_, taskId) => taskId],
   (all, taskId) => all[taskId]
 );
+const selectTaskIsEditing = createSelector(
+  [selectTask],
+  task => task.isEditing
+);
 
 const selectTaskContent = createSelector([selectTask], task => task.content);
 const selectTaskLabelIds = createSelector([selectTask], task => task.labelIds);
@@ -124,6 +128,7 @@ export {
   selectAllTasks,
   selectTask,
   selectTaskContent,
+  selectTaskIsEditing,
   selectTaskLabelIds,
   selectLabelIds,
   selectAllLabels,

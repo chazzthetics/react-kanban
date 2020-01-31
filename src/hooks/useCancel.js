@@ -6,6 +6,7 @@ const useCancel = (isActive, cancelAction) => {
   const handleCancel = useCallback(
     e => {
       if (cancelRef.current.contains(e.target)) return;
+
       cancelAction();
       return;
     },

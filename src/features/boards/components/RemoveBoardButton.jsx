@@ -18,7 +18,7 @@ const RemoveBoardButton = () => {
       aria-label="Remove Board"
       icon="delete"
       size="sm"
-      fontSize="1.3rem"
+      fontSize="1.1rem"
       onClick={handleRemoveBoard}
     />
   );

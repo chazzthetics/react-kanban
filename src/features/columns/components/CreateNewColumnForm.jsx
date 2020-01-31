@@ -23,7 +23,14 @@ const CreateNewColumnForm = () => {
   return !isOpen ? (
     <CreateColumnButton onOpen={open} />
   ) : (
-    <Box bg="gray.300" h="96px" p="8px" borderRadius={4} width="17rem">
+    <Box
+      bg="gray.300"
+      h="96px"
+      p="8px"
+      borderRadius={4}
+      width="17rem"
+      boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+    >
       <CreateForm
         inputName="columnTitle"
         placeholder="Enter list title..."
@@ -31,7 +38,7 @@ const CreateNewColumnForm = () => {
         create={create}
         isOpen={isOpen}
         onCancel={close}
-        mb={3}
+        mb={2}
         mt={0}
         size="sm"
         w="100%"
@@ -39,12 +46,7 @@ const CreateNewColumnForm = () => {
         px={2}
         borderRadius={4}
       >
-        <AddButtonGroup
-          onClose={close}
-          value="Add List"
-          iconColor="white"
-          mt={0}
-        />
+        <AddButtonGroup onClose={close} value="Add List" mt={0} />
       </CreateForm>
     </Box>
   );

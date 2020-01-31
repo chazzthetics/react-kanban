@@ -24,7 +24,7 @@ const CreateNewTaskForm = ({ columnId }) => {
   ) : (
     <CreateForm
       inputName="taskContent"
-      placeholder="Add new task..."
+      placeholder="Enter a title for this task..."
       initialValues={{ taskContent: "" }}
       create={create}
       isOpen={isOpen}
@@ -37,7 +37,7 @@ const CreateNewTaskForm = ({ columnId }) => {
       mb={2}
       borderRadius={4}
     >
-      <AddButtonGroup onClose={close} value="Add Task" iconColor="white" />
+      <AddButtonGroup onClose={close} value="Add Task" />
     </CreateForm>
   );
 };

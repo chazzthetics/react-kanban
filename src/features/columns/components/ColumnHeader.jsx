@@ -15,7 +15,13 @@ const ColumnHeader = ({ columnId }) => {
   };
 
   return (
-    <Flex h="36px" align="center" justify="space-between" borderRadius={4}>
+    <Flex
+      h="36px"
+      align="center"
+      justify="space-between"
+      borderRadius={4}
+      mb={2}
+    >
       <Heading
         as="h3"
         cursor="pointer"

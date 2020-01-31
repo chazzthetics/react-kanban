@@ -33,6 +33,11 @@ const EditColumnTitleForm = ({ columnId }) => {
       isEditing={isEditing}
       onCancel={onCancel}
       update={update}
+      maxW="120px"
+      fontWeight="semibold"
+      fontSize=".9rem"
+      mt={1}
+      mb={2}
     />
   );
 };

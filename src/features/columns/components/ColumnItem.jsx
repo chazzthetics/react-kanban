@@ -34,6 +34,7 @@ const ColumnItem = ({ index, columnId }) => {
           py={2}
           borderRadius={4}
           w="18rem"
+          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}

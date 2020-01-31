@@ -17,7 +17,7 @@ const ClearBoardButton = () => {
     <IconButton
       aria-label="Clear Board"
       size="sm"
-      fontSize="1.1rem"
+      fontSize="1rem"
       icon="minus"
       mr={1}
       onClick={handleClearBoard}

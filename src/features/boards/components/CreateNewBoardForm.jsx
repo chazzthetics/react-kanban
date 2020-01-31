@@ -65,11 +65,7 @@ const CreateNewBoardForm = () => {
           p={2}
           mb={4}
         >
-          <AddButtonGroup
-            onClose={close}
-            value="Create Board"
-            iconColor="black"
-          />
+          <AddButtonGroup onClose={close} value="Create Board" />
         </CreateForm>
       </PopoverContent>
     </Popover>

@@ -1,10 +1,10 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { selectCurrentBoardIsEditing } from "../../../app/redux/selectors";
-import { FiStar } from "react-icons/fi";
-import { Flex, Box, ButtonGroup, IconButton } from "@chakra-ui/core";
+import { Flex, Box, ButtonGroup } from "@chakra-ui/core";
 import {
   EditBoardTitleForm,
+  StarBoardButton,
   RemoveBoardButton,
   ClearBoardButton,
   BoardTitle
@@ -27,7 +27,7 @@ const BoardHeader = () => {
         <Box w="100%">
           {!isEditing ? <BoardTitle /> : <EditBoardTitleForm />}
         </Box>
-        <IconButton icon={FiStar} fontSize="1.3rem" size="sm" />
+        <StarBoardButton />
       </Flex>
       <ButtonGroup
         d="flex"

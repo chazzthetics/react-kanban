@@ -3,6 +3,9 @@ import {
   allTasksReducer,
   createTask,
   removeTask,
+  taskEditing,
+  taskEditingCancelled,
+  taskContentUpdated,
   labelAdded,
   taskLabelRemoved
 } from "./all";
@@ -19,4 +22,12 @@ export default combineReducers({
 /**
  * Task Actions
  */
-export { createTask, removeTask, labelAdded, taskLabelRemoved };
+export {
+  createTask,
+  removeTask,
+  labelAdded,
+  taskLabelRemoved,
+  taskContentUpdated,
+  taskEditing,
+  taskEditingCancelled
+};

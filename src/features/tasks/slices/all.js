@@ -23,6 +23,19 @@ const allTasksSlice = createSlice({
       const { taskId } = action.payload;
       delete state[taskId];
     },
+    taskEditing(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].isEditing = true;
+    },
+    taskEditingCancelled(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].isEditing = false;
+    },
+    taskContentUpdated(state, action) {
+      const { taskId, taskContent } = action.payload;
+      state[taskId].content = taskContent;
+      state[taskId].isEditing = false;
+    },
     labelAdded(state, action) {
       const { taskId, labelId } = action.payload;
       const labelIds = state[taskId].labelIds;
@@ -82,6 +95,9 @@ const allTasksSlice = createSlice({
 export const {
   taskCreated,
   taskRemoved,
+  taskEditing,
+  taskEditingCancelled,
+  taskContentUpdated,
   labelAdded,
   taskLabelRemoved
 } = allTasksSlice.actions;
