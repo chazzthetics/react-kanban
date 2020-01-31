@@ -2,6 +2,7 @@ import { createSlice } from "@reduxjs/toolkit";
 
 const requestSuccess = "request/requestSuccess";
 const requestBoardsSuccess = "request/requestBoardsSuccess";
+
 /**
  * Current Board Slice
  */

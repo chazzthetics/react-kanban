@@ -3,15 +3,14 @@ import axios from "axios";
 import uuid from "uuid/v4";
 import { fetchBoards } from "../../../api/requestSlice";
 
-const columnCreated = createAction("columns/columnCreated");
-const columnRemoved = createAction("columns/columnRemoved");
+const columnCreated = "columns/columnCreated";
+const columnRemoved = "columns/columnRemoved";
 const requestSuccess = "request/requestSuccess";
 const requestBoardsSuccess = "request/requestBoardsSuccess";
 
 /**
  * All Boards Slice
  */
-
 const allBoardsSlice = createSlice({
   name: "boards",
   initialState: {},

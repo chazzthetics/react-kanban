@@ -5,7 +5,6 @@ import { LabelItem } from "./";
 
 const LabelList = ({ taskId }) => {
   const taskLabels = useSelector(state => selectTaskLabels(state, taskId));
-
   return taskLabels.map(taskLabel => (
     <div
       className="labels"
@@ -20,3 +19,4 @@ const LabelList = ({ taskId }) => {
 export default LabelList;
 
 //TODO: refactor
+//FIXME: fix styling

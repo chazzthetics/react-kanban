@@ -15,7 +15,7 @@ const StarBoardButton = () => {
       fontSize="1.1rem"
       size="sm"
       onClick={handleClick}
-      variantColor={isStarred ? "teal" : "blue"}
+      // variantColor={isStarred ? "gray" : "blue"}
     />
   );
 };

@@ -1,11 +1,11 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import axios from "axios";
 import uuid from "uuid/v4";
 import { silentFetchData } from "../../../api/requestSlice";
 
-const boardRemoved = createAction("boards/boardRemoved");
-const boardCleared = createAction("boards/boardCleared");
+const boardRemoved = "boards/boardRemoved";
+const boardCleared = "boards/boardCleared";
 const taskCreated = "tasks/taskCreated";
 const taskRemoved = "tasks/taskRemoved";
 const requestSuccess = "request/requestSuccess";

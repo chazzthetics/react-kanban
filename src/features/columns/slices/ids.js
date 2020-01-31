@@ -1,9 +1,13 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-const boardRemoved = createAction("boards/boardRemoved");
-const boardCleared = createAction("boards/boardCleared");
+
+const boardRemoved = "boards/boardRemoved";
+const boardCleared = "boards/boardCleared";
 const requestSuccess = "request/requestSuccess";
 
+/**
+ * Column Ids Slice
+ */
 const columnIdsSlice = createSlice({
   name: "columns",
   initialState: [],

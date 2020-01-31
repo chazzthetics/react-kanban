@@ -1,8 +1,9 @@
-import { createSlice, createAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-const boardRemoved = createAction("boards/boardRemoved");
-const boardCleared = createAction("boards/boardCleared");
-const columnRemoved = createAction("columns/columnRemoved");
+
+const boardRemoved = "boards/boardRemoved";
+const boardCleared = "boards/boardCleared";
+const columnRemoved = "columns/columnRemoved";
 const requestSuccess = "request/requestSuccess";
 
 /**

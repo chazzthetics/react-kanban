@@ -1,5 +1,5 @@
-import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../utils/arrayToObject";
 
 // TODO: move into features folder

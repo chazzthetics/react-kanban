@@ -9,7 +9,7 @@ import {
   selectCurrentBoardColumns,
   selectCurrentBoardColumnIds
 } from "../../../app/redux/selectors";
-import { Box } from "@chakra-ui/core";
+import { Box, Flex, Spinner } from "@chakra-ui/core";
 import { BoardHeader } from "./";
 
 const MainBoard = () => {
@@ -24,7 +24,19 @@ const MainBoard = () => {
 
   const handleDragEnd = useDrag(currentBoardId, currentBoardColumns, columnIds);
 
-  if (loading) return <h3>Loading...</h3>;
+  if (loading)
+    return (
+      <Flex align="center" justify="center" h="80%">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    );
+
   if (!loading && !currentBoardId) return <h3>No Boards</h3>;
 
   return (

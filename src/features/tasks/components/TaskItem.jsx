@@ -8,7 +8,7 @@ import {
 } from "../../../app/redux/selectors";
 import { ButtonGroup, Text, Flex } from "@chakra-ui/core";
 import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
-// import { LabelList, AddLabelPopover } from "../../labels/components";
+import { LabelList } from "../../labels/components";
 
 const TaskItem = ({ taskId, columnId }) => {
   const [isHover, setIsHover] = useState(false);
@@ -42,6 +42,7 @@ const TaskItem = ({ taskId, columnId }) => {
     >
       {!isEditing ? (
         <>
+          <LabelList taskId={taskId} />
           <Text fontSize=".9rem" maxW="180px" overflowWrap="break-word">
             {taskContent}
           </Text>
