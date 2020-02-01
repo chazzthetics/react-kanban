@@ -1,10 +1,11 @@
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
-import { selectTaskLabels } from "../../../app/redux/selectors";
 import { LabelItem } from "./";
+import { makeSelectTaskLabels } from "../../shared/selectors";
 
 const LabelList = ({ taskId }) => {
-  const taskLabels = useSelector(state => selectTaskLabels(state, taskId));
+  const taskLabelSelector = useMemo(makeSelectTaskLabels, []);
+  const taskLabels = useSelector(state => taskLabelSelector(state, taskId));
 
   return taskLabels
     ? taskLabels.map(taskLabel => (

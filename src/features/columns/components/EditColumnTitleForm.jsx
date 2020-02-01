@@ -1,20 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { columnTitleEditingCancelled, columnTitleUpdated } from "../slices";
 import {
-  selectColumnTitle,
-  selectColumnIsEditing
-} from "../../../app/redux/selectors";
+  makeSelectColumn,
+  columnTitleUpdated,
+  columnTitleEditingCancelled
+} from "../slices";
 import { EditForm } from "../../../components";
 
 const EditColumnTitleForm = ({ columnId }) => {
-  const currentColumnTitle = useSelector(state =>
-    selectColumnTitle(state, columnId)
-  );
+  const columnSelector = useMemo(makeSelectColumn, []);
 
-  const isEditing = useSelector(state =>
-    selectColumnIsEditing(state, columnId)
+  const { title, isEditing } = useSelector(state =>
+    columnSelector(state, columnId)
   );
 
   const dispatch = useDispatch();
@@ -29,7 +27,7 @@ const EditColumnTitleForm = ({ columnId }) => {
   return (
     <EditForm
       inputName="columnTitle"
-      initialValues={{ columnTitle: currentColumnTitle }}
+      initialValues={{ columnTitle: title }}
       isEditing={isEditing}
       onCancel={onCancel}
       update={update}
@@ -47,3 +45,5 @@ EditColumnTitleForm.propTypes = {
 };
 
 export default EditColumnTitleForm;
+
+//FIXME: fix form length

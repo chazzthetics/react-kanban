@@ -1,28 +1,27 @@
-import React, { useState, useMemo } from "react";
+import React, { useState, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { taskEditing } from "../slices";
-import {
-  selectTaskContent,
-  selectTaskIsEditing
-} from "../../../app/redux/selectors";
+import { taskEditing, makeSelectTask } from "../slices";
 import { ButtonGroup, Text, Flex } from "@chakra-ui/core";
-import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
 import { LabelList } from "../../labels/components";
+import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
 
 const TaskItem = ({ taskId, columnId }) => {
-  const [isHover, setIsHover] = useState(false);
+  const taskSelector = useMemo(makeSelectTask, []);
+  const { content, isEditing } = useSelector(state =>
+    taskSelector(state, taskId)
+  );
 
-  const taskContent = useSelector(state => selectTaskContent(state, taskId));
-
-  const isEditing = useSelector(state => selectTaskIsEditing(state, taskId));
   const dispatch = useDispatch();
-
   const handleOpenEdit = () => {
     if (!isEditing) {
       dispatch(taskEditing({ taskId }));
     }
   };
+
+  const [isHover, setIsHover] = useState(false);
+  const handleShowOptions = useCallback(() => setIsHover(true), []);
+  const handleHideOptions = useCallback(() => setIsHover(false), []);
 
   return (
     <Flex
@@ -35,8 +34,8 @@ const TaskItem = ({ taskId, columnId }) => {
       justify="space-between"
       bg="gray.100"
       borderRadius={4}
-      onMouseEnter={() => setIsHover(true)}
-      onMouseLeave={() => setIsHover(false)}
+      onMouseEnter={handleShowOptions}
+      onMouseLeave={handleHideOptions}
       onDoubleClick={handleOpenEdit}
       cursor="pointer"
     >
@@ -47,7 +46,7 @@ const TaskItem = ({ taskId, columnId }) => {
               <LabelList taskId={taskId} />
             </Flex>
             <Text fontSize=".9rem" maxW="180px" overflowWrap="break-word">
-              {taskContent}
+              {content}
             </Text>
           </Flex>
           {isHover && (

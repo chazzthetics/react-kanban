@@ -2,10 +2,10 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { PseudoBox, Icon } from "@chakra-ui/core";
-import { selectCurrentBoardColumnIds } from "../../../app/redux/selectors";
+import { selectCurrentBoardColumnIdsLength } from "../../boards/slices";
 
 const CreateColumnButtom = ({ onOpen }) => {
-  const hasColumn = useSelector(selectCurrentBoardColumnIds).length;
+  const hasColumn = useSelector(selectCurrentBoardColumnIdsLength);
 
   return (
     <PseudoBox
@@ -38,4 +38,4 @@ CreateColumnButtom.propTypes = {
 
 export default CreateColumnButtom;
 
-// FIXME: refactor
+// FIXME: refactor button

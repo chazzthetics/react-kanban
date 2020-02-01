@@ -3,7 +3,7 @@ import { useDispatch } from "react-redux";
 import { createBoard } from "../slices";
 import { makeBoard } from "../utils/makeBoard";
 import { useToggle } from "../../../hooks";
-import { CreateForm } from "../../../components";
+import { AddButtonGroup, CreateForm } from "../../../components";
 import {
   Popover,
   PopoverTrigger,
@@ -12,7 +12,6 @@ import {
   PopoverCloseButton,
   IconButton
 } from "@chakra-ui/core";
-import { AddButtonGroup } from "../../../components";
 
 const CreateNewBoardForm = () => {
   const { isOpen, close, open } = useToggle();
@@ -20,6 +19,7 @@ const CreateNewBoardForm = () => {
   const firstFieldRef = useRef(null);
 
   const dispatch = useDispatch();
+
   function create(boardTitle) {
     const board = makeBoard({ title: boardTitle });
     dispatch(createBoard(board));
@@ -55,15 +55,15 @@ const CreateNewBoardForm = () => {
         </PopoverHeader>
         <PopoverCloseButton />
         <CreateForm
+          p={2}
+          mb={4}
+          size="sm"
+          popover={true}
           inputName="boardTitle"
           initialValues={{ boardTitle: "" }}
           placeholder="Enter board title..."
-          create={create}
           firstFieldRef={firstFieldRef}
-          popover={true}
-          size="sm"
-          p={2}
-          mb={4}
+          create={create}
         >
           <AddButtonGroup onClose={close} value="Create Board" />
         </CreateForm>

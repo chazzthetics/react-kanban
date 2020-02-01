@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { selectCurrentBoardId } from "../../boards/slices";
 import { createTask } from "../slices";
-import { selectCurrentBoardId } from "../../../app/redux/selectors";
 import { useToggle } from "../../../hooks";
 import { makeTask } from "../utils/makeTasks";
 import { CreateForm, AddButtonGroup } from "../../../components";
@@ -14,6 +14,7 @@ const CreateNewTaskForm = ({ columnId }) => {
   const currentBoard = useSelector(selectCurrentBoardId);
 
   const dispatch = useDispatch();
+
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
     dispatch(createTask({ task, columnId, boardId: currentBoard }));

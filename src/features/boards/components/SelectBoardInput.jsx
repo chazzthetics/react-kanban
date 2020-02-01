@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { boardChanged } from "../slices";
+import { Select } from "@chakra-ui/core";
 import {
+  boardChanged,
   selectCurrentBoardId,
   selectAllBoardsWithTitle
-} from "../../../app/redux/selectors";
-import { Select } from "@chakra-ui/core";
+} from "../slices";
 
 const SelectBoardInput = () => {
   const currentBoardId = useSelector(selectCurrentBoardId);

@@ -10,14 +10,16 @@ import {
   taskLabelRemoved
 } from "./all";
 import { taskIdsReducer } from "./ids";
+import {
+  selectAllTasks,
+  makeSelectTask,
+  makeSelectTaskLabelIds
+} from "./selectors";
 
 /**
- * Tasks Reducer
+ * Task Selectors
  */
-export default combineReducers({
-  all: allTasksReducer,
-  ids: taskIdsReducer
-});
+export { selectAllTasks, makeSelectTask, makeSelectTaskLabelIds };
 
 /**
  * Task Actions
@@ -31,3 +33,11 @@ export {
   taskEditing,
   taskEditingCancelled
 };
+
+/**
+ * Tasks Reducer
+ */
+export default combineReducers({
+  all: allTasksReducer,
+  ids: taskIdsReducer
+});

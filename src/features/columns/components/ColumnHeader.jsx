@@ -1,17 +1,21 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+
 import {
-  selectColumnTitle,
-  selectColumnIsLocked
-} from "../../../app/redux/selectors";
-import { columnTitleEditing, columnUnlocked } from "../slices";
+  columnTitleEditing,
+  columnUnlocked,
+  makeSelectColumn
+} from "../slices";
 import { Flex, Heading, IconButton, ButtonGroup } from "@chakra-ui/core";
 import { ColumnOptionsPopover } from "./";
 
 const ColumnHeader = ({ columnId }) => {
-  const columnTitle = useSelector(state => selectColumnTitle(state, columnId));
-  const isLocked = useSelector(state => selectColumnIsLocked(state, columnId));
+  const columnSelector = useMemo(makeSelectColumn, []);
+
+  const { title, isLocked } = useSelector(state =>
+    columnSelector(state, columnId)
+  );
 
   const dispatch = useDispatch();
 
@@ -41,7 +45,7 @@ const ColumnHeader = ({ columnId }) => {
         ml={1}
         onClick={handleEditColumnTitle}
       >
-        {columnTitle}
+        {title}
       </Heading>
       <ButtonGroup d="flex" spacing={0}>
         {isLocked && (

@@ -1,13 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { selectCurrentBoardId } from "../../../app/redux/selectors";
-import { clearBoard } from "../slices";
+import { clearBoard, selectCurrentBoardId } from "../slices";
 import { IconButton } from "@chakra-ui/core";
 
 const ClearBoardButton = () => {
-  const dispatch = useDispatch();
-
   const boardId = useSelector(selectCurrentBoardId);
+
+  const dispatch = useDispatch();
 
   const handleClearBoard = () => {
     dispatch(clearBoard(boardId));

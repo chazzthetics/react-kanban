@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { selectColumnTasks } from "../../../app/redux/selectors";
+import { makeSelectColumnTasks } from "../../shared/selectors";
 import { TaskItem } from "./";
 
 const TaskList = ({ columnId }) => {
-  const tasks = useSelector(state => selectColumnTasks(state, columnId));
+  const columnTasksSelector = useMemo(makeSelectColumnTasks, []);
+  const tasks = useSelector(state => columnTasksSelector(state, columnId));
 
   return tasks.map((task, index) => (
     <Draggable key={task.id} index={index} draggableId={task.id}>

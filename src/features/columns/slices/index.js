@@ -1,4 +1,11 @@
 import { combineReducers } from "@reduxjs/toolkit";
+import { columnIdsReducer } from "./ids";
+import {
+  selectAllColumns,
+  selectColumnTaskIds,
+  makeSelectColumn,
+  makeSelectColumnTaskIdsLength
+} from "./selectors";
 import {
   allColumnsReducer,
   createColumn,
@@ -13,18 +20,19 @@ import {
   taskReordered,
   taskReorderedBetweenColumns
 } from "./all";
-import { columnIdsReducer } from "./ids";
 
 /**
- * Columns Reducer
+ * Column Selectors
  */
-export default combineReducers({
-  all: allColumnsReducer,
-  ids: columnIdsReducer
-});
+export {
+  selectAllColumns,
+  selectColumnTaskIds,
+  makeSelectColumn,
+  makeSelectColumnTaskIdsLength
+};
 
 /**
- * Column Actions
+ * Column Actions/Thunks
  */
 export {
   createColumn,
@@ -39,3 +47,11 @@ export {
   taskReordered,
   taskReorderedBetweenColumns
 };
+
+/**
+ * Columns Reducer
+ */
+export default combineReducers({
+  all: allColumnsReducer,
+  ids: columnIdsReducer
+});

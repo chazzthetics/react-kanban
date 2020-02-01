@@ -3,13 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useToggle } from "../../../hooks";
 import { labelAdded, taskEditingCancelled } from "../../tasks/slices";
-import { CreateLabelForm } from ".";
-import {
-  makeSelectTaskLabels,
-  selectAllLabels,
-  selectLabelIds,
-  selectTaskLabelIds
-} from "../../../app/redux/selectors";
+import { CreateLabelForm } from "./";
 import {
   Popover,
   PopoverTrigger,
@@ -21,15 +15,18 @@ import {
   PopoverBody,
   PopoverFooter
 } from "@chakra-ui/core";
+import { makeSelectTaskLabelIds } from "../../tasks/slices";
+import { selectAllLabels, selectLabelIds } from "../slices";
 
 const AddLabelPopover = ({ taskId }) => {
   const { isOpen, close, open } = useToggle();
 
+  const taskLabelIdsSelector = useMemo(makeSelectTaskLabelIds, []);
+  const taskLabels = useSelector(state => taskLabelIdsSelector(state, taskId));
+
+  // FIXME: REFACTOR
   const allLabels = useSelector(selectAllLabels);
   const labelIds = useSelector(selectLabelIds);
-
-  const taskLabelsSelector = useMemo(makeSelectTaskLabels, []);
-  const taskLabels = useSelector(state => taskLabelsSelector(state, taskId));
 
   const dispatch = useDispatch();
 
@@ -116,3 +113,4 @@ export default AddLabelPopover;
 
 // TODO: refactor
 //FIXME: form cant be child of form , maybe use modal instead of popover
+// TODO: undo label select when clicked

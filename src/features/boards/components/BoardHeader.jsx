@@ -1,6 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
-import { selectCurrentBoardIsEditing } from "../../../app/redux/selectors";
+import { selectCurrentBoardIsEditing } from "../slices";
 import { Flex, Box, ButtonGroup } from "@chakra-ui/core";
 import {
   EditBoardTitleForm,

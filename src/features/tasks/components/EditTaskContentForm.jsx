@@ -1,20 +1,24 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { taskEditingCancelled, taskContentUpdated } from "../slices";
-import { EditForm } from "../../../components";
 import {
-  selectTaskContent,
-  selectTaskIsEditing
-} from "../../../app/redux/selectors";
+  taskEditingCancelled,
+  taskContentUpdated,
+  makeSelectTask
+} from "../slices";
 import { Flex, Button, ButtonGroup, CloseButton } from "@chakra-ui/core";
 import { AddLabelPopover } from "../../labels/components";
+import { EditForm } from "../../../components";
 
 const EditTaskContentForm = ({ taskId }) => {
-  const taskContent = useSelector(state => selectTaskContent(state, taskId));
-  const isEditing = useSelector(state => selectTaskIsEditing(state, taskId));
+  const taskSelector = useMemo(makeSelectTask, []);
+
+  const { content, isEditing } = useSelector(state =>
+    taskSelector(state, taskId)
+  );
 
   const dispatch = useDispatch();
+
   const handleCancelEdit = () => {
     dispatch(taskEditingCancelled({ taskId }));
   };
@@ -27,7 +31,7 @@ const EditTaskContentForm = ({ taskId }) => {
     <EditForm
       inputName="taskContent"
       textarea={true}
-      initialValues={{ taskContent }}
+      initialValues={{ taskContent: content }}
       isEditing={isEditing}
       onCancel={handleCancelEdit}
       update={update}

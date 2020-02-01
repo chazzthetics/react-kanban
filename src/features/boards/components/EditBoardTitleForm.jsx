@@ -1,11 +1,12 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
+  boardTitleEditingCancelled,
+  boardTitleUpdated,
   selectCurrentBoardId,
   selectCurrentBoardTitle,
   selectCurrentBoardIsEditing
-} from "../../../app/redux/selectors";
-import { boardTitleEditingCancelled, boardTitleUpdated } from "../slices";
+} from "../slices";
 import { EditForm } from "../../../components";
 
 const EditBoardTitleForm = () => {
@@ -14,8 +15,9 @@ const EditBoardTitleForm = () => {
   const isEditing = useSelector(selectCurrentBoardIsEditing);
 
   const dispatch = useDispatch();
+
   const onCancel = () => {
-    dispatch(boardTitleEditingCancelled({ boardId: boardId }));
+    dispatch(boardTitleEditingCancelled({ boardId }));
   };
 
   function update(boardTitle) {

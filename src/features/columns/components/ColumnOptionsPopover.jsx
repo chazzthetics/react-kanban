@@ -9,7 +9,6 @@ import {
   Popover,
   ButtonGroup,
   IconButton,
-  Button,
   PopoverTrigger,
   PopoverContent,
   PopoverHeader,
@@ -33,8 +32,8 @@ const ColumnOptionsPopover = ({ columnId }) => {
     dispatch(columnOptionsClosed({ columnId }));
   };
 
-  const cancelRef = useCancel(isOpen, handleClose);
   const initialFocusRef = useRef(null);
+  const cancelRef = useCancel(isOpen, handleClose);
 
   return (
     <Box ref={cancelRef} cursor="default">

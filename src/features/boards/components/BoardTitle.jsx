@@ -1,11 +1,11 @@
 import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Heading, PseudoBox } from "@chakra-ui/core";
-import { boardTitleEditing } from "../slices";
 import {
+  boardTitleEditing,
   selectCurrentBoardId,
   selectCurrentBoardTitle
-} from "../../../app/redux/selectors";
+} from "../slices";
 
 const BoardTitle = () => {
   const boardId = useSelector(selectCurrentBoardId);

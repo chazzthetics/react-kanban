@@ -1,12 +1,18 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { selectColumnTaskIds } from "../../../app/redux/selectors";
 import { PseudoBox, Icon } from "@chakra-ui/core";
+import { makeSelectColumnTaskIdsLength } from "../../columns/slices";
 
 const CreateTaskButton = ({ onOpen, columnId }) => {
-  const hasTask = useSelector(state => selectColumnTaskIds(state, columnId))
-    .length;
+  const columnTaskIdsLengthSelector = useMemo(
+    makeSelectColumnTaskIdsLength,
+    []
+  );
+
+  const hasTask = useSelector(state =>
+    columnTaskIdsLengthSelector(state, columnId)
+  );
 
   return (
     <PseudoBox
@@ -40,4 +46,4 @@ CreateTaskButton.propTypes = {
 
 export default CreateTaskButton;
 
-// FIXME: refactor
+// FIXME: refactor button

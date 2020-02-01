@@ -1,13 +1,12 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { selectCurrentBoardColumns } from "../../../app/redux/selectors";
-import ColumnItem from "./ColumnItem";
-import CreateNewColumnForm from "./CreateNewColumnForm";
+import { selectCurrentBoardColumnsList } from "../../shared/selectors";
+import { ColumnItem, CreateNewColumnForm } from "./";
 import { Flex } from "@chakra-ui/core";
 
 const ColumnList = () => {
-  const boardColumns = useSelector(selectCurrentBoardColumns);
+  const boardColumns = useSelector(selectCurrentBoardColumnsList);
 
   return (
     <Droppable droppableId="all-columns" direction="horizontal" type="column">

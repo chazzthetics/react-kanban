@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { createColumn } from "../slices";
 import { makeColumn } from "../utils/makeColumn";
-import { selectCurrentBoardId } from "../../../app/redux/selectors";
+import { selectCurrentBoardId } from "../../boards/slices";
 import { useToggle } from "../../../hooks";
 import { CreateForm, AddButtonGroup } from "../../../components";
 import { CreateColumnButton } from "./";

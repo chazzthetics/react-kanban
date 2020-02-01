@@ -1,12 +1,13 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { selectColumnIsLocked } from "../../../app/redux/selectors";
-import { columnLocked, columnUnlocked } from "../slices";
+import { columnLocked, columnUnlocked, makeSelectColumn } from "../slices";
 import { Button } from "@chakra-ui/core";
 
 const LockColumnButton = ({ columnId }) => {
-  const isLocked = useSelector(state => selectColumnIsLocked(state, columnId));
+  const columnSelector = useMemo(makeSelectColumn, []);
+
+  const { isLocked } = useSelector(state => columnSelector(state, columnId));
 
   const dispatch = useDispatch();
 

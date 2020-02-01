@@ -1,26 +1,17 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import {
-  selectColumnIsLocked,
-  selectColumnIsEditing,
-  selectColumnOptionsOpened
-} from "../../../app/redux/selectors";
-import { ColumnHeader, EditColumnTitleForm } from "./";
-import { TaskList, CreateNewTaskForm } from "../../tasks/components";
+import { makeSelectColumn } from "../slices";
 import { Box, Flex } from "@chakra-ui/core";
+import { TaskList, CreateNewTaskForm } from "../../tasks/components";
+import { ColumnHeader, EditColumnTitleForm } from "./";
 
 const ColumnItem = ({ index, columnId }) => {
-  const isEditing = useSelector(state =>
-    selectColumnIsEditing(state, columnId)
+  const columnSelector = useMemo(makeSelectColumn, []);
+  const { isEditing, isOpened, isLocked } = useSelector(state =>
+    columnSelector(state, columnId)
   );
-
-  const isOpened = useSelector(state =>
-    selectColumnOptionsOpened(state, columnId)
-  );
-
-  const isLocked = useSelector(state => selectColumnIsLocked(state, columnId));
 
   return (
     <Draggable

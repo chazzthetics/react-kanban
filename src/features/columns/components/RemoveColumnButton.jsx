@@ -2,7 +2,7 @@ import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { removeColumn } from "../slices";
-import { selectCurrentBoardId } from "../../../app/redux/selectors";
+import { selectCurrentBoardId } from "../../boards/slices";
 import { Button } from "@chakra-ui/core";
 
 const RemoveColumnButton = forwardRef(({ columnId }, ref) => {
