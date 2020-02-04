@@ -15,7 +15,24 @@ const requestSuccess = "request/requestSuccess";
  */
 const allColumnsSlice = createSlice({
   name: "columns",
-  initialState: {},
+  initialState: {
+    "1": {
+      id: "1",
+      title: "Column One",
+      isEditing: false,
+      isLocked: false,
+      isOpen: false,
+      taskIds: ["1"]
+    },
+    "2": {
+      id: "2",
+      title: "Column One",
+      isEditing: false,
+      isLocked: false,
+      isOpen: false,
+      taskIds: []
+    }
+  },
   reducers: {
     columnCreated(state, action) {
       const { column } = action.payload;
@@ -70,7 +87,7 @@ const allColumnsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (state, action) => {
+    [requestSuccess]: (_state, action) => {
       const { columns } = action.payload;
       return columns;
     },
@@ -123,13 +140,20 @@ export const allColumnsReducer = allColumnsSlice.reducer;
 
 // TODO: cleanup
 export const createColumn = ({ column, boardId }) => async dispatch => {
-  const newColumn = { title: column.title, board_id: boardId };
-  const client = { id: uuid(), title: column.title, taskIds: [] };
+  // const newColumn = { title: column.title, board_id: boardId };
+  const client = {
+    id: uuid(),
+    title: column.title,
+    isEditing: false,
+    isLocked: false,
+    isOpen: false,
+    taskIds: []
+  };
   try {
     dispatch(columnCreated({ column: client, boardId }));
-    await axios.post("/api/columns", newColumn);
+    // await axios.post("/api/columns", newColumn);
 
-    dispatch(silentFetchData(boardId));
+    // dispatch(silentFetchData(boardId));
   } catch (ex) {
     console.error(ex);
   }
@@ -138,7 +162,7 @@ export const createColumn = ({ column, boardId }) => async dispatch => {
 export const removeColumn = ({ columnId, boardId }) => async dispatch => {
   try {
     dispatch(columnRemoved({ columnId, boardId }));
-    await axios.delete(`/api/columns/${columnId}`);
+    // await axios.delete(`/api/columns/${columnId}`);
   } catch (ex) {
     console.error(ex);
   }

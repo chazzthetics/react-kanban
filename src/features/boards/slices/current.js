@@ -8,33 +8,33 @@ const requestBoardsSuccess = "request/requestBoardsSuccess";
  */
 const currentBoardSlice = createSlice({
   name: "boards",
-  initialState: "",
+  initialState: "1",
   reducers: {
-    boardCreated(state, action) {
+    boardCreated(_state, action) {
       const { board } = action.payload;
       return board.id;
     },
-    boardRemoved(state, action) {
+    boardRemoved(_state, action) {
       const { boardId, boardIds } = action.payload;
       const updatedBoardIds = boardIds.filter(id => id !== boardId);
       const previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
 
       return previousBoard ? previousBoard : "";
     },
-    boardChanged(state, action) {
+    boardChanged(_state, action) {
       const { boardId } = action.payload;
       return boardId;
     }
   },
   extraReducers: {
-    [requestSuccess]: (state, action) => {
+    [requestSuccess]: (_state, action) => {
       const { boards, boardId } = action.payload;
       if (boardId) {
         return boardId;
       }
       return Object.keys(boards)[0];
     },
-    [requestBoardsSuccess]: (state, action) => {
+    [requestBoardsSuccess]: (_state, action) => {
       const { boards, boardId } = action.payload;
       if (boardId) {
         return boardId;
@@ -46,3 +46,5 @@ const currentBoardSlice = createSlice({
 
 export const { boardChanged } = currentBoardSlice.actions;
 export const currentBoardReducer = currentBoardSlice.reducer;
+
+//TODO: refactor

@@ -10,7 +10,7 @@ const requestSuccess = "request/requestSuccess";
  */
 const columnIdsSlice = createSlice({
   name: "columns",
-  initialState: [],
+  initialState: ["1", "2"],
   reducers: {
     columnCreated(state, action) {
       const { column } = action.payload;
@@ -25,7 +25,7 @@ const columnIdsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (state, action) => {
+    [requestSuccess]: (_state, action) => {
       const { columns } = action.payload;
       return Object.keys(columns);
     },

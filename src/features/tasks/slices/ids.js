@@ -11,7 +11,7 @@ const requestSuccess = "request/requestSuccess";
  */
 const taskIdsSlice = createSlice({
   name: "tasks",
-  initialState: [],
+  initialState: ["1"],
   reducers: {
     taskCreated(state, action) {
       const { task } = action.payload;
@@ -26,7 +26,7 @@ const taskIdsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (state, action) => {
+    [requestSuccess]: (_state, action) => {
       const { tasks } = action.payload;
       return Object.keys(tasks);
     },

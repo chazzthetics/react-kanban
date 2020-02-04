@@ -8,7 +8,7 @@ const requestBoardsSuccess = "request/requestBoardsSuccess";
  */
 const boardIdsSlice = createSlice({
   name: "boards",
-  initialState: [],
+  initialState: ["1"],
   reducers: {
     boardCreated(state, action) {
       const { board } = action.payload;
@@ -24,11 +24,11 @@ const boardIdsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (state, action) => {
+    [requestSuccess]: (_state, action) => {
       const { boards } = action.payload;
       return Object.keys(boards);
     },
-    [requestBoardsSuccess]: (state, action) => {
+    [requestBoardsSuccess]: (_state, action) => {
       const { boards } = action.payload;
       return Object.keys(boards);
     }
@@ -36,3 +36,5 @@ const boardIdsSlice = createSlice({
 });
 
 export const boardIdsReducer = boardIdsSlice.reducer;
+
+//TODO: refactor

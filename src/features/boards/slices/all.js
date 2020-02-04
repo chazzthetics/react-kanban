@@ -13,7 +13,14 @@ const requestBoardsSuccess = "request/requestBoardsSuccess";
  */
 const allBoardsSlice = createSlice({
   name: "boards",
-  initialState: {},
+  initialState: {
+    "1": {
+      id: "1",
+      title: "ProjectOne",
+      isEditing: false,
+      columnIds: ["1", "2"]
+    }
+  },
   reducers: {
     boardCreated(state, action) {
       const { board } = action.payload;
@@ -46,11 +53,11 @@ const allBoardsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (state, action) => {
+    [requestSuccess]: (_state, action) => {
       const { boards } = action.payload;
       return boards;
     },
-    [requestBoardsSuccess]: (state, action) => {
+    [requestBoardsSuccess]: (_state, action) => {
       const { boards } = action.payload;
       return boards;
     },
@@ -87,9 +94,9 @@ export const createBoard = board => async dispatch => {
   try {
     const client = { id: uuid(), title: board.title, columnIds: [] };
     dispatch(boardCreated({ board: client }));
-    const { data } = await axios.post("/api/boards", board);
+    // const { data } = await axios.post("/api/boards", board);
 
-    dispatch(fetchBoards(data.id));
+    // dispatch(fetchBoards(data.id));
   } catch (ex) {
     console.error(ex);
   }
@@ -98,7 +105,7 @@ export const createBoard = board => async dispatch => {
 export const removeBoard = boardId => async dispatch => {
   try {
     dispatch(boardRemoved({ boardId }));
-    await axios.delete(`/api/boards/${boardId}`);
+    // await axios.delete(`/api/boards/${boardId}`);
   } catch (ex) {
     console.error(ex);
   }
@@ -107,7 +114,7 @@ export const removeBoard = boardId => async dispatch => {
 export const clearBoard = boardId => async dispatch => {
   try {
     dispatch(boardCleared({ boardId }));
-    await axios.delete(`/api/columns/${boardId}/clear`);
+    // await axios.delete(`/api/columns/${boardId}/clear`);
   } catch (ex) {
     console.error(ex);
   }
@@ -116,7 +123,7 @@ export const clearBoard = boardId => async dispatch => {
 export const reorderColumn = ({ boardId, columnOrder }) => async dispatch => {
   try {
     dispatch(columnReordered({ boardId, columnOrder }));
-    // await axios.patch(`/api/boards/${boardId}/columns`, {
+    // await axios.patch(`/api/boards/${boardId}/reorder`, {
     //   id: boardId,
     //   columnIds: columnOrder
     // });

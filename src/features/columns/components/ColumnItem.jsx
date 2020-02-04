@@ -9,15 +9,15 @@ import { ColumnHeader, EditColumnTitleForm } from "./";
 
 const ColumnItem = ({ index, columnId }) => {
   const columnSelector = useMemo(makeSelectColumn, []);
-  const { isEditing, isOpened, isLocked } = useSelector(state =>
+  const { isEditing, isOpen, isLocked } = useSelector(state =>
     columnSelector(state, columnId)
   );
-
+  console.log(isOpen);
   return (
     <Draggable
       draggableId={`column-${columnId}`}
       index={index}
-      isDragDisabled={isOpened || isLocked}
+      isDragDisabled={isOpen || isLocked}
     >
       {provided => (
         <Box

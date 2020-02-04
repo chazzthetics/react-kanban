@@ -7,11 +7,11 @@ import { useDispatch } from "react-redux";
 import { fetchData } from "../api/requestSlice";
 
 const App = () => {
-  const dispatch = useDispatch();
+  // const dispatch = useDispatch();
 
-  useEffect(() => {
-    dispatch(fetchData());
-  }, [dispatch]);
+  // useEffect(() => {
+  //   dispatch(fetchData());
+  // }, [dispatch]);
 
   return (
     <Box className="App" h="100vh">

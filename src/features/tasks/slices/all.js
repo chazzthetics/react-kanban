@@ -14,7 +14,15 @@ const requestSuccess = "request/requestSuccess";
  */
 const allTasksSlice = createSlice({
   name: "tasks",
-  initialState: {},
+  initialState: {
+    "1": {
+      id: "1",
+      content: "Finish project",
+      completed: false,
+      isEditing: false,
+      labelIds: []
+    }
+  },
   reducers: {
     taskCreated(state, action) {
       const { task } = action.payload;
@@ -56,7 +64,7 @@ const allTasksSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (state, action) => {
+    [requestSuccess]: (_state, action) => {
       const { tasks } = action.payload;
       return tasks;
     },
@@ -120,8 +128,8 @@ export const createTask = ({ task, columnId, boardId }) => async dispatch => {
 
   try {
     dispatch(taskCreated({ task: client, columnId }));
-    await axios.post("/api/tasks", newTask);
-    dispatch(silentFetchData(boardId));
+    // await axios.post("/api/tasks", newTask);
+    // dispatch(silentFetchData(boardId));
   } catch (ex) {
     console.error(ex);
   }
@@ -130,7 +138,7 @@ export const createTask = ({ task, columnId, boardId }) => async dispatch => {
 export const removeTask = ({ taskId, columnId }) => async dispatch => {
   try {
     dispatch(taskRemoved({ taskId, columnId }));
-    await axios.delete(`/api/tasks/${taskId}`);
+    // await axios.delete(`/api/tasks/${taskId}`);
   } catch (ex) {
     console.error(ex);
   }
