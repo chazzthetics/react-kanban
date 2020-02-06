@@ -1,6 +1,7 @@
 const BOARD_REMOVED = "boards/boardRemoved";
-const COLUMN_REMOVED = "columns/columnRemoved";
 const BOARD_CLEARED = "boards/boardCleared";
+const COLUMN_REMOVED = "columns/columnRemoved";
+const COLUMN_CLEARED = "columns/columnCleared";
 
 export const cascadeOnDelete = store => next => action => {
   const state = store.getState();
@@ -26,6 +27,7 @@ export const cascadeOnDelete = store => next => action => {
         }
       });
     case COLUMN_REMOVED:
+    case COLUMN_CLEARED:
       const { columnId } = action.payload;
       const columnIds = state.columns.ids;
       const columnTaskIds = state.columns.all[columnId].taskIds;

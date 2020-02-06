@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import {
   taskEditingCancelled,
-  taskContentUpdated,
+  updateTaskContent,
   makeSelectTask
 } from "../slices";
 import { Flex, Button, ButtonGroup, CloseButton } from "@chakra-ui/core";
@@ -24,7 +24,7 @@ const EditTaskContentForm = ({ taskId }) => {
   };
 
   function update(content) {
-    dispatch(taskContentUpdated({ taskId, taskContent: content }));
+    dispatch(updateTaskContent({ taskId, content }));
   }
 
   return (

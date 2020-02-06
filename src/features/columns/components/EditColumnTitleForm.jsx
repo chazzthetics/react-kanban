@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import {
   makeSelectColumn,
-  columnTitleUpdated,
+  updateColumnTitle,
   columnTitleEditingCancelled
 } from "../slices";
 import { EditForm } from "../../../components";
@@ -21,7 +21,7 @@ const EditColumnTitleForm = ({ columnId }) => {
   };
 
   function update(columnTitle) {
-    dispatch(columnTitleUpdated({ columnId, newTitle: columnTitle }));
+    dispatch(updateColumnTitle({ columnId, title: columnTitle }));
   }
 
   return (

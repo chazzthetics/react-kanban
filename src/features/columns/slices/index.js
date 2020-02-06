@@ -10,13 +10,13 @@ import {
   allColumnsReducer,
   createColumn,
   removeColumn,
+  clearColumn,
+  updateColumnTitle,
+  toggleLockColumn,
   columnTitleEditing,
   columnTitleEditingCancelled,
-  columnTitleUpdated,
   columnOptionsOpened,
   columnOptionsClosed,
-  columnLocked,
-  columnUnlocked,
   taskReordered,
   taskReorderedBetweenColumns
 } from "./all";
@@ -37,13 +37,13 @@ export {
 export {
   createColumn,
   removeColumn,
+  clearColumn,
+  updateColumnTitle,
+  toggleLockColumn,
   columnTitleEditing,
   columnTitleEditingCancelled,
-  columnTitleUpdated,
   columnOptionsOpened,
   columnOptionsClosed,
-  columnLocked,
-  columnUnlocked,
   taskReordered,
   taskReorderedBetweenColumns
 };

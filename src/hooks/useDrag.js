@@ -19,11 +19,16 @@ const useDrag = (currentBoardId, columns, columnIds) => {
       // Reorder column
       if (type === "column") {
         const columnOrder = reorder(source.index, destination.index, columnIds);
-        console.log(columnOrder);
+        const orderToPersist = columnOrder.map((id, position) => ({
+          id: parseInt(id),
+          position
+        }));
+
         dispatch(
           reorderColumn({
             boardId: currentBoardId,
-            columnOrder
+            columnOrder,
+            orderToPersist
           })
         );
         return;

@@ -9,7 +9,7 @@ const RemoveBoardButton = () => {
   const dispatch = useDispatch();
 
   const handleRemoveBoard = () => {
-    dispatch(removeBoard(boardId));
+    dispatch(removeBoard({ boardId }));
   };
 
   return (

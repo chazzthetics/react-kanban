@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { selectCurrentBoardId } from "../../boards/slices";
+import { useDispatch } from "react-redux";
 import { createTask } from "../slices";
 import { useToggle } from "../../../hooks";
 import { makeTask } from "../utils/makeTasks";
@@ -11,13 +10,11 @@ import { CreateTaskButton } from "./";
 const CreateNewTaskForm = ({ columnId }) => {
   const { isOpen, close, open } = useToggle();
 
-  const currentBoard = useSelector(selectCurrentBoardId);
-
   const dispatch = useDispatch();
 
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
-    dispatch(createTask({ task, columnId, boardId: currentBoard }));
+    dispatch(createTask({ task, columnId }));
   }
 
   return !isOpen ? (

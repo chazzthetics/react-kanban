@@ -5,8 +5,9 @@ import {
   removeTask,
   taskEditing,
   taskEditingCancelled,
-  taskContentUpdated,
-  labelAdded,
+  updateTaskContent,
+  toggleCompleteTask,
+  taskLabelAdded,
   taskLabelRemoved
 } from "./all";
 import { taskIdsReducer } from "./ids";
@@ -27,9 +28,10 @@ export { selectAllTasks, makeSelectTask, makeSelectTaskLabelIds };
 export {
   createTask,
   removeTask,
-  labelAdded,
+  taskLabelAdded,
   taskLabelRemoved,
-  taskContentUpdated,
+  updateTaskContent,
+  toggleCompleteTask,
   taskEditing,
   taskEditingCancelled
 };

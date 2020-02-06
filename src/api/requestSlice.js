@@ -25,6 +25,26 @@ const requestSlice = createSlice({
     requestBoardsSuccess(state) {
       state.loading = false;
       state.error = null;
+    },
+    requestBoardsFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    requestColumnsSuccess(state) {
+      state.loading = false;
+      state.error = null;
+    },
+    requestColumnsFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
+    },
+    requestTasksSuccess(state) {
+      state.loading = false;
+      state.error = null;
+    },
+    requestTasksFailed(state, action) {
+      state.loading = false;
+      state.error = action.payload;
     }
   }
 });
@@ -33,15 +53,19 @@ export const {
   requestSuccess,
   requestFailed,
   requestBoardsSuccess,
-  requestColumnsSuccess
+  requestBoardsFailed,
+  requestColumnsSuccess,
+  requestColumnsFailed,
+  requestTasksSuccess,
+  requestTasksFailed
 } = requestSlice.actions;
 const requestReducer = requestSlice.reducer;
 
 export default requestReducer;
 
 const getBoards = () => axios.get("/api/boards");
-// const getColumns = () => axios.get("/api/columns");
-// const getTasks = () => axios.get("/api/tasks");
+const getColumns = () => axios.get("/api/columns");
+const getTasks = () => axios.get("/api/tasks");
 
 export const fetchData = () => async dispatch => {
   let res;
@@ -51,27 +75,9 @@ export const fetchData = () => async dispatch => {
   } catch (ex) {
     dispatch(requestFailed(ex.toString()));
   }
+
   dispatch(
     requestSuccess({
-      boards: arrayToObject(res.data.boards),
-      columns: arrayToObject(res.data.columns),
-      tasks: arrayToObject(res.data.tasks)
-    })
-  );
-};
-
-// TODO: split into separate fetches
-
-export const silentFetchData = boardId => async dispatch => {
-  let res;
-  try {
-    res = await axios.get("/api/all");
-  } catch (ex) {
-    dispatch(requestFailed(ex.toString()));
-  }
-  dispatch(
-    requestSuccess({
-      boardId,
       boards: arrayToObject(res.data.boards),
       columns: arrayToObject(res.data.columns),
       tasks: arrayToObject(res.data.tasks)
@@ -90,7 +96,56 @@ export const fetchBoards = boardId => async dispatch => {
       })
     );
   } catch (ex) {
+    dispatch(requestBoardsFailed(ex.toString()));
     console.error(ex);
-    dispatch(requestFailed(ex.toString()));
   }
 };
+
+export const fetchColumns = ({ boardId, columnId }) => async dispatch => {
+  try {
+    const { data } = await getColumns();
+
+    dispatch(
+      requestColumnsSuccess({
+        boardId,
+        columns: arrayToObject(data),
+        columnId
+      })
+    );
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const fetchTasks = ({ columnId, taskId }) => async dispatch => {
+  try {
+    const { data } = await getTasks();
+
+    dispatch(
+      requestTasksSuccess({
+        columnId,
+        tasks: arrayToObject(data),
+        taskId
+      })
+    );
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+// export const silentFetchData = boardId => async dispatch => {
+//   let res;
+//   try {
+//     res = await axios.get("/api/all");
+//   } catch (ex) {
+//     dispatch(requestFailed(ex.toString()));
+//   }
+//   dispatch(
+//     requestSuccess({
+//       boardId,
+//       boards: arrayToObject(res.data.boards),
+//       columns: arrayToObject(res.data.columns),
+//       tasks: arrayToObject(res.data.tasks)
+//     })
+//   );
+// };

@@ -1,5 +1,10 @@
+import uuid from "uuid/v4";
+
 export function makeBoard({ title }) {
   return {
-    title
+    id: uuid(),
+    title,
+    isEditing: false,
+    columnIds: []
   };
 }

@@ -2,7 +2,7 @@ import React from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   boardTitleEditingCancelled,
-  boardTitleUpdated,
+  updateBoardTitle,
   selectCurrentBoardId,
   selectCurrentBoardTitle,
   selectCurrentBoardIsEditing
@@ -21,7 +21,7 @@ const EditBoardTitleForm = () => {
   };
 
   function update(boardTitle) {
-    dispatch(boardTitleUpdated({ boardId, newTitle: boardTitle }));
+    dispatch(updateBoardTitle({ boardId, title: boardTitle }));
   }
 
   return (

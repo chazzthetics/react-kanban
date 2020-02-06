@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { columnLocked, columnUnlocked, makeSelectColumn } from "../slices";
+import { toggleLockColumn, makeSelectColumn } from "../slices";
 import { Button } from "@chakra-ui/core";
 
 const LockColumnButton = ({ columnId }) => {
@@ -12,11 +12,7 @@ const LockColumnButton = ({ columnId }) => {
   const dispatch = useDispatch();
 
   const handleLockToggle = () => {
-    if (isLocked) {
-      dispatch(columnUnlocked({ columnId }));
-    } else {
-      dispatch(columnLocked({ columnId }));
-    }
+    dispatch(toggleLockColumn({ columnId, isLocked: !isLocked }));
   };
 
   return (
@@ -24,7 +20,6 @@ const LockColumnButton = ({ columnId }) => {
       size="sm"
       fontWeight="normal"
       variant="ghost"
-      pr="calc(100% - 67px)"
       onClick={handleLockToggle}
     >
       {!isLocked ? "Lock List" : "Unlock List"}

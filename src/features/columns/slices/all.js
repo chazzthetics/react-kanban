@@ -1,38 +1,23 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { arrayToObject } from "../../../utils/arrayToObject";
 import axios from "axios";
-import uuid from "uuid/v4";
-import { silentFetchData } from "../../../api/requestSlice";
+import { arrayToObject } from "../../../utils/arrayToObject";
+import { fetchColumns } from "../../../api/requestSlice";
 
 const boardRemoved = "boards/boardRemoved";
 const boardCleared = "boards/boardCleared";
 const taskCreated = "tasks/taskCreated";
 const taskRemoved = "tasks/taskRemoved";
 const requestSuccess = "request/requestSuccess";
+const requestColumnsSuccess = "request/requestColumnsSuccess";
+const requestColumnsFailed = "request/requestColumnsFailed";
+const requestTasksSuccess = "request/requestTasksSuccess";
 
 /**
  * All Columns Slice
  */
 const allColumnsSlice = createSlice({
   name: "columns",
-  initialState: {
-    "1": {
-      id: "1",
-      title: "Column One",
-      isEditing: false,
-      isLocked: false,
-      isOpen: false,
-      taskIds: ["1"]
-    },
-    "2": {
-      id: "2",
-      title: "Column One",
-      isEditing: false,
-      isLocked: false,
-      isOpen: false,
-      taskIds: []
-    }
-  },
+  initialState: {},
   reducers: {
     columnCreated(state, action) {
       const { column } = action.payload;
@@ -41,6 +26,10 @@ const allColumnsSlice = createSlice({
     columnRemoved(state, action) {
       const { columnId } = action.payload;
       delete state[columnId];
+    },
+    columnCleared(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].taskIds = [];
     },
     columnTitleEditing(state, action) {
       const { columnId } = action.payload;
@@ -51,8 +40,8 @@ const allColumnsSlice = createSlice({
       state[columnId].isEditing = false;
     },
     columnTitleUpdated(state, action) {
-      const { columnId, newTitle } = action.payload;
-      state[columnId].title = newTitle;
+      const { columnId, title } = action.payload;
+      state[columnId].title = title;
       state[columnId].isEditing = false;
     },
     columnOptionsOpened(state, action) {
@@ -63,13 +52,9 @@ const allColumnsSlice = createSlice({
       const { columnId } = action.payload;
       state[columnId].isOpen = false;
     },
-    columnLocked(state, action) {
-      const { columnId } = action.payload;
-      state[columnId].isLocked = true;
-    },
-    columnUnlocked(state, action) {
-      const { columnId } = action.payload;
-      state[columnId].isLocked = false;
+    lockColumnToggled(state, action) {
+      const { columnId, isLocked } = action.payload;
+      state[columnId].isLocked = isLocked;
     },
     taskReordered(state, action) {
       const { columnId, taskOrder } = action.payload;
@@ -87,12 +72,16 @@ const allColumnsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (_state, action) => {
-      const { columns } = action.payload;
-      return columns;
+    [requestSuccess]: columnsLoaded,
+    [requestColumnsSuccess]: columnsLoaded,
+    [requestColumnsFailed]: (state, action) => {},
+    [requestTasksSuccess]: (state, action) => {
+      const { columnId, taskId } = action.payload;
+      const taskIds = state[columnId].taskIds;
+      taskIds.splice(-1, 1, taskId);
     },
-    [boardRemoved]: removeColumnsFromBoard,
-    [boardCleared]: removeColumnsFromBoard,
+    [boardRemoved]: cascadeFromBoard,
+    [boardCleared]: cascadeFromBoard,
     [taskCreated]: (state, action) => {
       const { task, columnId } = action.payload;
       state[columnId].taskIds.push(task.id);
@@ -108,7 +97,12 @@ const allColumnsSlice = createSlice({
   }
 });
 
-function removeColumnsFromBoard(state, action) {
+function columnsLoaded(_state, action) {
+  const { columns } = action.payload;
+  return columns;
+}
+
+function cascadeFromBoard(state, action) {
   const { removed } = action.payload;
   const boardColumnIds = Object.keys(arrayToObject(removed));
   const columnIds = Object.keys(state);
@@ -126,13 +120,13 @@ function removeColumnsFromBoard(state, action) {
 export const {
   columnCreated,
   columnRemoved,
+  columnCleared,
   columnTitleEditing,
   columnTitleEditingCancelled,
   columnTitleUpdated,
   columnOptionsOpened,
   columnOptionsClosed,
-  columnLocked,
-  columnUnlocked,
+  lockColumnToggled,
   taskReordered,
   taskReorderedBetweenColumns
 } = allColumnsSlice.actions;
@@ -140,20 +134,14 @@ export const allColumnsReducer = allColumnsSlice.reducer;
 
 // TODO: cleanup
 export const createColumn = ({ column, boardId }) => async dispatch => {
-  // const newColumn = { title: column.title, board_id: boardId };
-  const client = {
-    id: uuid(),
-    title: column.title,
-    isEditing: false,
-    isLocked: false,
-    isOpen: false,
-    taskIds: []
-  };
   try {
-    dispatch(columnCreated({ column: client, boardId }));
-    // await axios.post("/api/columns", newColumn);
+    dispatch(columnCreated({ column, boardId }));
+    const { data } = await axios.post("/api/columns", {
+      title: column.title,
+      board_id: parseInt(boardId)
+    });
 
-    // dispatch(silentFetchData(boardId));
+    dispatch(fetchColumns({ boardId, columnId: data.id }));
   } catch (ex) {
     console.error(ex);
   }
@@ -162,7 +150,34 @@ export const createColumn = ({ column, boardId }) => async dispatch => {
 export const removeColumn = ({ columnId, boardId }) => async dispatch => {
   try {
     dispatch(columnRemoved({ columnId, boardId }));
-    // await axios.delete(`/api/columns/${columnId}`);
+    await axios.delete(`/api/columns/${columnId}`);
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const clearColumn = ({ columnId }) => async dispatch => {
+  try {
+    dispatch(columnCleared({ columnId }));
+    await axios.delete(`/api/columns/${columnId}/clear`);
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const toggleLockColumn = ({ columnId, isLocked }) => async dispatch => {
+  try {
+    dispatch(lockColumnToggled({ columnId, isLocked }));
+    await axios.patch(`/api/columns/${columnId}`, { isLocked });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const updateColumnTitle = ({ columnId, title }) => async dispatch => {
+  try {
+    dispatch(columnTitleUpdated({ columnId, title }));
+    await axios.patch(`/api/columns/${columnId}`, { title });
   } catch (ex) {
     console.error(ex);
   }

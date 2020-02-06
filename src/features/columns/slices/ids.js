@@ -4,13 +4,14 @@ import { arrayToObject } from "../../../utils/arrayToObject";
 const boardRemoved = "boards/boardRemoved";
 const boardCleared = "boards/boardCleared";
 const requestSuccess = "request/requestSuccess";
+const requestColumnsSuccess = "request/requestColumnsSuccess";
 
 /**
  * Column Ids Slice
  */
 const columnIdsSlice = createSlice({
   name: "columns",
-  initialState: ["1", "2"],
+  initialState: [],
   reducers: {
     columnCreated(state, action) {
       const { column } = action.payload;
@@ -25,16 +26,19 @@ const columnIdsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (_state, action) => {
-      const { columns } = action.payload;
-      return Object.keys(columns);
-    },
-    [boardRemoved]: removeColumnIdsFromBoard,
-    [boardCleared]: removeColumnIdsFromBoard
+    [requestSuccess]: columnsLoaded,
+    [requestColumnsSuccess]: columnsLoaded,
+    [boardRemoved]: cascadeFromBoard,
+    [boardCleared]: cascadeFromBoard
   }
 });
 
-function removeColumnIdsFromBoard(state, action) {
+function columnsLoaded(_state, action) {
+  const { columns } = action.payload;
+  return Object.keys(columns);
+}
+
+function cascadeFromBoard(state, action) {
   const { removed } = action.payload;
   const boardColumnIds = Object.keys(arrayToObject(removed));
   return state.filter(columnId => !boardColumnIds.includes(columnId));

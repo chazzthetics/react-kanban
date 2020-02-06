@@ -12,7 +12,6 @@ const ColumnList = () => {
     <Droppable droppableId="all-columns" direction="horizontal" type="column">
       {provided => (
         <Flex
-          className="column-list"
           wrap="nowrap"
           justify="flex-start"
           align="flex-start"

@@ -1,12 +1,15 @@
-import React, { forwardRef } from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { removeColumn } from "../slices";
+import { removeColumn, makeSelectColumn } from "../slices";
 import { selectCurrentBoardId } from "../../boards/slices";
 import { Button } from "@chakra-ui/core";
 
-const RemoveColumnButton = forwardRef(({ columnId }, ref) => {
+const RemoveColumnButton = ({ columnId }) => {
   const boardId = useSelector(selectCurrentBoardId);
+
+  const columnSelector = useMemo(makeSelectColumn, []);
+  const { isLocked } = useSelector(state => columnSelector(state, columnId));
 
   const dispatch = useDispatch();
 
@@ -20,14 +23,12 @@ const RemoveColumnButton = forwardRef(({ columnId }, ref) => {
       size="sm"
       fontWeight="normal"
       variant="ghost"
-      pr="205px"
-      mb={1}
-      ref={ref}
+      disabled={isLocked}
     >
       Remove List
     </Button>
   );
-});
+};
 
 RemoveColumnButton.propTypes = {
   columnId: PropTypes.string.isRequired

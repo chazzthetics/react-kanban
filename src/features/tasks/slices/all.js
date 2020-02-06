@@ -1,28 +1,22 @@
 import axios from "axios";
-import uuid from "uuid/v4";
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import { silentFetchData } from "../../../api/requestSlice";
+import { fetchTasks } from "../../../api/requestSlice";
 
 const boardRemoved = "boards/boardRemoved";
 const boardCleared = "boards/boardCleared";
 const columnRemoved = "columns/columnRemoved";
+const columnCleared = "columns/columnCleared";
 const requestSuccess = "request/requestSuccess";
+const requestTasksSuccess = "request/requestTasksSuccess";
+const requestTasksFailed = "request/requestTasksFailed";
 
 /**
  * All Tasks Slice
  */
 const allTasksSlice = createSlice({
   name: "tasks",
-  initialState: {
-    "1": {
-      id: "1",
-      content: "Finish project",
-      completed: false,
-      isEditing: false,
-      labelIds: []
-    }
-  },
+  initialState: {},
   reducers: {
     taskCreated(state, action) {
       const { task } = action.payload;
@@ -41,13 +35,17 @@ const allTasksSlice = createSlice({
       state[taskId].isEditing = false;
     },
     taskContentUpdated(state, action) {
-      const { taskId, taskContent } = action.payload;
-      if (state[taskId].content !== taskContent) {
-        state[taskId].content = taskContent;
+      const { taskId, content } = action.payload;
+      if (state[taskId].content !== content) {
+        state[taskId].content = content;
         state[taskId].isEditing = false;
       }
     },
-    labelAdded(state, action) {
+    taskCompleteToggled(state, action) {
+      const { taskId, completed } = action.payload;
+      state[taskId].completed = completed;
+    },
+    taskLabelAdded(state, action) {
       const { taskId, labelId } = action.payload;
       const labelIds = state[taskId].labelIds;
       if (!labelIds.includes(labelId)) {
@@ -64,44 +62,46 @@ const allTasksSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (_state, action) => {
-      const { tasks } = action.payload;
-      return tasks;
+    [requestSuccess]: tasksLoaded,
+    [requestTasksSuccess]: tasksLoaded,
+    [requestTasksFailed]: (state, action) => {
+      //TODO:
     },
-    [boardRemoved]: (state, action) => {
-      const { removed } = action.payload;
-      const taskIds = removed.flatMap(column => column.taskIds);
-      taskIds.forEach(taskId => {
-        if (state[taskId]) {
-          delete state[taskId];
-        }
-      }); // TODO: refactor duplicate logic below
-    },
-    [boardCleared]: (state, action) => {
-      const { removed } = action.payload;
-      const taskIds = removed.flatMap(column => column.taskIds);
-      taskIds.forEach(taskId => {
-        if (state[taskId]) {
-          delete state[taskId];
-        }
-      });
-    },
-    [columnRemoved]: (state, action) => {
-      const { columnTasks } = action.payload;
-      const columnTaskIds = Object.keys(arrayToObject(columnTasks));
-      const taskIds = Object.keys(state);
-      const newTaskIds = taskIds.filter(
-        columnId => !columnTaskIds.includes(columnId)
-      );
-      const newTasks = {};
-      for (const taskId of newTaskIds) {
-        newTasks[taskId] = state[taskId];
-      }
-      return newTasks;
-      //TODO: refactor (see column slice boardRemoved)
-    }
+    [boardRemoved]: cascadeFromBoard,
+    [boardCleared]: cascadeFromBoard,
+    [columnRemoved]: cascadeFromColumn,
+    [columnCleared]: cascadeFromColumn
   }
 });
+
+function tasksLoaded(_state, action) {
+  const { tasks } = action.payload;
+  return tasks;
+}
+
+function cascadeFromBoard(state, action) {
+  const { removed } = action.payload;
+  const taskIds = removed.flatMap(column => column.taskIds);
+  taskIds.forEach(taskId => {
+    if (state[taskId]) {
+      delete state[taskId];
+    }
+  });
+}
+
+function cascadeFromColumn(state, action) {
+  const { columnTasks } = action.payload;
+  const columnTaskIds = Object.keys(arrayToObject(columnTasks));
+  const taskIds = Object.keys(state);
+  const newTaskIds = taskIds.filter(
+    columnId => !columnTaskIds.includes(columnId)
+  );
+  const newTasks = {};
+  for (const taskId of newTaskIds) {
+    newTasks[taskId] = state[taskId];
+  }
+  return newTasks;
+}
 
 export const {
   taskCreated,
@@ -109,27 +109,21 @@ export const {
   taskEditing,
   taskEditingCancelled,
   taskContentUpdated,
-  labelAdded,
+  taskCompleteToggled,
+  taskLabelAdded,
   taskLabelRemoved
 } = allTasksSlice.actions;
 export const allTasksReducer = allTasksSlice.reducer;
 
-export const createTask = ({ task, columnId, boardId }) => async dispatch => {
-  const newTask = {
-    content: task.content,
-    column_id: columnId,
-    completed: task.completed
-  };
-  const client = {
-    id: uuid(),
-    content: task.content,
-    completed: task.completed
-  };
-
+export const createTask = ({ task, columnId }) => async dispatch => {
   try {
-    dispatch(taskCreated({ task: client, columnId }));
-    // await axios.post("/api/tasks", newTask);
-    // dispatch(silentFetchData(boardId));
+    dispatch(taskCreated({ task, columnId }));
+    const { data } = await axios.post("/api/tasks", {
+      content: task.content,
+      column_id: parseInt(columnId)
+    });
+
+    dispatch(fetchTasks({ columnId, taskId: data.id }));
   } catch (ex) {
     console.error(ex);
   }
@@ -138,7 +132,25 @@ export const createTask = ({ task, columnId, boardId }) => async dispatch => {
 export const removeTask = ({ taskId, columnId }) => async dispatch => {
   try {
     dispatch(taskRemoved({ taskId, columnId }));
-    // await axios.delete(`/api/tasks/${taskId}`);
+    await axios.delete(`/api/tasks/${taskId}`);
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const updateTaskContent = ({ taskId, content }) => async dispatch => {
+  try {
+    dispatch(taskContentUpdated({ taskId, content }));
+    await axios.patch(`/api/tasks/${taskId}`, { content });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const toggleCompleteTask = ({ taskId, completed }) => async dispatch => {
+  try {
+    dispatch(taskCompleteToggled({ taskId, completed }));
+    await axios.patch(`/api/tasks/${taskId}`, { completed });
   } catch (ex) {
     console.error(ex);
   }

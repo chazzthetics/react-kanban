@@ -8,7 +8,7 @@ const requestBoardsSuccess = "request/requestBoardsSuccess";
  */
 const boardIdsSlice = createSlice({
   name: "boards",
-  initialState: ["1"],
+  initialState: [],
   reducers: {
     boardCreated(state, action) {
       const { board } = action.payload;
@@ -24,16 +24,15 @@ const boardIdsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (_state, action) => {
-      const { boards } = action.payload;
-      return Object.keys(boards);
-    },
-    [requestBoardsSuccess]: (_state, action) => {
-      const { boards } = action.payload;
-      return Object.keys(boards);
-    }
+    [requestSuccess]: boardsLoaded,
+    [requestBoardsSuccess]: boardsLoaded
   }
 });
+
+function boardsLoaded(_state, action) {
+  const { boards } = action.payload;
+  return Object.keys(boards);
+}
 
 export const boardIdsReducer = boardIdsSlice.reducer;
 

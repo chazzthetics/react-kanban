@@ -7,3 +7,4 @@ export { default as RemoveColumnButton } from "./RemoveColumnButton";
 export { default as CreateColumnButton } from "./CreateColumnButton";
 export { default as ColumnOptionsPopover } from "./ColumnOptionsPopover";
 export { default as LockColumnButton } from "./LockColumnButton";
+export { default as ClearColumnButton } from "./ClearColumnButton";

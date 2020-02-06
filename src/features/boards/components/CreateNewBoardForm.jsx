@@ -22,7 +22,7 @@ const CreateNewBoardForm = () => {
 
   function create(boardTitle) {
     const board = makeBoard({ title: boardTitle });
-    dispatch(createBoard(board));
+    dispatch(createBoard({ board }));
     close();
   }
 

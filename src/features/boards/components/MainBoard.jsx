@@ -14,24 +14,24 @@ const MainBoard = () => {
   const columnIds = useSelector(selectCurrentBoardColumnIds);
 
   //FIXME: move to selector later
-  // const loading = useSelector(state => state.request.loading);
+  const loading = useSelector(state => state.request.loading);
 
   const handleDragEnd = useDrag(currentBoardId, currentBoardColumns, columnIds);
 
-  // if (loading)
-  //   return (
-  //     <Flex align="center" justify="center" h="80%">
-  //       <Spinner
-  //         thickness="4px"
-  //         speed="0.65s"
-  //         emptyColor="gray.200"
-  //         color="blue.500"
-  //         size="xl"
-  //       />
-  //     </Flex>
-  //   );
+  if (loading)
+    return (
+      <Flex align="center" justify="center" h="80%">
+        <Spinner
+          thickness="4px"
+          speed="0.65s"
+          emptyColor="gray.200"
+          color="blue.500"
+          size="xl"
+        />
+      </Flex>
+    );
 
-  // if (!loading && !currentBoardId) return <h3>No Boards</h3>;
+  if (!loading && !currentBoardId) return <h3>No Boards</h3>;
 
   return (
     <Box>

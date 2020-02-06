@@ -5,7 +5,7 @@ import {
   allBoardsReducer,
   boardTitleEditing,
   boardTitleEditingCancelled,
-  boardTitleUpdated,
+  updateBoardTitle,
   reorderColumn,
   createBoard,
   removeBoard,
@@ -25,7 +25,6 @@ import {
 /**
  * Board Selectors
  */
-
 export {
   selectAllBoards,
   selectAllBoardsWithTitle,
@@ -43,7 +42,7 @@ export {
 export {
   boardTitleEditing,
   boardTitleEditingCancelled,
-  boardTitleUpdated,
+  updateBoardTitle,
   boardChanged,
   createBoard,
   removeBoard,

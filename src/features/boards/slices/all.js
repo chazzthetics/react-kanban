@@ -1,26 +1,21 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
-import uuid from "uuid/v4";
+import { arrayToObject } from "../../../utils/arrayToObject";
 import { fetchBoards } from "../../../api/requestSlice";
 
 const columnCreated = "columns/columnCreated";
 const columnRemoved = "columns/columnRemoved";
 const requestSuccess = "request/requestSuccess";
 const requestBoardsSuccess = "request/requestBoardsSuccess";
+const requestBoardsFailed = "request/requestBoardsFailed";
+const requestColumnsSuccess = "request/requestColumnsSuccess";
 
 /**
  * All Boards Slice
  */
 const allBoardsSlice = createSlice({
   name: "boards",
-  initialState: {
-    "1": {
-      id: "1",
-      title: "ProjectOne",
-      isEditing: false,
-      columnIds: ["1", "2"]
-    }
-  },
+  initialState: {},
   reducers: {
     boardCreated(state, action) {
       const { board } = action.payload;
@@ -43,8 +38,8 @@ const allBoardsSlice = createSlice({
       state[boardId].isEditing = false;
     },
     boardTitleUpdated(state, action) {
-      const { boardId, newTitle } = action.payload;
-      state[boardId].title = newTitle;
+      const { boardId, title } = action.payload;
+      state[boardId].title = title;
       state[boardId].isEditing = false;
     },
     columnReordered(state, action) {
@@ -53,13 +48,15 @@ const allBoardsSlice = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (_state, action) => {
-      const { boards } = action.payload;
-      return boards;
+    [requestSuccess]: boardsLoaded,
+    [requestBoardsSuccess]: boardsLoaded,
+    [requestBoardsFailed]: (state, action) => {
+      //FIXME: revert back to old state on error
     },
-    [requestBoardsSuccess]: (_state, action) => {
-      const { boards } = action.payload;
-      return boards;
+    [requestColumnsSuccess]: (state, action) => {
+      const { boardId, columnId } = action.payload;
+      const columnIds = state[boardId].columnIds;
+      columnIds.splice(-1, 1, columnId);
     },
     [columnCreated]: (state, action) => {
       const { column, boardId } = action.payload;
@@ -77,6 +74,11 @@ const allBoardsSlice = createSlice({
   }
 });
 
+function boardsLoaded(_state, action) {
+  const { boards } = action.payload;
+  return boards;
+}
+
 export const {
   boardCreated,
   boardRemoved,
@@ -89,44 +91,57 @@ export const {
 
 export const allBoardsReducer = allBoardsSlice.reducer;
 
-// TODO: cleanup
-export const createBoard = board => async dispatch => {
-  try {
-    const client = { id: uuid(), title: board.title, columnIds: [] };
-    dispatch(boardCreated({ board: client }));
-    // const { data } = await axios.post("/api/boards", board);
+// TODO: cleanup & error handling
 
-    // dispatch(fetchBoards(data.id));
+export const createBoard = ({ board }) => async dispatch => {
+  try {
+    dispatch(boardCreated({ board }));
+    const { data } = await axios.post("/api/boards", { title: board.title });
+
+    dispatch(fetchBoards(data.id));
   } catch (ex) {
     console.error(ex);
   }
 };
 
-export const removeBoard = boardId => async dispatch => {
+export const removeBoard = ({ boardId }) => async dispatch => {
   try {
     dispatch(boardRemoved({ boardId }));
-    // await axios.delete(`/api/boards/${boardId}`);
+    await axios.delete(`/api/boards/${boardId}`);
   } catch (ex) {
     console.error(ex);
   }
 };
 
-export const clearBoard = boardId => async dispatch => {
+export const clearBoard = ({ boardId }) => async dispatch => {
   try {
     dispatch(boardCleared({ boardId }));
-    // await axios.delete(`/api/columns/${boardId}/clear`);
+    await axios.delete(`/api/boards/${boardId}/clear`);
   } catch (ex) {
     console.error(ex);
   }
 };
 
-export const reorderColumn = ({ boardId, columnOrder }) => async dispatch => {
+export const updateBoardTitle = ({ boardId, title }) => async dispatch => {
   try {
-    dispatch(columnReordered({ boardId, columnOrder }));
-    // await axios.patch(`/api/boards/${boardId}/reorder`, {
-    //   id: boardId,
-    //   columnIds: columnOrder
-    // });
+    dispatch(boardTitleUpdated({ boardId, title }));
+    await axios.patch(`/api/boards/${boardId}`, { title });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const reorderColumn = ({
+  boardId,
+  columnOrder,
+  orderToPersist
+}) => async dispatch => {
+  try {
+    dispatch(columnReordered({ boardId, columnOrder, orderToPersist }));
+    await axios.put(`/api/boards/${boardId}/columns`, {
+      id: parseInt(boardId),
+      columnIds: arrayToObject(orderToPersist)
+    });
   } catch (ex) {
     console.error(ex);
   }

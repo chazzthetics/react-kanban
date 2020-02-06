@@ -6,18 +6,26 @@ import { makeSelectColumn } from "../slices";
 import { Box, Flex } from "@chakra-ui/core";
 import { TaskList, CreateNewTaskForm } from "../../tasks/components";
 import { ColumnHeader, EditColumnTitleForm } from "./";
+import { makeSelectColumnTasks } from "../../shared/selectors";
 
 const ColumnItem = ({ index, columnId }) => {
   const columnSelector = useMemo(makeSelectColumn, []);
   const { isEditing, isOpen, isLocked } = useSelector(state =>
     columnSelector(state, columnId)
   );
-  console.log(isOpen);
+
+  const columnTasksSelector = useMemo(makeSelectColumnTasks, []);
+  const columnTasks = useSelector(state =>
+    columnTasksSelector(state, columnId)
+  );
+
+  const isDisabled = columnTasks.some(task => task.isEditing);
+
   return (
     <Draggable
       draggableId={`column-${columnId}`}
       index={index}
-      isDragDisabled={isOpen || isLocked}
+      isDragDisabled={isOpen || isLocked || isDisabled}
     >
       {provided => (
         <Box
@@ -29,7 +37,6 @@ const ColumnItem = ({ index, columnId }) => {
           borderRadius={4}
           w="18rem"
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          cursor="pointer"
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
@@ -39,7 +46,11 @@ const ColumnItem = ({ index, columnId }) => {
           ) : (
             <EditColumnTitleForm columnId={columnId} />
           )}
-          <Droppable droppableId={columnId} type="task">
+          <Droppable
+            droppableId={columnId}
+            isDropDisabled={isLocked}
+            type="task"
+          >
             {provided => (
               <Flex
                 direction="column"
