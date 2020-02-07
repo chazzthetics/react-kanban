@@ -4,6 +4,6 @@
 - server/api
 - finish and refactor ui
 - clean up reducers
-- save form value in add task form after clickoutside
-- keep form value in add column form after clickoutside
+- save form value in add task form after clickoutside (x)
+- keep form value in add column form after clickoutside (x)
 - REDO all styles -- use ...rest props, im so fuking stupid!!
