@@ -3,7 +3,7 @@ import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { useDrag } from "../../../hooks";
 import { ColumnList } from "../../columns/components";
-import { selectCurrentBoardColumns } from "../../shared/selectors";
+import { selectCurrentBoardColumns } from "../../shared";
 import { selectCurrentBoardId, selectCurrentBoardColumnIds } from "../slices";
 import { Box, Flex, Spinner } from "@chakra-ui/core";
 import { BoardHeader } from "./";

@@ -6,7 +6,7 @@ import { makeSelectColumn } from "../slices";
 import { Box, Flex } from "@chakra-ui/core";
 import { TaskList, CreateNewTaskForm } from "../../tasks/components";
 import { ColumnHeader, EditColumnTitleForm } from "./";
-import { makeSelectColumnTasks } from "../../shared/selectors";
+import { makeSelectColumnTasks } from "../../shared";
 
 const ColumnItem = ({ index, columnId }) => {
   const columnSelector = useMemo(makeSelectColumn, []);

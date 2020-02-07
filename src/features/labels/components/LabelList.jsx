@@ -1,7 +1,7 @@
 import React, { useMemo } from "react";
 import { useSelector } from "react-redux";
 import { LabelItem } from "./";
-import { makeSelectTaskLabels } from "../../shared/selectors";
+import { makeSelectTaskLabels } from "../../shared";
 
 const LabelList = ({ taskId }) => {
   const taskLabelSelector = useMemo(makeSelectTaskLabels, []);

@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { makeSelectColumn } from "../../columns/slices";
-import { makeSelectColumnTasks } from "../../shared/selectors";
+import { makeSelectColumnTasks } from "../../shared";
 import { TaskItem } from "./";
 
 const TaskList = ({ columnId }) => {

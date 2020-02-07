@@ -1,7 +1,7 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { selectCurrentBoardColumnsList } from "../../shared/selectors";
+import { selectCurrentBoardColumnsList } from "../../shared";
 import { ColumnItem, CreateNewColumnForm } from "./";
 import { Flex } from "@chakra-ui/core";
 

@@ -2,15 +2,16 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import { fetchColumns } from "../../../api/requestSlice";
-
-const boardRemoved = "boards/boardRemoved";
-const boardCleared = "boards/boardCleared";
-const taskCreated = "tasks/taskCreated";
-const taskRemoved = "tasks/taskRemoved";
-const requestSuccess = "request/requestSuccess";
-const requestColumnsSuccess = "request/requestColumnsSuccess";
-const requestColumnsFailed = "request/requestColumnsFailed";
-const requestTasksSuccess = "request/requestTasksSuccess";
+import {
+  boardRemoved,
+  boardCleared,
+  taskCreated,
+  taskRemoved,
+  requestSuccess,
+  requestColumnsSuccess,
+  requestColumnsFailed,
+  requestTasksSuccess
+} from "../../shared";
 
 /**
  * All Columns Slice
@@ -178,6 +179,51 @@ export const updateColumnTitle = ({ columnId, title }) => async dispatch => {
   try {
     dispatch(columnTitleUpdated({ columnId, title }));
     await axios.patch(`/api/columns/${columnId}`, { title });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const reorderTask = ({
+  columnId,
+  taskOrder,
+  orderToPersist
+}) => async dispatch => {
+  try {
+    dispatch(taskReordered({ columnId, taskOrder }));
+    await axios.put(`/api/columns/${columnId}/tasks`, {
+      id: parseInt(columnId),
+      taskIds: arrayToObject(orderToPersist)
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const reorderTaskBetweenColumns = ({
+  startColumnId,
+  endColumnId,
+  startTaskOrder,
+  endTaskOrder,
+  startOrderToPersist,
+  endOrderToPersist
+}) => async dispatch => {
+  try {
+    dispatch(
+      taskReorderedBetweenColumns({
+        startColumnId,
+        endColumnId,
+        startTaskOrder,
+        endTaskOrder
+      })
+    );
+
+    await axios.put(`/api/columns/${startColumnId}/${endColumnId}/tasks`, {
+      startColumnId: parseInt(startColumnId),
+      endColumnId: parseInt(endColumnId),
+      startTasks: arrayToObject(startOrderToPersist),
+      endTasks: arrayToObject(endOrderToPersist)
+    });
   } catch (ex) {
     console.error(ex);
   }

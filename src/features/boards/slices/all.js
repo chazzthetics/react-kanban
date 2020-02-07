@@ -2,13 +2,14 @@ import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import { fetchBoards } from "../../../api/requestSlice";
-
-const columnCreated = "columns/columnCreated";
-const columnRemoved = "columns/columnRemoved";
-const requestSuccess = "request/requestSuccess";
-const requestBoardsSuccess = "request/requestBoardsSuccess";
-const requestBoardsFailed = "request/requestBoardsFailed";
-const requestColumnsSuccess = "request/requestColumnsSuccess";
+import {
+  columnCreated,
+  columnRemoved,
+  requestSuccess,
+  requestBoardsSuccess,
+  requestBoardsFailed,
+  requestColumnsSuccess
+} from "../../shared";
 
 /**
  * All Boards Slice
@@ -137,7 +138,7 @@ export const reorderColumn = ({
   orderToPersist
 }) => async dispatch => {
   try {
-    dispatch(columnReordered({ boardId, columnOrder, orderToPersist }));
+    dispatch(columnReordered({ boardId, columnOrder }));
     await axios.put(`/api/boards/${boardId}/columns`, {
       id: parseInt(boardId),
       columnIds: arrayToObject(orderToPersist)

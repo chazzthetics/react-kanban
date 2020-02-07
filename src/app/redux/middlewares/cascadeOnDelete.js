@@ -1,14 +1,16 @@
-const BOARD_REMOVED = "boards/boardRemoved";
-const BOARD_CLEARED = "boards/boardCleared";
-const COLUMN_REMOVED = "columns/columnRemoved";
-const COLUMN_CLEARED = "columns/columnCleared";
+import {
+  boardRemoved,
+  boardCleared,
+  columnRemoved,
+  columnCleared
+} from "../../../features/shared";
 
 export const cascadeOnDelete = store => next => action => {
   const state = store.getState();
 
   switch (action.type) {
-    case BOARD_REMOVED:
-    case BOARD_CLEARED:
+    case boardRemoved:
+    case boardCleared:
       const { boardId } = action.payload;
       const boardIds = state.boards.ids;
       const boardColumnIds = state.boards.all[boardId]
@@ -26,8 +28,8 @@ export const cascadeOnDelete = store => next => action => {
           removed: removedColumns
         }
       });
-    case COLUMN_REMOVED:
-    case COLUMN_CLEARED:
+    case columnRemoved:
+    case columnCleared:
       const { columnId } = action.payload;
       const columnIds = state.columns.ids;
       const columnTaskIds = state.columns.all[columnId].taskIds;
@@ -44,4 +46,3 @@ export const cascadeOnDelete = store => next => action => {
 };
 
 // TODO: REFACTOR! make into thunk instead? use selectors? move into separate reducer? something...
-// TODO: need to remove tasks when board is deleted

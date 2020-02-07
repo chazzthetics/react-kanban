@@ -2,14 +2,15 @@ import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import { fetchTasks } from "../../../api/requestSlice";
-
-const boardRemoved = "boards/boardRemoved";
-const boardCleared = "boards/boardCleared";
-const columnRemoved = "columns/columnRemoved";
-const columnCleared = "columns/columnCleared";
-const requestSuccess = "request/requestSuccess";
-const requestTasksSuccess = "request/requestTasksSuccess";
-const requestTasksFailed = "request/requestTasksFailed";
+import {
+  boardRemoved,
+  boardCleared,
+  columnRemoved,
+  columnCleared,
+  requestSuccess,
+  requestTasksSuccess,
+  requestTasksFailed
+} from "../../shared";
 
 /**
  * All Tasks Slice

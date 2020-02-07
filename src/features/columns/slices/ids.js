@@ -1,10 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-
-const boardRemoved = "boards/boardRemoved";
-const boardCleared = "boards/boardCleared";
-const requestSuccess = "request/requestSuccess";
-const requestColumnsSuccess = "request/requestColumnsSuccess";
+import {
+  boardRemoved,
+  boardCleared,
+  requestSuccess,
+  requestColumnsSuccess
+} from "../../shared";
 
 /**
  * Column Ids Slice

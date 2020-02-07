@@ -1,12 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-
-const boardRemoved = "boards/boardRemoved";
-const boardCleared = "boards/boardCleared";
-const columnRemoved = "columns/columnRemoved";
-const columnCleared = "columns/columnCleared";
-const requestSuccess = "request/requestSuccess";
-const requestTasksSuccess = "request/requestTasksSuccess";
+import {
+  boardRemoved,
+  boardCleared,
+  columnRemoved,
+  columnCleared,
+  requestSuccess,
+  requestTasksSuccess
+} from "../../shared";
 
 /**
  * Task Ids Slice

@@ -17,8 +17,8 @@ import {
   columnTitleEditingCancelled,
   columnOptionsOpened,
   columnOptionsClosed,
-  taskReordered,
-  taskReorderedBetweenColumns
+  reorderTask,
+  reorderTaskBetweenColumns
 } from "./all";
 
 /**
@@ -44,8 +44,8 @@ export {
   columnTitleEditingCancelled,
   columnOptionsOpened,
   columnOptionsClosed,
-  taskReordered,
-  taskReorderedBetweenColumns
+  reorderTask,
+  reorderTaskBetweenColumns
 };
 
 /**
