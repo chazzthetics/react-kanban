@@ -34,8 +34,6 @@ const EditColumnTitleForm = ({ columnId }) => {
       maxW="120px"
       fontWeight="semibold"
       fontSize=".9rem"
-      mt={1}
-      mb={2}
     />
   );
 };

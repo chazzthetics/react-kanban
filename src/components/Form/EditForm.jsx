@@ -18,7 +18,14 @@ const EditForm = ({
   );
 
   const focusRef = useFocus();
-  const cancelRef = useCancel(isEditing, onCancel);
+  const cancelRef = useCancel(isEditing, () => {
+    if (values[inputName]) {
+      update(values[inputName]);
+      onCancel();
+    } else {
+      onCancel();
+    }
+  });
 
   return (
     <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "100%" }}>
@@ -68,4 +75,3 @@ EditForm.propTypes = {
 export default EditForm;
 
 //TODO: checkout style props
-// TODO: make stretch

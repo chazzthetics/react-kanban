@@ -7,12 +7,12 @@ import {
   makeSelectColumn
 } from "../slices";
 import { Flex, Heading, IconButton, ButtonGroup } from "@chakra-ui/core";
-import { ColumnOptionsPopover } from "./";
+import { ColumnOptionsPopover, EditColumnTitleForm } from "./";
 
 const ColumnHeader = ({ columnId }) => {
   const columnSelector = useMemo(makeSelectColumn, []);
 
-  const { title, isLocked } = useSelector(state =>
+  const { title, isLocked, isEditing } = useSelector(state =>
     columnSelector(state, columnId)
   );
 
@@ -35,17 +35,22 @@ const ColumnHeader = ({ columnId }) => {
       borderRadius={4}
       mb={2}
     >
-      <Heading
-        as="h3"
-        cursor="pointer"
-        size="sm"
-        fontSize=".9rem"
-        fontWeight="semibold"
-        ml={1}
-        onClick={handleEditColumnTitle}
-      >
-        {title}
-      </Heading>
+      {!isEditing ? (
+        <Heading
+          as="h3"
+          cursor="pointer"
+          size="sm"
+          fontSize=".9rem"
+          fontWeight="semibold"
+          ml={1}
+          onClick={handleEditColumnTitle}
+        >
+          {title}
+        </Heading>
+      ) : (
+        <EditColumnTitleForm columnId={columnId} />
+      )}
+
       <ButtonGroup d="flex" spacing={0}>
         {isLocked ? (
           <IconButton

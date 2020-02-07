@@ -41,11 +41,7 @@ const ColumnItem = ({ index, columnId }) => {
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          {!isEditing ? (
-            <ColumnHeader columnId={columnId} />
-          ) : (
-            <EditColumnTitleForm columnId={columnId} />
-          )}
+          <ColumnHeader columnId={columnId} />
           <Droppable
             droppableId={columnId}
             isDropDisabled={isLocked}
