@@ -1,11 +1,12 @@
 import { createSlice } from "@reduxjs/toolkit";
+import { requestSuccess } from "../../shared";
 
 /**
  * Label Ids Slice
  */
 const labelIdsSlice = createSlice({
   name: "labels",
-  initialState: ["label1", "label2", "label3", "label4", "label5"],
+  initialState: [],
   reducers: {
     labelCreated(state, action) {
       const { label } = action.payload;
@@ -17,6 +18,12 @@ const labelIdsSlice = createSlice({
       if (labelIndex >= 0) {
         state.splice(labelIndex, 1);
       }
+    }
+  },
+  extraReducers: {
+    [requestSuccess]: (_state, action) => {
+      const { labels } = action.payload;
+      return Object.keys(labels);
     }
   }
 });

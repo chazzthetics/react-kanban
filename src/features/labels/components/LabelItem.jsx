@@ -1,13 +1,13 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
-import { taskLabelRemoved } from "../../tasks/slices";
+import { removeLabelFromTask } from "../../tasks/slices";
 import { Box } from "@chakra-ui/core";
 
 const LabelItem = ({ taskId, taskLabel }) => {
   const dispatch = useDispatch();
 
   const handleRemoveLabelFromTask = useCallback(
-    labelId => () => dispatch(taskLabelRemoved({ taskId, labelId })),
+    labelId => () => dispatch(removeLabelFromTask({ taskId, labelId })),
     [dispatch, taskId]
   );
 

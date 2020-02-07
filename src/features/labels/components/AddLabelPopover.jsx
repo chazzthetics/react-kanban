@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useToggle } from "../../../hooks";
 import {
-  taskLabelAdded,
-  taskLabelRemoved,
+  removeLabelFromTask,
+  addLabelToTask,
   taskEditingCancelled,
   makeSelectTaskLabelIds
 } from "../../tasks/slices";
@@ -35,9 +35,9 @@ const AddLabelPopover = ({ taskId }) => {
 
   const handleToggleLabel = labelId => {
     if (taskLabels.includes(labelId)) {
-      dispatch(taskLabelRemoved({ taskId, labelId }));
+      dispatch(removeLabelFromTask({ taskId, labelId }));
     } else {
-      dispatch(taskLabelAdded({ taskId, labelId }));
+      dispatch(addLabelToTask({ taskId, labelId }));
     }
   };
 

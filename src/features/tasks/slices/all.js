@@ -156,3 +156,25 @@ export const toggleCompleteTask = ({ taskId, completed }) => async dispatch => {
     console.error(ex);
   }
 };
+
+export const addLabelToTask = ({ taskId, labelId }) => async dispatch => {
+  try {
+    dispatch(taskLabelAdded({ taskId, labelId }));
+    await axios.put(`/api/tasks/${taskId}/label`, {
+      labelId: parseInt(labelId)
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const removeLabelFromTask = ({ taskId, labelId }) => async dispatch => {
+  try {
+    dispatch(taskLabelRemoved({ taskId, labelId }));
+    await axios.put(`/api/tasks/${taskId}/label/remove`, {
+      labelId: parseInt(labelId)
+    });
+  } catch (ex) {
+    console.error(ex);
+  }
+};

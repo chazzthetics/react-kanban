@@ -7,8 +7,8 @@ import {
   taskEditingCancelled,
   updateTaskContent,
   toggleCompleteTask,
-  taskLabelAdded,
-  taskLabelRemoved
+  addLabelToTask,
+  removeLabelFromTask
 } from "./all";
 import { taskIdsReducer } from "./ids";
 import {
@@ -28,8 +28,8 @@ export { selectAllTasks, makeSelectTask, makeSelectTaskLabelIds };
 export {
   createTask,
   removeTask,
-  taskLabelAdded,
-  taskLabelRemoved,
+  addLabelToTask,
+  removeLabelFromTask,
   updateTaskContent,
   toggleCompleteTask,
   taskEditing,

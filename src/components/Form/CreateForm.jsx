@@ -16,11 +16,23 @@ const CreateForm = ({
   textarea = false,
   ...props
 }) => {
-  const { values, handleChange, handleSubmit } = useForm(initialValues, () =>
-    create(values[inputName])
-  );
+  const {
+    values,
+    handleChange,
+    handleSubmit,
+    resetForm
+  } = useForm(initialValues, () => create(values[inputName]));
 
-  const cancelRef = useCancel(isOpen, onCancel);
+  const cancelRef = useCancel(isOpen, () => {
+    if (values[inputName]) {
+      create(values[inputName]);
+      resetForm();
+      onCancel();
+    } else {
+      onCancel();
+    }
+  });
+
   const focusRef = useFocus();
 
   return (

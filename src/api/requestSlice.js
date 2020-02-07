@@ -66,6 +66,7 @@ export default requestReducer;
 const getBoards = () => axios.get("/api/boards");
 const getColumns = () => axios.get("/api/columns");
 const getTasks = () => axios.get("/api/tasks");
+const getLabels = () => axios.get("/api/labels");
 
 export const fetchData = () => async dispatch => {
   let res;
@@ -75,12 +76,13 @@ export const fetchData = () => async dispatch => {
   } catch (ex) {
     dispatch(requestFailed(ex.toString()));
   }
-
+  //TODO: normalize in middleware?
   dispatch(
     requestSuccess({
       boards: arrayToObject(res.data.boards),
       columns: arrayToObject(res.data.columns),
-      tasks: arrayToObject(res.data.tasks)
+      tasks: arrayToObject(res.data.tasks),
+      labels: arrayToObject(res.data.labels)
     })
   );
 };
@@ -131,6 +133,11 @@ export const fetchTasks = ({ columnId, taskId }) => async dispatch => {
   } catch (ex) {
     console.error(ex);
   }
+};
+
+export const fetchLabels = () => async dispatch => {
+  try {
+  } catch (ex) {}
 };
 
 // export const silentFetchData = boardId => async dispatch => {
