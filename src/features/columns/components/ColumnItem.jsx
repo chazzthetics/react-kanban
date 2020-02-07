@@ -5,12 +5,12 @@ import { Draggable, Droppable } from "react-beautiful-dnd";
 import { makeSelectColumn } from "../slices";
 import { Box, Flex } from "@chakra-ui/core";
 import { TaskList, CreateNewTaskForm } from "../../tasks/components";
-import { ColumnHeader, EditColumnTitleForm } from "./";
+import { ColumnHeader } from "./";
 import { makeSelectColumnTasks } from "../../shared";
 
 const ColumnItem = ({ index, columnId }) => {
   const columnSelector = useMemo(makeSelectColumn, []);
-  const { isEditing, isOpen, isLocked } = useSelector(state =>
+  const { isOpen, isLocked } = useSelector(state =>
     columnSelector(state, columnId)
   );
 
@@ -47,15 +47,18 @@ const ColumnItem = ({ index, columnId }) => {
             isDropDisabled={isLocked}
             type="task"
           >
-            {provided => (
+            {(provided, snapshot) => (
               <Flex
                 direction="column"
                 align="stretch"
                 justify="center"
                 mb={2}
+                h="100%"
                 cursor="pointer"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
+                bg={snapshot.isDraggingOver ? "yellow.200" : "gray.300"}
+                borderRadius={4}
               >
                 <TaskList columnId={columnId} />
                 {provided.placeholder}
@@ -74,6 +77,6 @@ ColumnItem.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default ColumnItem;
+export default React.memo(ColumnItem);
 
 //TODO: unlocked column can't be moved into locked column's position

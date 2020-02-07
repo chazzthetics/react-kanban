@@ -79,4 +79,4 @@ ColumnHeader.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default ColumnHeader;
+export default React.memo(ColumnHeader);

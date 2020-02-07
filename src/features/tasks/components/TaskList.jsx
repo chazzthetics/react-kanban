@@ -20,13 +20,17 @@ const TaskList = ({ columnId }) => {
       draggableId={task.id}
       isDragDisabled={task.isEditing || isLocked}
     >
-      {provided => (
+      {(provided, snapshot) => (
         <div
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
         >
-          <TaskItem taskId={task.id} columnId={columnId} />
+          <TaskItem
+            taskId={task.id}
+            columnId={columnId}
+            isDragging={snapshot.isDragging}
+          />
         </div>
       )}
     </Draggable>

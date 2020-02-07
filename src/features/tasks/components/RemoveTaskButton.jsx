@@ -31,4 +31,4 @@ RemoveTaskButton.propTypes = {
   columnId: PropTypes.string
 };
 
-export default RemoveTaskButton;
+export default React.memo(RemoveTaskButton);

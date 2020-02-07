@@ -25,4 +25,4 @@ EditTaskButton.propTypes = {
   taskId: PropTypes.string.isRequired
 };
 
-export default EditTaskButton;
+export default React.memo(EditTaskButton);

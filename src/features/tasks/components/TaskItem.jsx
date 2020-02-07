@@ -6,7 +6,7 @@ import { ButtonGroup, Text, Flex } from "@chakra-ui/core";
 import { LabelList } from "../../labels/components";
 import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
 
-const TaskItem = ({ taskId, columnId }) => {
+const TaskItem = ({ taskId, columnId, isDragging }) => {
   const taskSelector = useMemo(makeSelectTask, []);
   const { content, isEditing } = useSelector(state =>
     taskSelector(state, taskId)
@@ -34,10 +34,11 @@ const TaskItem = ({ taskId, columnId }) => {
       justify="space-between"
       bg="gray.100"
       borderRadius={4}
+      cursor="pointer"
       onMouseEnter={handleShowOptions}
       onMouseLeave={handleHideOptions}
       onDoubleClick={handleOpenEdit}
-      cursor="pointer"
+      transform={isDragging ? "rotate(6deg)" : "rotate(0)"}
     >
       {!isEditing ? (
         <>
@@ -65,7 +66,8 @@ const TaskItem = ({ taskId, columnId }) => {
 
 TaskItem.propTypes = {
   taskId: PropTypes.string.isRequired,
-  columnId: PropTypes.string.isRequired
+  columnId: PropTypes.string.isRequired,
+  isDragging: PropTypes.bool.isRequired
 };
 
-export default TaskItem;
+export default React.memo(TaskItem);

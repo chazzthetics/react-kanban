@@ -17,7 +17,7 @@ const EditForm = ({
     update(values[inputName])
   );
 
-  const focusRef = useFocus();
+  const focusRef = useFocus(true);
   const cancelRef = useCancel(isEditing, () => {
     if (values[inputName]) {
       update(values[inputName]);

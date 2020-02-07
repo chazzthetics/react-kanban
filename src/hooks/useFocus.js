@@ -1,13 +1,17 @@
 import { useEffect, useRef } from "react";
 
-const useFocus = () => {
+const useFocus = (isEditing = false) => {
   const focusRef = useRef(null);
 
   useEffect(() => {
     if (focusRef.current) {
-      focusRef.current.focus();
+      if (isEditing) {
+        focusRef.current.select();
+      } else {
+        focusRef.current.focus();
+      }
     }
-  });
+  }, [isEditing]);
 
   return focusRef;
 };

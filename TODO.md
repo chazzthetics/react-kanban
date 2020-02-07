@@ -7,3 +7,4 @@
 - save form value in add task form after clickoutside (x)
 - keep form value in add column form after clickoutside (x)
 - REDO all styles -- use ...rest props, im so fuking stupid!!
+- performance
