@@ -1,18 +1,11 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  boardTitleEditingCancelled,
-  updateBoardTitle,
-  selectCurrentBoardId,
-  selectCurrentBoardTitle,
-  selectCurrentBoardIsEditing
-} from "../slices";
+import { useDispatch } from "react-redux";
+import { useBoard } from "../../../hooks";
+import { boardTitleEditingCancelled, updateBoardTitle } from "../slices";
 import { EditForm } from "../../../components";
 
 const EditBoardTitleForm = () => {
-  const boardId = useSelector(selectCurrentBoardId);
-  const currentBoardTitle = useSelector(selectCurrentBoardTitle);
-  const isEditing = useSelector(selectCurrentBoardIsEditing);
+  const { boardId, boardTitle, isEditing } = useBoard();
 
   const dispatch = useDispatch();
 
@@ -27,11 +20,11 @@ const EditBoardTitleForm = () => {
   return (
     <EditForm
       inputName="boardTitle"
-      initialValues={{ boardTitle: currentBoardTitle }}
+      initialValues={{ boardTitle }}
       isEditing={isEditing}
       onCancel={onCancel}
       update={update}
-      maxW="180px"
+      maxW="160px"
       pl="10px"
     />
   );

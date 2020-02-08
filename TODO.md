@@ -8,3 +8,4 @@
 - keep form value in add column form after clickoutside (x)
 - REDO all styles -- use ...rest props, im so fuking stupid!!
 - performance
+- cancel open form pressing ESC key

@@ -1,10 +1,11 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { removeBoard, selectCurrentBoardId } from "../slices";
-import { IconButton } from "@chakra-ui/core";
+import { useDispatch } from "react-redux";
+import { useBoard } from "../../../hooks";
+import { removeBoard } from "../slices";
+import { IconButton, Tooltip } from "@chakra-ui/core";
 
 const RemoveBoardButton = () => {
-  const boardId = useSelector(selectCurrentBoardId);
+  const { boardId } = useBoard();
 
   const dispatch = useDispatch();
 
@@ -13,13 +14,15 @@ const RemoveBoardButton = () => {
   };
 
   return (
-    <IconButton
-      aria-label="Remove Board"
-      icon="delete"
-      size="sm"
-      fontSize="1.1rem"
-      onClick={handleRemoveBoard}
-    />
+    <Tooltip label="Remove Board" placement="bottom">
+      <IconButton
+        aria-label="Remove Board"
+        icon="delete"
+        size="sm"
+        fontSize="1.1rem"
+        onClick={handleRemoveBoard}
+      />
+    </Tooltip>
   );
 };
 

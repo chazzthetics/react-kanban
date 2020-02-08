@@ -1,16 +1,14 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { taskEditing, makeSelectTask } from "../slices";
+import { useDispatch } from "react-redux";
+import { useTask } from "../../../hooks";
+import { taskEditing } from "../slices";
 import { ButtonGroup, Text, Flex } from "@chakra-ui/core";
 import { LabelList } from "../../labels/components";
 import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
 
-const TaskItem = ({ taskId, columnId, isDragging }) => {
-  const taskSelector = useMemo(makeSelectTask, []);
-  const { content, isEditing } = useSelector(state =>
-    taskSelector(state, taskId)
-  );
+const TaskItem = ({ taskId, columnId }) => {
+  const { content, isEditing } = useTask(taskId);
 
   const dispatch = useDispatch();
   const handleOpenEdit = () => {
@@ -38,11 +36,10 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       onMouseEnter={handleShowOptions}
       onMouseLeave={handleHideOptions}
       onDoubleClick={handleOpenEdit}
-      transform={isDragging ? "rotate(6deg)" : "rotate(0)"}
     >
       {!isEditing ? (
         <>
-          <Flex flexDir="column">
+          <Flex direction="column">
             <Flex>
               <LabelList taskId={taskId} />
             </Flex>
@@ -66,8 +63,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
 
 TaskItem.propTypes = {
   taskId: PropTypes.string.isRequired,
-  columnId: PropTypes.string.isRequired,
-  isDragging: PropTypes.bool.isRequired
+  columnId: PropTypes.string.isRequired
 };
 
 export default React.memo(TaskItem);

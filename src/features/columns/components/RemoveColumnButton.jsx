@@ -1,18 +1,16 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { removeColumn, makeSelectColumn } from "../slices";
+import { useColumn } from "../../../hooks";
+import { removeColumn } from "../slices";
 import { selectCurrentBoardId } from "../../boards/slices";
 import { Button } from "@chakra-ui/core";
 
 const RemoveColumnButton = ({ columnId }) => {
   const boardId = useSelector(selectCurrentBoardId);
-
-  const columnSelector = useMemo(makeSelectColumn, []);
-  const { isLocked } = useSelector(state => columnSelector(state, columnId));
+  const { isLocked } = useColumn(columnId);
 
   const dispatch = useDispatch();
-
   const handleRemoveColumn = () => {
     dispatch(removeColumn({ columnId, boardId }));
   };

@@ -14,7 +14,7 @@ import {
 /**
  * All Boards Slice
  */
-const allBoardsSlice = createSlice({
+const allBoards = createSlice({
   name: "boards",
   initialState: {},
   reducers: {
@@ -88,9 +88,9 @@ export const {
   boardTitleEditingCancelled,
   boardTitleUpdated,
   columnReordered
-} = allBoardsSlice.actions;
+} = allBoards.actions;
 
-export const allBoardsReducer = allBoardsSlice.reducer;
+export const allBoardsReducer = allBoards.reducer;
 
 // TODO: cleanup & error handling
 

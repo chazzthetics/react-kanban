@@ -1,6 +1,5 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectCurrentBoardIsEditing } from "../slices";
+import { useBoard } from "../../../hooks";
 import { Flex, Box, ButtonGroup } from "@chakra-ui/core";
 import {
   EditBoardTitleForm,
@@ -11,7 +10,7 @@ import {
 } from "./";
 
 const BoardHeader = () => {
-  const isEditing = useSelector(selectCurrentBoardIsEditing);
+  const { isEditing } = useBoard();
 
   return (
     <Flex

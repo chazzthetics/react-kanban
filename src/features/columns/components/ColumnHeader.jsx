@@ -1,20 +1,13 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  columnTitleEditing,
-  toggleLockColumn,
-  makeSelectColumn
-} from "../slices";
+import { useDispatch } from "react-redux";
+import { columnTitleEditing, toggleLockColumn } from "../slices";
+import { useColumn } from "../../../hooks";
 import { Flex, Heading, IconButton, ButtonGroup } from "@chakra-ui/core";
 import { ColumnOptionsPopover, EditColumnTitleForm } from "./";
 
 const ColumnHeader = ({ columnId }) => {
-  const columnSelector = useMemo(makeSelectColumn, []);
-
-  const { title, isLocked, isEditing } = useSelector(state =>
-    columnSelector(state, columnId)
-  );
+  const { title, isLocked, isEditing } = useColumn(columnId);
 
   const dispatch = useDispatch();
 
@@ -33,7 +26,7 @@ const ColumnHeader = ({ columnId }) => {
       justify="space-between"
       cursor="pointer"
       borderRadius={4}
-      mb={2}
+      mb={1}
     >
       {!isEditing ? (
         <Heading

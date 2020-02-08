@@ -1,11 +1,9 @@
-import React, { useMemo } from "react";
-import { useSelector } from "react-redux";
+import React from "react";
+import { useTask } from "../../../hooks";
 import { LabelItem } from "./";
-import { makeSelectTaskLabels } from "../../shared";
 
 const LabelList = ({ taskId }) => {
-  const taskLabelSelector = useMemo(makeSelectTaskLabels, []);
-  const taskLabels = useSelector(state => taskLabelSelector(state, taskId));
+  const { taskLabels } = useTask(taskId);
 
   return taskLabels
     ? taskLabels.map(taskLabel => (
@@ -14,4 +12,4 @@ const LabelList = ({ taskId }) => {
     : null;
 };
 
-export default LabelList;
+export default React.memo(LabelList);

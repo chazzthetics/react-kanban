@@ -10,7 +10,7 @@ import {
 /**
  * Column Ids Slice
  */
-const columnIdsSlice = createSlice({
+const columnIds = createSlice({
   name: "columns",
   initialState: [],
   reducers: {
@@ -45,4 +45,4 @@ function cascadeFromBoard(state, action) {
   return state.filter(columnId => !boardColumnIds.includes(columnId));
 }
 
-export const columnIdsReducer = columnIdsSlice.reducer;
+export const columnIdsReducer = columnIds.reducer;

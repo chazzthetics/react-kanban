@@ -15,7 +15,7 @@ import {
 /**
  * All Tasks Slice
  */
-const allTasksSlice = createSlice({
+const allTasks = createSlice({
   name: "tasks",
   initialState: {},
   reducers: {
@@ -113,8 +113,8 @@ export const {
   taskCompleteToggled,
   taskLabelAdded,
   taskLabelRemoved
-} = allTasksSlice.actions;
-export const allTasksReducer = allTasksSlice.reducer;
+} = allTasks.actions;
+export const allTasksReducer = allTasks.reducer;
 
 export const createTask = ({ task, columnId }) => async dispatch => {
   try {

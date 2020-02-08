@@ -28,11 +28,11 @@ const CreateNewBoardForm = () => {
 
   return (
     <Popover
-      placement="bottom"
       isOpen={isOpen}
       onOpen={open}
       onClose={close}
       initialFocusRef={firstFieldRef}
+      placement="bottom"
     >
       <PopoverTrigger>
         <IconButton
@@ -45,8 +45,7 @@ const CreateNewBoardForm = () => {
       <PopoverContent
         p={4}
         borderRadius={4}
-        position="absolute"
-        right={0}
+        right={100}
         zIndex={4}
         boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
       >
@@ -64,6 +63,7 @@ const CreateNewBoardForm = () => {
           placeholder="Enter board title..."
           firstFieldRef={firstFieldRef}
           create={create}
+          h={36}
         >
           <AddButtonGroup onClose={close} value="Create Board" />
         </CreateForm>

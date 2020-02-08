@@ -1,5 +1,5 @@
 import React from "react";
-import { FiHome, FiCode } from "react-icons/fi";
+import { FiHome, FiCode, FiSun } from "react-icons/fi";
 import {
   Flex,
   Heading,
@@ -8,7 +8,8 @@ import {
   Box,
   List,
   ListItem,
-  Avatar
+  Avatar,
+  Tooltip
 } from "@chakra-ui/core";
 import {
   SelectBoardInput,
@@ -49,15 +50,21 @@ const AppBar = () => {
           flexBasis="14rem"
         >
           <ButtonGroup d="flex" spacing={1}>
-            <ListItem>
-              <CreateNewBoardForm />
-            </ListItem>
+            <Tooltip label="Create Board" borderRadius={4}>
+              <ListItem mr={1}>
+                <CreateNewBoardForm />
+              </ListItem>
+            </Tooltip>
             {/* Temporary placeholders */}
             <ListItem>
-              <IconButton icon={FiCode} size="sm" />
+              <Tooltip label="Source Code" borderRadius={4}>
+                <IconButton icon={FiCode} size="sm" />
+              </Tooltip>
             </ListItem>
             <ListItem>
-              <IconButton icon="question" size="sm" />
+              <Tooltip label="Change Theme" borderRadius={4}>
+                <IconButton icon={FiSun} size="sm" />
+              </Tooltip>
             </ListItem>
             <ListItem cursor="pointer">
               <Avatar name="C L" size="sm" />

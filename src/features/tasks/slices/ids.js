@@ -12,7 +12,7 @@ import {
 /**
  * Task Ids Slice
  */
-const taskIdsSlice = createSlice({
+const taskIds = createSlice({
   name: "tasks",
   initialState: [],
   reducers: {
@@ -55,4 +55,4 @@ function cascadeFromColumn(state, action) {
   return state.filter(taskId => !taskIds.includes(taskId));
 }
 
-export const taskIdsReducer = taskIdsSlice.reducer;
+export const taskIdsReducer = taskIds.reducer;

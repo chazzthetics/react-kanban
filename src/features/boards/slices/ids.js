@@ -4,7 +4,7 @@ import { requestSuccess, requestBoardsSuccess } from "../../shared";
 /**
  * Board Ids Slice
  */
-const boardIdsSlice = createSlice({
+const boardIds = createSlice({
   name: "boards",
   initialState: [],
   reducers: {
@@ -32,6 +32,6 @@ function boardsLoaded(_state, action) {
   return Object.keys(boards);
 }
 
-export const boardIdsReducer = boardIdsSlice.reducer;
+export const boardIdsReducer = boardIds.reducer;
 
 //TODO: refactor

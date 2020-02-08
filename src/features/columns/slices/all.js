@@ -16,7 +16,7 @@ import {
 /**
  * All Columns Slice
  */
-const allColumnsSlice = createSlice({
+const allColumns = createSlice({
   name: "columns",
   initialState: {},
   reducers: {
@@ -130,8 +130,8 @@ export const {
   lockColumnToggled,
   taskReordered,
   taskReorderedBetweenColumns
-} = allColumnsSlice.actions;
-export const allColumnsReducer = allColumnsSlice.reducer;
+} = allColumns.actions;
+export const allColumnsReducer = allColumns.reducer;
 
 // TODO: cleanup
 export const createColumn = ({ column, boardId }) => async dispatch => {

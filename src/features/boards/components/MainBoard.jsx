@@ -1,22 +1,18 @@
 import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
-import { useDrag } from "../../../hooks";
+import { useDrag, useBoard } from "../../../hooks";
 import { ColumnList } from "../../columns/components";
-import { selectCurrentBoardColumns } from "../../shared";
-import { selectCurrentBoardId, selectCurrentBoardColumnIds } from "../slices";
 import { Box, Flex, Spinner } from "@chakra-ui/core";
 import { BoardHeader } from "./";
 
 const MainBoard = () => {
-  const currentBoardId = useSelector(selectCurrentBoardId);
-  const currentBoardColumns = useSelector(selectCurrentBoardColumns);
-  const columnIds = useSelector(selectCurrentBoardColumnIds);
+  const { boardId, boardColumns, columnIds } = useBoard();
 
   //FIXME: move to selector later
   const loading = useSelector(state => state.request.loading);
 
-  const handleDragEnd = useDrag(currentBoardId, currentBoardColumns, columnIds);
+  const handleDragEnd = useDrag(boardId, boardColumns, columnIds);
 
   if (loading)
     return (
@@ -31,7 +27,8 @@ const MainBoard = () => {
       </Flex>
     );
 
-  if (!loading && !currentBoardId) return <h3>No Boards</h3>;
+  //FIXME: no "no boards" during init load
+  if (!loading && !boardId) return <h3>No Boards</h3>;
 
   return (
     <Box>

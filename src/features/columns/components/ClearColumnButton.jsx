@@ -1,25 +1,20 @@
-import React, { useMemo, forwardRef } from "react";
+import React, { forwardRef } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  clearColumn,
-  makeSelectColumn,
-  makeSelectColumnTaskIdsLength
-} from "../slices";
+import { useDispatch } from "react-redux";
+import { useColumn } from "../../../hooks";
+import { clearColumn } from "../slices";
 import { Button } from "@chakra-ui/core";
 
 const ClearColumnButton = forwardRef(({ columnId }, ref) => {
   const dispatch = useDispatch();
 
-  const hasTasksSelector = useMemo(makeSelectColumnTaskIdsLength, []);
-  const hasTasks = useSelector(state => hasTasksSelector(state, columnId));
-
-  const columnSelector = useMemo(makeSelectColumn, []);
-  const { isLocked } = useSelector(state => columnSelector(state, columnId));
+  const { isLocked, hasTasks } = useColumn(columnId);
 
   const handleClearColumn = () => {
     if (hasTasks) {
       dispatch(clearColumn({ columnId }));
+    } else {
+      return;
     }
   };
 
@@ -31,7 +26,7 @@ const ClearColumnButton = forwardRef(({ columnId }, ref) => {
       variant="ghost"
       mb={1}
       ref={ref}
-      disabled={isLocked}
+      disabled={isLocked || !hasTasks}
     >
       Clear List
     </Button>

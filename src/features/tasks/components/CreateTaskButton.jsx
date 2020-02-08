@@ -1,18 +1,10 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
+import { useColumn } from "../../../hooks";
 import { PseudoBox, Icon } from "@chakra-ui/core";
-import { makeSelectColumnTaskIdsLength } from "../../columns/slices";
 
 const CreateTaskButton = ({ onOpen, columnId }) => {
-  const columnTaskIdsLengthSelector = useMemo(
-    makeSelectColumnTaskIdsLength,
-    []
-  );
-
-  const hasTask = useSelector(state =>
-    columnTaskIdsLengthSelector(state, columnId)
-  );
+  const { hasTasks } = useColumn(columnId);
 
   return (
     <PseudoBox
@@ -34,7 +26,7 @@ const CreateTaskButton = ({ onOpen, columnId }) => {
       boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
     >
       <Icon name="add" size="12px" mr={2} />
-      {hasTask ? "Add another task" : "Add a task"}
+      {hasTasks ? "Add another task" : "Add a task"}
     </PseudoBox>
   );
 };

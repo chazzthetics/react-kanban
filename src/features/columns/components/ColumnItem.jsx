@@ -1,25 +1,13 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector } from "react-redux";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { makeSelectColumn } from "../slices";
-import { Box, Flex } from "@chakra-ui/core";
-import { TaskList, CreateNewTaskForm } from "../../tasks/components";
+import { useColumn } from "../../../hooks";
 import { ColumnHeader } from "./";
-import { makeSelectColumnTasks } from "../../shared";
+import { TaskList, CreateNewTaskForm } from "../../tasks/components";
+import { Box, Flex } from "@chakra-ui/core";
 
 const ColumnItem = ({ index, columnId }) => {
-  const columnSelector = useMemo(makeSelectColumn, []);
-  const { isOpen, isLocked } = useSelector(state =>
-    columnSelector(state, columnId)
-  );
-
-  const columnTasksSelector = useMemo(makeSelectColumnTasks, []);
-  const columnTasks = useSelector(state =>
-    columnTasksSelector(state, columnId)
-  );
-
-  const isDisabled = columnTasks.some(task => task.isEditing);
+  const { isOpen, isLocked, isDisabled } = useColumn(columnId);
 
   return (
     <Draggable
@@ -42,23 +30,19 @@ const ColumnItem = ({ index, columnId }) => {
           {...provided.dragHandleProps}
         >
           <ColumnHeader columnId={columnId} />
-          <Droppable
-            droppableId={columnId}
-            isDropDisabled={isLocked}
-            type="task"
-          >
+          <Droppable droppableId={columnId} type="task">
             {(provided, snapshot) => (
               <Flex
                 direction="column"
                 align="stretch"
                 justify="center"
                 mb={2}
-                h="100%"
                 cursor="pointer"
+                bg={snapshot.isDraggingOver ? "gray.100" : "gray.300"}
+                borderRadius={4}
+                transition="background-color 150ms ease-in"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
-                bg={snapshot.isDraggingOver ? "yellow.200" : "gray.300"}
-                borderRadius={4}
               >
                 <TaskList columnId={columnId} />
                 {provided.placeholder}
@@ -78,5 +62,3 @@ ColumnItem.propTypes = {
 };
 
 export default React.memo(ColumnItem);
-
-//TODO: unlocked column can't be moved into locked column's position

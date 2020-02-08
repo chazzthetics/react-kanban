@@ -1,21 +1,14 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  taskEditingCancelled,
-  updateTaskContent,
-  makeSelectTask
-} from "../slices";
-import { Flex, Button, ButtonGroup, CloseButton } from "@chakra-ui/core";
+import { useDispatch } from "react-redux";
+import { useTask } from "../../../hooks";
+import { taskEditingCancelled, updateTaskContent } from "../slices";
 import { AddLabelPopover } from "../../labels/components";
 import { EditForm } from "../../../components";
+import { Flex, Button, ButtonGroup, CloseButton } from "@chakra-ui/core";
 
 const EditTaskContentForm = ({ taskId }) => {
-  const taskSelector = useMemo(makeSelectTask, []);
-
-  const { content, isEditing } = useSelector(state =>
-    taskSelector(state, taskId)
-  );
+  const { content, isEditing } = useTask(taskId);
 
   const dispatch = useDispatch();
 

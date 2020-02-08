@@ -1,21 +1,14 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import {
-  makeSelectColumn,
-  updateColumnTitle,
-  columnTitleEditingCancelled
-} from "../slices";
+import { useDispatch } from "react-redux";
+import { useColumn } from "../../../hooks";
+import { updateColumnTitle, columnTitleEditingCancelled } from "../slices";
 import { EditForm } from "../../../components";
 
 const EditColumnTitleForm = ({ columnId }) => {
-  const columnSelector = useMemo(makeSelectColumn, []);
-
-  const { title, isEditing } = useSelector(state =>
-    columnSelector(state, columnId)
-  );
-
+  const { title, isEditing } = useColumn(columnId);
   const dispatch = useDispatch();
+
   const onCancel = () => {
     dispatch(columnTitleEditingCancelled({ columnId }));
   };

@@ -4,7 +4,7 @@ import { requestSuccess } from "../../shared";
 /**
  * Label Ids Slice
  */
-const labelIdsSlice = createSlice({
+const labelIds = createSlice({
   name: "labels",
   initialState: [],
   reducers: {
@@ -28,4 +28,4 @@ const labelIdsSlice = createSlice({
   }
 });
 
-export const labelIdsReducer = labelIdsSlice.reducer;
+export const labelIdsReducer = labelIds.reducer;

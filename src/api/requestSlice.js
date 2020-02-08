@@ -3,7 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../utils/arrayToObject";
 
 // TODO: move into features folder
-const requestSlice = createSlice({
+const request = createSlice({
   name: "request",
   initialState: {
     loading: false,
@@ -58,15 +58,14 @@ export const {
   requestColumnsFailed,
   requestTasksSuccess,
   requestTasksFailed
-} = requestSlice.actions;
-const requestReducer = requestSlice.reducer;
+} = request.actions;
+const requestReducer = request.reducer;
 
 export default requestReducer;
 
 const getBoards = () => axios.get("/api/boards");
 const getColumns = () => axios.get("/api/columns");
 const getTasks = () => axios.get("/api/tasks");
-const getLabels = () => axios.get("/api/labels");
 
 export const fetchData = () => async dispatch => {
   let res;
@@ -134,25 +133,3 @@ export const fetchTasks = ({ columnId, taskId }) => async dispatch => {
     console.error(ex);
   }
 };
-
-export const fetchLabels = () => async dispatch => {
-  try {
-  } catch (ex) {}
-};
-
-// export const silentFetchData = boardId => async dispatch => {
-//   let res;
-//   try {
-//     res = await axios.get("/api/all");
-//   } catch (ex) {
-//     dispatch(requestFailed(ex.toString()));
-//   }
-//   dispatch(
-//     requestSuccess({
-//       boardId,
-//       boards: arrayToObject(res.data.boards),
-//       columns: arrayToObject(res.data.columns),
-//       tasks: arrayToObject(res.data.tasks)
-//     })
-//   );
-// };

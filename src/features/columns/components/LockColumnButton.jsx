@@ -1,16 +1,14 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { toggleLockColumn, makeSelectColumn } from "../slices";
+import { useDispatch } from "react-redux";
+import { useColumn } from "../../../hooks";
+import { toggleLockColumn } from "../slices";
 import { Button } from "@chakra-ui/core";
 
 const LockColumnButton = ({ columnId }) => {
-  const columnSelector = useMemo(makeSelectColumn, []);
-
-  const { isLocked } = useSelector(state => columnSelector(state, columnId));
+  const { isLocked } = useColumn(columnId);
 
   const dispatch = useDispatch();
-
   const handleLockToggle = () => {
     dispatch(toggleLockColumn({ columnId, isLocked: !isLocked }));
   };

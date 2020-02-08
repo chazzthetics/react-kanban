@@ -1,16 +1,11 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useBoard } from "../../../hooks";
 import { Select } from "@chakra-ui/core";
-import {
-  boardChanged,
-  selectCurrentBoardId,
-  selectAllBoardsWithTitle
-} from "../slices";
+import { boardChanged } from "../slices";
 
 const SelectBoardInput = () => {
-  const currentBoardId = useSelector(selectCurrentBoardId);
-  const boards = useSelector(selectAllBoardsWithTitle);
-
+  const { boardId, allBoards } = useBoard();
   const dispatch = useDispatch();
 
   const handleBoardChange = e => {
@@ -19,12 +14,13 @@ const SelectBoardInput = () => {
 
   return (
     <Select
-      value={currentBoardId}
+      value={boardId}
       onChange={handleBoardChange}
       size="sm"
+      variant="outline"
       borderRadius={4}
     >
-      {boards.map(board => (
+      {allBoards.map(board => (
         <option key={board.id} value={board.id}>
           {board.title}
         </option>

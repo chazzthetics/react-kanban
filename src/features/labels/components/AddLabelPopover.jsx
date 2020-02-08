@@ -1,12 +1,11 @@
-import React, { useMemo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { useToggle } from "../../../hooks";
+import { useDispatch } from "react-redux";
+import { useToggle, useTask, useLabel } from "../../../hooks";
 import {
   removeLabelFromTask,
   addLabelToTask,
-  taskEditingCancelled,
-  makeSelectTaskLabelIds
+  taskEditingCancelled
 } from "../../tasks/slices";
 import {
   Popover,
@@ -19,22 +18,17 @@ import {
   PopoverBody,
   PopoverFooter
 } from "@chakra-ui/core";
-import { selectAllLabels, selectLabelIds } from "../slices";
 import { CreateLabelForm } from "./";
 
 const AddLabelPopover = ({ taskId }) => {
   const { isOpen, close, open } = useToggle();
-
-  const taskLabelIdsSelector = useMemo(makeSelectTaskLabelIds, []);
-  const taskLabels = useSelector(state => taskLabelIdsSelector(state, taskId));
-  // FIXME: REFACTOR
-  const allLabels = useSelector(selectAllLabels);
-  const labelIds = useSelector(selectLabelIds);
+  const { taskLabelIds } = useTask(taskId);
+  const { labelIds, allLabels } = useLabel();
 
   const dispatch = useDispatch();
 
   const handleToggleLabel = labelId => {
-    if (taskLabels.includes(labelId)) {
+    if (taskLabelIds.includes(labelId)) {
       dispatch(removeLabelFromTask({ taskId, labelId }));
     } else {
       dispatch(addLabelToTask({ taskId, labelId }));
@@ -73,7 +67,7 @@ const AddLabelPopover = ({ taskId }) => {
                 borderRadius={4}
                 onClick={() => handleToggleLabel(labelId)}
                 bg={allLabels[labelId].color}
-                opacity={taskLabels.includes(labelId) ? 1 : 0.6}
+                opacity={taskLabelIds.includes(labelId) ? 1 : 0.6}
                 _hover={{ opacity: 0.9 }}
               ></PseudoBox>
             ))}

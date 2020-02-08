@@ -64,7 +64,6 @@ const CreateForm = ({
     </form>
   );
 };
-
 CreateForm.propTypes = {
   inputName: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,

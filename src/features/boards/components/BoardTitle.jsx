@@ -1,15 +1,11 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useBoard } from "../../../hooks";
 import { Heading, PseudoBox } from "@chakra-ui/core";
-import {
-  boardTitleEditing,
-  selectCurrentBoardId,
-  selectCurrentBoardTitle
-} from "../slices";
+import { boardTitleEditing } from "../slices";
 
 const BoardTitle = () => {
-  const boardId = useSelector(selectCurrentBoardId);
-  const boardTitle = useSelector(selectCurrentBoardTitle);
+  const { boardId, boardTitle } = useBoard();
 
   const dispatch = useDispatch();
 
@@ -40,5 +36,3 @@ const BoardTitle = () => {
 };
 
 export default BoardTitle;
-
-// TODO: change to Editiable chakra component
