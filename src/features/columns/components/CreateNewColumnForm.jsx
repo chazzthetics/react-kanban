@@ -1,9 +1,8 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
+import { useDispatch } from "react-redux";
+import { useBoard, useToggle } from "../../../hooks";
 import { createColumn } from "../slices";
 import { makeColumn } from "../utils/makeColumn";
-import { selectCurrentBoardId } from "../../boards/slices";
-import { useToggle } from "../../../hooks";
 import { CreateForm, AddButtonGroup } from "../../../components";
 import { CreateColumnButton } from "./";
 import { Flex } from "@chakra-ui/core";
@@ -11,7 +10,7 @@ import { Flex } from "@chakra-ui/core";
 const CreateNewColumnForm = () => {
   const { isOpen, close, open } = useToggle();
 
-  const boardId = useSelector(selectCurrentBoardId);
+  const { boardId } = useBoard();
 
   const dispatch = useDispatch();
 

@@ -1,30 +1,27 @@
-import React from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
-import { useSelector, useDispatch } from "react-redux";
-import { useColumn } from "../../../hooks";
+import { useDispatch } from "react-redux";
+import { useBoard, useColumn } from "../../../hooks";
 import { removeColumn } from "../slices";
-import { selectCurrentBoardId } from "../../boards/slices";
-import { Button } from "@chakra-ui/core";
+import { ListButton } from "../../../components/";
 
 const RemoveColumnButton = ({ columnId }) => {
-  const boardId = useSelector(selectCurrentBoardId);
+  const { boardId } = useBoard();
   const { isLocked } = useColumn(columnId);
 
   const dispatch = useDispatch();
-  const handleRemoveColumn = () => {
+  const handleRemoveColumn = useCallback(() => {
     dispatch(removeColumn({ columnId, boardId }));
-  };
+  }, [columnId, boardId, dispatch]);
 
   return (
-    <Button
+    <ListButton
       onClick={handleRemoveColumn}
-      size="sm"
-      fontWeight="normal"
-      variant="ghost"
-      disabled={isLocked}
+      isDisabled={isLocked}
+      label="Remove List"
     >
       Remove List
-    </Button>
+    </ListButton>
   );
 };
 

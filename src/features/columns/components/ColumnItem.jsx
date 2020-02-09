@@ -38,9 +38,9 @@ const ColumnItem = ({ index, columnId }) => {
                 justify="center"
                 mb={2}
                 cursor="pointer"
-                bg={snapshot.isDraggingOver ? "gray.100" : "gray.300"}
+                bg={snapshot.isDraggingOver ? "yellow.300" : "gray.300"}
                 borderRadius={4}
-                transition="background-color 150ms ease-in"
+                transition="background-color 120ms ease-out"
                 ref={provided.innerRef}
                 {...provided.droppableProps}
               >

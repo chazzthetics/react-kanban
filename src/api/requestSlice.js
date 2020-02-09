@@ -66,24 +66,25 @@ export default requestReducer;
 const getBoards = () => axios.get("/api/boards");
 const getColumns = () => axios.get("/api/columns");
 const getTasks = () => axios.get("/api/tasks");
+const getData = () => axios.get("/api/all");
 
 export const fetchData = () => async dispatch => {
-  let res;
   dispatch(requestStart());
   try {
-    res = await axios.get("/api/all");
+    const { data } = await getData();
+
+    dispatch(
+      requestSuccess({
+        boards: arrayToObject(data.boards),
+        columns: arrayToObject(data.columns),
+        tasks: arrayToObject(data.tasks),
+        labels: arrayToObject(data.labels)
+      })
+    );
   } catch (ex) {
     dispatch(requestFailed(ex.toString()));
   }
   //TODO: normalize in middleware?
-  dispatch(
-    requestSuccess({
-      boards: arrayToObject(res.data.boards),
-      columns: arrayToObject(res.data.columns),
-      tasks: arrayToObject(res.data.tasks),
-      labels: arrayToObject(res.data.labels)
-    })
-  );
 };
 
 export const fetchBoards = boardId => async dispatch => {

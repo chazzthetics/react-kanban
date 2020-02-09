@@ -48,21 +48,26 @@ const ColumnOptionsPopover = ({ columnId }) => {
         <PopoverTrigger>
           <IconButton icon={FiMoreHorizontal} size="sm" variant="ghost" />
         </PopoverTrigger>
-        <PopoverContent zIndex={4}>
+        <PopoverContent
+          zIndex={4}
+          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          px={4}
+          py={2}
+          borderRadius={4}
+        >
           <PopoverCloseButton />
-          <PopoverHeader textAlign="center" fontSize=".9rem">
+          <PopoverHeader textAlign="center" fontSize=".9rem" mb={2}>
             List Actions
           </PopoverHeader>
-          <PopoverBody>
+          <PopoverBody p={0}>
             <ButtonGroup
-              w="100%"
               d="flex"
               flexDirection="column"
               alignItems="flex-start"
             >
-              <ClearColumnButton columnId={columnId} ref={initialFocusRef} />
-              <LockColumnButton columnId={columnId} />
+              <LockColumnButton columnId={columnId} ref={initialFocusRef} />
               <RemoveColumnButton columnId={columnId} />
+              <ClearColumnButton columnId={columnId} />
             </ButtonGroup>
           </PopoverBody>
         </PopoverContent>
@@ -77,4 +82,4 @@ ColumnOptionsPopover.propTypes = {
 
 export default ColumnOptionsPopover;
 
-//TODO: need to implement LOCK LIST
+//TODO: need to implement last tab on X button

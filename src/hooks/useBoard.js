@@ -7,13 +7,17 @@ import {
   selectCurrentBoardColumnIdsLength,
   selectAllBoardsWithTitle
 } from "../features/boards/slices";
-import { selectCurrentBoardColumns } from "../features/shared";
+import {
+  selectCurrentBoardColumns,
+  selectCurrentBoardColumnsList
+} from "../features/shared";
 
 const useBoard = () => {
   const isEditing = useSelector(selectCurrentBoardIsEditing);
   const boardId = useSelector(selectCurrentBoardId);
   const boardTitle = useSelector(selectCurrentBoardTitle);
   const boardColumns = useSelector(selectCurrentBoardColumns);
+  const boardColumnsList = useSelector(selectCurrentBoardColumnsList);
   const hasColumns = useSelector(selectCurrentBoardColumnIdsLength);
   const columnIds = useSelector(selectCurrentBoardColumnIds);
   const allBoards = useSelector(selectAllBoardsWithTitle);
@@ -24,6 +28,7 @@ const useBoard = () => {
     boardTitle,
     hasColumns,
     boardColumns,
+    boardColumnsList,
     columnIds,
     allBoards
   };

@@ -1,5 +1,6 @@
 import React from "react";
-import { FiHome, FiCode, FiSun } from "react-icons/fi";
+import { FiHome, FiSun } from "react-icons/fi";
+import { GoMarkGithub } from "react-icons/go";
 import {
   Flex,
   Heading,
@@ -27,14 +28,16 @@ const AppBar = () => {
           flexBasis="14rem"
         >
           <ButtonGroup d="flex" spacing={1}>
-            <ListItem>
-              <IconButton
-                aria-label="Go to Home"
-                icon={FiHome}
-                size="sm"
-                fontSize="1.3rem"
-              />
-            </ListItem>
+            <Tooltip label="Home" borderRadius={4} placement="bottom">
+              <ListItem mr={1}>
+                <IconButton
+                  aria-label="Go to Home"
+                  icon={FiHome}
+                  size="sm"
+                  fontSize="1.3rem"
+                />
+              </ListItem>
+            </Tooltip>
             <ListItem>
               <SelectBoardInput />
             </ListItem>
@@ -58,7 +61,13 @@ const AppBar = () => {
             {/* Temporary placeholders */}
             <ListItem>
               <Tooltip label="Source Code" borderRadius={4}>
-                <IconButton icon={FiCode} size="sm" />
+                <a
+                  href="https://github.com/chazzthetics/react-kanban"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                >
+                  <IconButton icon={GoMarkGithub} size="sm" />
+                </a>
               </Tooltip>
             </ListItem>
             <ListItem>

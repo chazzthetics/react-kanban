@@ -15,16 +15,20 @@ const TaskList = ({ columnId }) => {
       draggableId={task.id}
       isDragDisabled={task.isEditing}
     >
-      {provided => (
+      {(provided, snapshot) => (
         <Flex
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
           direction="column"
-          justify="flex-end"
+          justify="center"
           align="stretch"
         >
-          <TaskItem taskId={task.id} columnId={columnId} />
+          <TaskItem
+            taskId={task.id}
+            columnId={columnId}
+            isDragging={snapshot.isDragging}
+          />
         </Flex>
       )}
     </Draggable>

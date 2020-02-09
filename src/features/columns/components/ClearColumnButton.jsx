@@ -1,37 +1,33 @@
-import React, { forwardRef } from "react";
+import React, { useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useColumn } from "../../../hooks";
 import { clearColumn } from "../slices";
-import { Button } from "@chakra-ui/core";
+import { ListButton } from "../../../components";
 
-const ClearColumnButton = forwardRef(({ columnId }, ref) => {
+const ClearColumnButton = ({ columnId }) => {
   const dispatch = useDispatch();
 
   const { isLocked, hasTasks } = useColumn(columnId);
 
-  const handleClearColumn = () => {
+  const handleClearColumn = useCallback(() => {
     if (hasTasks) {
       dispatch(clearColumn({ columnId }));
     } else {
       return;
     }
-  };
+  }, [columnId, hasTasks, dispatch]);
 
   return (
-    <Button
+    <ListButton
       onClick={handleClearColumn}
-      size="sm"
-      fontWeight="normal"
-      variant="ghost"
-      mb={1}
-      ref={ref}
-      disabled={isLocked || !hasTasks}
+      isDisabled={isLocked || hasTasks === 0}
+      label="Clear List"
     >
       Clear List
-    </Button>
+    </ListButton>
   );
-});
+};
 
 ClearColumnButton.propTypes = {
   columnId: PropTypes.string.isRequired

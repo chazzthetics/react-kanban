@@ -21,6 +21,7 @@ const BoardTitle = () => {
       mr={1}
       borderRadius={4}
       _hover={{ backgroundColor: "gray.400" }}
+      transition="background-color 150ms ease-in"
     >
       <Heading
         as="h2"

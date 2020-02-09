@@ -5,11 +5,13 @@ const useFocus = (isEditing = false) => {
 
   useEffect(() => {
     if (focusRef.current) {
-      if (isEditing) {
-        focusRef.current.select();
-      } else {
-        focusRef.current.focus();
-      }
+      focusRef.current.focus();
+    }
+  });
+
+  useEffect(() => {
+    if (focusRef.current && isEditing) {
+      focusRef.current.select();
     }
   }, [isEditing]);
 

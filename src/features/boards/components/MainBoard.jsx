@@ -10,11 +10,11 @@ const MainBoard = () => {
   const { boardId, boardColumns, columnIds } = useBoard();
 
   //FIXME: move to selector later
-  const loading = useSelector(state => state.request.loading);
+  const { loading, error } = useSelector(state => state.request);
 
   const handleDragEnd = useDrag(boardId, boardColumns, columnIds);
 
-  if (loading)
+  if (loading) {
     return (
       <Flex align="center" justify="center" h="80%">
         <Spinner
@@ -26,9 +26,15 @@ const MainBoard = () => {
         />
       </Flex>
     );
+  }
 
+  if (error) {
+    return <h2>Something went wrong...</h2>;
+  }
   //FIXME: no "no boards" during init load
-  if (!loading && !boardId) return <h3>No Boards</h3>;
+  if (!loading && !boardId) {
+    return <h3>No Boards</h3>;
+  }
 
   return (
     <Box>

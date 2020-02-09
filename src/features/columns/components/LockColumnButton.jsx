@@ -1,29 +1,28 @@
-import React from "react";
+import React, { forwardRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useColumn } from "../../../hooks";
 import { toggleLockColumn } from "../slices";
-import { Button } from "@chakra-ui/core";
+import { ListButton } from "../../../components";
 
-const LockColumnButton = ({ columnId }) => {
+const LockColumnButton = forwardRef(({ columnId }, ref) => {
   const { isLocked } = useColumn(columnId);
 
   const dispatch = useDispatch();
-  const handleLockToggle = () => {
+  const handleLockToggle = useCallback(() => {
     dispatch(toggleLockColumn({ columnId, isLocked: !isLocked }));
-  };
+  }, [columnId, isLocked, dispatch]);
 
   return (
-    <Button
-      size="sm"
-      fontWeight="normal"
-      variant="ghost"
+    <ListButton
       onClick={handleLockToggle}
+      ref={ref}
+      label={!isLocked ? "Lock List" : "Unlock List"}
     >
       {!isLocked ? "Lock List" : "Unlock List"}
-    </Button>
+    </ListButton>
   );
-};
+});
 
 LockColumnButton.propTypes = {
   columnId: PropTypes.string.isRequired
@@ -31,4 +30,4 @@ LockColumnButton.propTypes = {
 
 export default LockColumnButton;
 
-// FIXME: fix padding on hover..
+//TODO: proptypes (ref)
