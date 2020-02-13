@@ -1,6 +1,7 @@
 import React from "react";
 import ReactDOM from "react-dom";
 import { Provider } from "react-redux";
+import { BrowserRouter } from "react-router-dom";
 import store from "./app/redux/store";
 import App from "./app/App";
 import { CSSReset, ThemeProvider } from "@chakra-ui/core";
@@ -12,7 +13,9 @@ ReactDOM.render(
     <ThemeProvider>
       <CSSReset />
       <ErrorBoundary render={(error, errorMessage) => <div>Error!!</div>}>
-        <App />
+        <BrowserRouter>
+          <App />
+        </BrowserRouter>
       </ErrorBoundary>
     </ThemeProvider>
   </Provider>,

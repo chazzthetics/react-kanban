@@ -1,13 +1,13 @@
 import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import { fetchTasks } from "../../../api/requestSlice";
+import { fetchTasks } from "../../requests/requestSlice";
 import {
   boardRemoved,
   boardCleared,
   columnRemoved,
   columnCleared,
-  requestSuccess,
+  requestInitialDataSuccess,
   requestTasksSuccess,
   requestTasksFailed
 } from "../../shared";
@@ -63,7 +63,7 @@ const allTasks = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: tasksLoaded,
+    [requestInitialDataSuccess]: tasksLoaded,
     [requestTasksSuccess]: tasksLoaded,
     [requestTasksFailed]: (state, action) => {
       //TODO:
@@ -116,15 +116,22 @@ export const {
 } = allTasks.actions;
 export const allTasksReducer = allTasks.reducer;
 
+//TODO: refactor
+const baseUrl = "http://localhost:8000/api";
+const config = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("access_token")
+  }
+};
 export const createTask = ({ task, columnId }) => async dispatch => {
   try {
     dispatch(taskCreated({ task, columnId }));
-    const { data } = await axios.post("/api/tasks", {
+    const { data } = await axios.post(`${baseUrl}/tasks`, {
       content: task.content,
       column_id: parseInt(columnId)
     });
 
-    dispatch(fetchTasks({ columnId, taskId: data.id }));
+    dispatch(fetchTasks({ columnId, taskId: data.data.id }));
   } catch (ex) {
     console.error(ex);
   }
@@ -133,7 +140,7 @@ export const createTask = ({ task, columnId }) => async dispatch => {
 export const removeTask = ({ taskId, columnId }) => async dispatch => {
   try {
     dispatch(taskRemoved({ taskId, columnId }));
-    await axios.delete(`/api/tasks/${taskId}`);
+    await axios.delete(`${baseUrl}/tasks/${taskId}`);
   } catch (ex) {
     console.error(ex);
   }
@@ -142,7 +149,7 @@ export const removeTask = ({ taskId, columnId }) => async dispatch => {
 export const updateTaskContent = ({ taskId, content }) => async dispatch => {
   try {
     dispatch(taskContentUpdated({ taskId, content }));
-    await axios.patch(`/api/tasks/${taskId}`, { content });
+    await axios.patch(`${baseUrl}/tasks/${taskId}`, { content });
   } catch (ex) {
     console.error(ex);
   }
@@ -151,7 +158,7 @@ export const updateTaskContent = ({ taskId, content }) => async dispatch => {
 export const toggleCompleteTask = ({ taskId, completed }) => async dispatch => {
   try {
     dispatch(taskCompleteToggled({ taskId, completed }));
-    await axios.patch(`/api/tasks/${taskId}`, { completed });
+    await axios.patch(`${baseUrl}/tasks/${taskId}`, { completed });
   } catch (ex) {
     console.error(ex);
   }
@@ -160,7 +167,7 @@ export const toggleCompleteTask = ({ taskId, completed }) => async dispatch => {
 export const addLabelToTask = ({ taskId, labelId }) => async dispatch => {
   try {
     dispatch(taskLabelAdded({ taskId, labelId }));
-    await axios.put(`/api/tasks/${taskId}/label`, {
+    await axios.put(`${baseUrl}/tasks/${taskId}/label`, {
       labelId: parseInt(labelId)
     });
   } catch (ex) {
@@ -171,7 +178,7 @@ export const addLabelToTask = ({ taskId, labelId }) => async dispatch => {
 export const removeLabelFromTask = ({ taskId, labelId }) => async dispatch => {
   try {
     dispatch(taskLabelRemoved({ taskId, labelId }));
-    await axios.put(`/api/tasks/${taskId}/label/remove`, {
+    await axios.put(`${baseUrl}/tasks/${taskId}/label/remove`, {
       labelId: parseInt(labelId)
     });
   } catch (ex) {

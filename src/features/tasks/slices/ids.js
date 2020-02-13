@@ -5,7 +5,7 @@ import {
   boardCleared,
   columnRemoved,
   columnCleared,
-  requestSuccess,
+  requestInitialDataSuccess,
   requestTasksSuccess
 } from "../../shared";
 
@@ -29,7 +29,7 @@ const taskIds = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: tasksLoaded,
+    [requestInitialDataSuccess]: tasksLoaded,
     [requestTasksSuccess]: tasksLoaded,
     [boardRemoved]: cascadeFromBoard,
     [boardCleared]: cascadeFromBoard,

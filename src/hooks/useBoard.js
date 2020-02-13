@@ -1,5 +1,6 @@
 import { useSelector } from "react-redux";
 import {
+  selectBoardIds,
   selectCurrentBoardIsEditing,
   selectCurrentBoardId,
   selectCurrentBoardTitle,
@@ -13,6 +14,7 @@ import {
 } from "../features/shared";
 
 const useBoard = () => {
+  const boardIds = useSelector(selectBoardIds);
   const isEditing = useSelector(selectCurrentBoardIsEditing);
   const boardId = useSelector(selectCurrentBoardId);
   const boardTitle = useSelector(selectCurrentBoardTitle);
@@ -23,6 +25,7 @@ const useBoard = () => {
   const allBoards = useSelector(selectAllBoardsWithTitle);
 
   return {
+    boardIds,
     isEditing,
     boardId,
     boardTitle,

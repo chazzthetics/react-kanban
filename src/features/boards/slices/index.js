@@ -14,6 +14,7 @@ import {
 import {
   selectAllBoards,
   selectAllBoardsWithTitle,
+  selectBoardIds,
   selectCurrentBoardId,
   selectCurrentBoard,
   selectCurrentBoardTitle,
@@ -28,6 +29,7 @@ import {
 export {
   selectAllBoards,
   selectAllBoardsWithTitle,
+  selectBoardIds,
   selectCurrentBoardId,
   selectCurrentBoard,
   selectCurrentBoardTitle,

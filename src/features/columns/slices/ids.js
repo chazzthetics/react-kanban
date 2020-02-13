@@ -3,7 +3,7 @@ import { arrayToObject } from "../../../utils/arrayToObject";
 import {
   boardRemoved,
   boardCleared,
-  requestSuccess,
+  requestInitialDataSuccess,
   requestColumnsSuccess
 } from "../../shared";
 
@@ -27,7 +27,7 @@ const columnIds = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: columnsLoaded,
+    [requestInitialDataSuccess]: columnsLoaded,
     [requestColumnsSuccess]: columnsLoaded,
     [boardRemoved]: cascadeFromBoard,
     [boardCleared]: cascadeFromBoard

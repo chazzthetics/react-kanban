@@ -1,18 +1,39 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { DragDropContext } from "react-beautiful-dnd";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
+import { fetchData } from "../../requests";
+import { getUser } from "../../auth";
 import { useDrag, useBoard } from "../../../hooks";
 import { ColumnList } from "../../columns/components";
 import { Box, Flex, Spinner } from "@chakra-ui/core";
 import { BoardHeader } from "./";
 
+//FIXME: login...
 const MainBoard = () => {
-  const { boardId, boardColumns, columnIds } = useBoard();
-
-  //FIXME: move to selector later
   const { loading, error } = useSelector(state => state.request);
 
+  const { boardId, boardColumns, columnIds } = useBoard();
+  const { token, error: authError, user } = useSelector(state => state.auth);
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (!authError && token) {
+      dispatch(getUser(token));
+    }
+  }, [dispatch, authError, token]);
+
+  useEffect(() => {
+    if (token && user) {
+      dispatch(fetchData(token));
+    }
+  }, [dispatch, token, user]);
+
   const handleDragEnd = useDrag(boardId, boardColumns, columnIds);
+
+  if (error) {
+    return <h2>Something went wrong...</h2>;
+  }
 
   if (loading) {
     return (
@@ -26,13 +47,8 @@ const MainBoard = () => {
         />
       </Flex>
     );
-  }
-
-  if (error) {
-    return <h2>Something went wrong...</h2>;
-  }
-  //FIXME: no "no boards" during init load
-  if (!loading && !boardId) {
+  } else if (!boardId && !loading) {
+    //FIXME: no "no boards" during init load
     return <h3>No Boards</h3>;
   }
 

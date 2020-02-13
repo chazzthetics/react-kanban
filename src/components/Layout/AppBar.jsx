@@ -1,4 +1,5 @@
 import React from "react";
+import { useSelector } from "react-redux";
 import { FiHome, FiSun } from "react-icons/fi";
 import { GoMarkGithub } from "react-icons/go";
 import {
@@ -10,7 +11,8 @@ import {
   List,
   ListItem,
   Avatar,
-  Tooltip
+  Tooltip,
+  Spinner
 } from "@chakra-ui/core";
 import {
   SelectBoardInput,
@@ -18,6 +20,7 @@ import {
 } from "../../features/boards/components";
 
 const AppBar = () => {
+  const { loading } = useSelector(state => state.request);
   return (
     <Box as="header" h="40px" bg="gray.400" p="4px">
       <Flex as="nav" align="center" justify="space-between" h="100%">
@@ -29,7 +32,7 @@ const AppBar = () => {
         >
           <ButtonGroup d="flex" spacing={1}>
             <Tooltip label="Home" borderRadius={4} placement="bottom">
-              <ListItem mr={1}>
+              <ListItem mr={loading ? 4 : 1}>
                 <IconButton
                   aria-label="Go to Home"
                   icon={FiHome}
@@ -38,8 +41,12 @@ const AppBar = () => {
                 />
               </ListItem>
             </Tooltip>
-            <ListItem>
-              <SelectBoardInput />
+            <ListItem d="flex" alignItems="center">
+              {loading ? (
+                <Spinner thickness="3px" speed="0.65s" color="blue.500" />
+              ) : (
+                <SelectBoardInput />
+              )}
             </ListItem>
           </ButtonGroup>
         </List>

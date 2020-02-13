@@ -1,11 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import { fetchBoards } from "../../../api/requestSlice";
+import {
+  requestInitialDataSuccess,
+  fetchBoards
+} from "../../requests/requestSlice";
 import {
   columnCreated,
   columnRemoved,
-  requestSuccess,
   requestBoardsSuccess,
   requestBoardsFailed,
   requestColumnsSuccess
@@ -49,7 +51,7 @@ const allBoards = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: boardsLoaded,
+    [requestInitialDataSuccess]: boardsLoaded,
     [requestBoardsSuccess]: boardsLoaded,
     [requestBoardsFailed]: (state, action) => {
       //FIXME: revert back to old state on error
@@ -93,13 +95,16 @@ export const {
 export const allBoardsReducer = allBoards.reducer;
 
 // TODO: cleanup & error handling
+const baseUrl = "http://localhost:8000/api";
 
 export const createBoard = ({ board }) => async dispatch => {
   try {
     dispatch(boardCreated({ board }));
-    const { data } = await axios.post("/api/boards", { title: board.title });
+    const { data } = await axios.post(`${baseUrl}/boards`, {
+      title: board.title
+    });
 
-    dispatch(fetchBoards(data.id));
+    dispatch(fetchBoards(data.data.id));
   } catch (ex) {
     console.error(ex);
   }
@@ -108,7 +113,7 @@ export const createBoard = ({ board }) => async dispatch => {
 export const removeBoard = ({ boardId }) => async dispatch => {
   try {
     dispatch(boardRemoved({ boardId }));
-    await axios.delete(`/api/boards/${boardId}`);
+    await axios.delete(`${baseUrl}/boards/${boardId}`);
   } catch (ex) {
     console.error(ex);
   }
@@ -117,7 +122,7 @@ export const removeBoard = ({ boardId }) => async dispatch => {
 export const clearBoard = ({ boardId }) => async dispatch => {
   try {
     dispatch(boardCleared({ boardId }));
-    await axios.delete(`/api/boards/${boardId}/clear`);
+    await axios.delete(`${baseUrl}/boards/${boardId}/clear`);
   } catch (ex) {
     console.error(ex);
   }
@@ -126,7 +131,7 @@ export const clearBoard = ({ boardId }) => async dispatch => {
 export const updateBoardTitle = ({ boardId, title }) => async dispatch => {
   try {
     dispatch(boardTitleUpdated({ boardId, title }));
-    await axios.patch(`/api/boards/${boardId}`, { title });
+    await axios.patch(`${baseUrl}/boards/${boardId}`, { title });
   } catch (ex) {
     console.error(ex);
   }
@@ -139,7 +144,7 @@ export const reorderColumn = ({
 }) => async dispatch => {
   try {
     dispatch(columnReordered({ boardId, columnOrder }));
-    await axios.put(`/api/boards/${boardId}/columns`, {
+    await axios.put(`${baseUrl}/boards/${boardId}/reorder`, {
       id: parseInt(boardId),
       columnIds: arrayToObject(orderToPersist)
     });

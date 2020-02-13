@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { requestSuccess, requestBoardsSuccess } from "../../shared";
+import { requestInitialDataSuccess, requestBoardsSuccess } from "../../shared";
 
 /**
  * Board Ids Slice
@@ -22,7 +22,7 @@ const boardIds = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: boardsLoaded,
+    [requestInitialDataSuccess]: boardsLoaded,
     [requestBoardsSuccess]: boardsLoaded
   }
 });

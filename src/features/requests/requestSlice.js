@@ -1,0 +1,130 @@
+import axios from "axios";
+import { createSlice } from "@reduxjs/toolkit";
+import { arrayToObject } from "../../utils/arrayToObject";
+
+const request = createSlice({
+  name: "request",
+  initialState: {
+    loading: false,
+    error: null
+  },
+  reducers: {
+    requestInitialDataStart: init,
+    requestInitialDataSuccess: success,
+    requestInitialDataFailed: error,
+    requestBoardsSuccess: success,
+    requestBoardsFailed: error,
+    requestColumnsSuccess: success,
+    requestColumnsFailed: error,
+    requestTasksSuccess: success,
+    requestTasksFailed: error
+  }
+});
+
+export const {
+  requestInitialDataStart,
+  requestInitialDataSuccess,
+  requestInitialDataFailed,
+  requestBoardsSuccess,
+  requestBoardsFailed,
+  requestColumnsSuccess,
+  requestColumnsFailed,
+  requestTasksSuccess,
+  requestTasksFailed
+} = request.actions;
+
+const requestReducer = request.reducer;
+export default requestReducer;
+
+function init(state) {
+  state.loading = true;
+  state.error = null;
+}
+
+function success(state) {
+  state.loading = false;
+  state.error = null;
+}
+function error(state, action) {
+  state.loading = false;
+  state.error = action.payload;
+}
+
+//TODO: move to own slice/service
+
+const baseUrl = "http://localhost:8000/api";
+const getBoards = () => axios.get(`${baseUrl}/boards`);
+const getColumns = () => axios.get(`${baseUrl}/columns`);
+const getTasks = () => axios.get(`${baseUrl}/tasks`);
+const getData = token =>
+  axios.get(`${baseUrl}/all`, {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+export const fetchData = token => async dispatch => {
+  dispatch(requestInitialDataStart());
+  try {
+    const { data } = await getData(token);
+
+    dispatch(
+      requestInitialDataSuccess({
+        boards: data.boards.data,
+        columns: data.columns.data,
+        tasks: data.tasks.data,
+        labels: data.labels.data
+      })
+    );
+  } catch (ex) {
+    dispatch(requestInitialDataFailed(ex.toString()));
+  }
+};
+
+export const fetchBoards = boardId => async dispatch => {
+  try {
+    const { data } = await getBoards();
+
+    dispatch(
+      requestBoardsSuccess({
+        boardId,
+        boards: arrayToObject(data.data)
+      })
+    );
+  } catch (ex) {
+    dispatch(requestBoardsFailed(ex.toString()));
+    console.error(ex);
+  }
+};
+
+export const fetchColumns = ({ boardId, columnId }) => async dispatch => {
+  try {
+    const { data } = await getColumns();
+    console.log(columnId);
+    dispatch(
+      requestColumnsSuccess({
+        boardId,
+        columns: arrayToObject(data.data),
+        columnId
+      })
+    );
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const fetchTasks = ({ columnId, taskId }) => async dispatch => {
+  try {
+    const { data } = await getTasks();
+
+    dispatch(
+      requestTasksSuccess({
+        columnId,
+        tasks: arrayToObject(data.data),
+        taskId
+      })
+    );
+  } catch (ex) {
+    console.error(ex);
+  }
+};

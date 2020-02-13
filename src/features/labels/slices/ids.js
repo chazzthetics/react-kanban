@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { requestSuccess } from "../../shared";
+import { requestInitialDataSuccess } from "../../shared";
 
 /**
  * Label Ids Slice
@@ -21,7 +21,7 @@ const labelIds = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (_state, action) => {
+    [requestInitialDataSuccess]: (_state, action) => {
       const { labels } = action.payload;
       return Object.keys(labels);
     }

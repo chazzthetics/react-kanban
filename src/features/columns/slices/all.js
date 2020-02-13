@@ -1,13 +1,13 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import { fetchColumns } from "../../../api/requestSlice";
+import { fetchColumns } from "../../requests/requestSlice";
 import {
   boardRemoved,
   boardCleared,
   taskCreated,
   taskRemoved,
-  requestSuccess,
+  requestInitialDataSuccess,
   requestColumnsSuccess,
   requestColumnsFailed,
   requestTasksSuccess
@@ -73,7 +73,7 @@ const allColumns = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: columnsLoaded,
+    [requestInitialDataSuccess]: columnsLoaded,
     [requestColumnsSuccess]: columnsLoaded,
     [requestColumnsFailed]: (state, action) => {},
     [requestTasksSuccess]: (state, action) => {
@@ -133,16 +133,22 @@ export const {
 } = allColumns.actions;
 export const allColumnsReducer = allColumns.reducer;
 
-// TODO: cleanup
+//TODO: refactor
+const baseUrl = "http://localhost:8000/api";
+const config = {
+  headers: {
+    Authorization: "Bearer " + localStorage.getItem("access_token")
+  }
+};
 export const createColumn = ({ column, boardId }) => async dispatch => {
   try {
     dispatch(columnCreated({ column, boardId }));
-    const { data } = await axios.post("/api/columns", {
+    const { data } = await axios.post(`${baseUrl}/columns`, {
       title: column.title,
       board_id: parseInt(boardId)
     });
 
-    dispatch(fetchColumns({ boardId, columnId: data.id }));
+    dispatch(fetchColumns({ boardId, columnId: data.data.id }));
   } catch (ex) {
     console.error(ex);
   }
@@ -151,7 +157,7 @@ export const createColumn = ({ column, boardId }) => async dispatch => {
 export const removeColumn = ({ columnId, boardId }) => async dispatch => {
   try {
     dispatch(columnRemoved({ columnId, boardId }));
-    await axios.delete(`/api/columns/${columnId}`);
+    await axios.delete(`${baseUrl}/columns/${columnId}`);
   } catch (ex) {
     console.error(ex);
   }
@@ -160,7 +166,7 @@ export const removeColumn = ({ columnId, boardId }) => async dispatch => {
 export const clearColumn = ({ columnId }) => async dispatch => {
   try {
     dispatch(columnCleared({ columnId }));
-    await axios.delete(`/api/columns/${columnId}/clear`);
+    await axios.delete(`${baseUrl}/columns/${columnId}/clear`);
   } catch (ex) {
     console.error(ex);
   }
@@ -169,7 +175,7 @@ export const clearColumn = ({ columnId }) => async dispatch => {
 export const toggleLockColumn = ({ columnId, isLocked }) => async dispatch => {
   try {
     dispatch(lockColumnToggled({ columnId, isLocked }));
-    await axios.patch(`/api/columns/${columnId}`, { isLocked });
+    await axios.patch(`${baseUrl}/columns/${columnId}`, { isLocked });
   } catch (ex) {
     console.error(ex);
   }
@@ -178,7 +184,7 @@ export const toggleLockColumn = ({ columnId, isLocked }) => async dispatch => {
 export const updateColumnTitle = ({ columnId, title }) => async dispatch => {
   try {
     dispatch(columnTitleUpdated({ columnId, title }));
-    await axios.patch(`/api/columns/${columnId}`, { title });
+    await axios.patch(`${baseUrl}/columns/${columnId}`, { title });
   } catch (ex) {
     console.error(ex);
   }
@@ -191,7 +197,7 @@ export const reorderTask = ({
 }) => async dispatch => {
   try {
     dispatch(taskReordered({ columnId, taskOrder }));
-    await axios.put(`/api/columns/${columnId}/tasks`, {
+    await axios.put(`${baseUrl}/columns/${columnId}/tasks`, {
       id: parseInt(columnId),
       taskIds: arrayToObject(orderToPersist)
     });
@@ -218,7 +224,7 @@ export const reorderTaskBetweenColumns = ({
       })
     );
 
-    await axios.put(`/api/columns/${startColumnId}/${endColumnId}/tasks`, {
+    await axios.put(`${baseUrl}/columns/${endColumnId}`, {
       startColumnId: parseInt(startColumnId),
       endColumnId: parseInt(endColumnId),
       startTasks: arrayToObject(startOrderToPersist),

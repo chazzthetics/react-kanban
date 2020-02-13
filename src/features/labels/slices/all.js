@@ -1,5 +1,5 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { requestSuccess } from "../../shared";
+import { requestInitialDataSuccess } from "../../shared";
 
 /**
  * All Labels Slice
@@ -18,7 +18,7 @@ const allLabels = createSlice({
     }
   },
   extraReducers: {
-    [requestSuccess]: (_state, action) => {
+    [requestInitialDataSuccess]: (_state, action) => {
       const { labels } = action.payload;
       return labels;
     }

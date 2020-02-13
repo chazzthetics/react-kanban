@@ -6,7 +6,7 @@ export const columnCleared = "columns/columnCleared";
 export const taskCreated = "tasks/taskCreated";
 export const taskRemoved = "tasks/taskRemoved";
 
-export const requestSuccess = "request/requestSuccess";
+export const requestInitialDataSuccess = "request/requestInitialDataSuccess";
 export const requestBoardsSuccess = "request/requestBoardsSuccess";
 export const requestBoardsFailed = "request/requestBoardsFailed";
 export const requestColumnsSuccess = "request/requestColumnsSuccess";

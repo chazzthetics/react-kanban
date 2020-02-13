@@ -1,8 +1,8 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { columnTitleEditing, toggleLockColumn } from "../slices";
 import { useColumn } from "../../../hooks";
+import { columnTitleEditing, toggleLockColumn } from "../slices";
 import { Flex, Heading, IconButton, ButtonGroup } from "@chakra-ui/core";
 import { ColumnOptionsPopover, EditColumnTitleForm } from "./";
 

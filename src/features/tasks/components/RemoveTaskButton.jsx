@@ -1,13 +1,10 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { useColumn } from "../../../hooks";
 import { removeTask } from "../slices";
 import { IconButton } from "@chakra-ui/core";
 
 const RemoveTaskButton = ({ taskId, columnId }) => {
-  const { isLocked } = useColumn(columnId);
-
   const dispatch = useDispatch();
 
   const handleRemove = () => {
@@ -20,7 +17,6 @@ const RemoveTaskButton = ({ taskId, columnId }) => {
       size="sm"
       aria-label="Remove Task"
       icon="delete"
-      disabled={isLocked}
     />
   );
 };
