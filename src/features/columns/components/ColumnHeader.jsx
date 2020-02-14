@@ -37,6 +37,7 @@ const ColumnHeader = ({ columnId }) => {
           fontWeight="semibold"
           ml={1}
           onClick={handleEditColumnTitle}
+          color="#000"
         >
           {title}
         </Heading>

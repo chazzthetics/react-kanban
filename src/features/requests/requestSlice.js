@@ -1,6 +1,6 @@
-import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../utils/arrayToObject";
+import { getData, getBoards, getColumns, getTasks } from "../../api";
 
 const request = createSlice({
   name: "request",
@@ -9,7 +9,7 @@ const request = createSlice({
     error: null
   },
   reducers: {
-    requestInitialDataStart: init,
+    requestInitialDataStart: start,
     requestInitialDataSuccess: success,
     requestInitialDataFailed: error,
     requestBoardsSuccess: success,
@@ -36,7 +36,7 @@ export const {
 const requestReducer = request.reducer;
 export default requestReducer;
 
-function init(state) {
+function start(state) {
   state.loading = true;
   state.error = null;
 }
@@ -51,17 +51,6 @@ function error(state, action) {
 }
 
 //TODO: move to own slice/service
-
-const baseUrl = "http://localhost:8000/api";
-const getBoards = () => axios.get(`${baseUrl}/boards`);
-const getColumns = () => axios.get(`${baseUrl}/columns`);
-const getTasks = () => axios.get(`${baseUrl}/tasks`);
-const getData = token =>
-  axios.get(`${baseUrl}/all`, {
-    headers: {
-      Authorization: `Bearer ${token}`
-    }
-  });
 
 export const fetchData = token => async dispatch => {
   dispatch(requestInitialDataStart());
@@ -109,6 +98,7 @@ export const fetchColumns = ({ boardId, columnId }) => async dispatch => {
       })
     );
   } catch (ex) {
+    dispatch(requestColumnsFailed(ex.toString()));
     console.error(ex);
   }
 };
@@ -125,6 +115,7 @@ export const fetchTasks = ({ columnId, taskId }) => async dispatch => {
       })
     );
   } catch (ex) {
+    dispatch(requestTasksFailed(ex.toString()));
     console.error(ex);
   }
 };

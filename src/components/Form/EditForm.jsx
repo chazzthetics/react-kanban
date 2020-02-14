@@ -26,7 +26,6 @@ const EditForm = ({
       onCancel();
     }
   });
-
   return (
     <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "100%" }}>
       {!textarea ? (

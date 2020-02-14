@@ -1,5 +1,6 @@
 import React from "react";
 import { useSelector } from "react-redux";
+import { selectUser } from "../../features/auth";
 import { FiHome, FiSun } from "react-icons/fi";
 import { GoMarkGithub } from "react-icons/go";
 import {
@@ -11,8 +12,7 @@ import {
   List,
   ListItem,
   Avatar,
-  Tooltip,
-  Spinner
+  Tooltip
 } from "@chakra-ui/core";
 import {
   SelectBoardInput,
@@ -20,9 +20,10 @@ import {
 } from "../../features/boards/components";
 
 const AppBar = () => {
-  const { loading } = useSelector(state => state.request);
+  const user = useSelector(selectUser);
+
   return (
-    <Box as="header" h="40px" bg="gray.400" p="4px">
+    <Box as="header" h="40px" bg="#4C80A7" p="4px">
       <Flex as="nav" align="center" justify="space-between" h="100%">
         <List
           d="flex"
@@ -32,7 +33,7 @@ const AppBar = () => {
         >
           <ButtonGroup d="flex" spacing={1}>
             <Tooltip label="Home" borderRadius={4} placement="bottom">
-              <ListItem mr={loading ? 4 : 1}>
+              <ListItem mr={1}>
                 <IconButton
                   aria-label="Go to Home"
                   icon={FiHome}
@@ -42,16 +43,19 @@ const AppBar = () => {
               </ListItem>
             </Tooltip>
             <ListItem d="flex" alignItems="center">
-              {loading ? (
-                <Spinner thickness="3px" speed="0.65s" color="blue.500" />
-              ) : (
-                <SelectBoardInput />
-              )}
+              <SelectBoardInput />
             </ListItem>
           </ButtonGroup>
         </List>
         <Box>
-          <Heading fontSize="1rem">React Kanban</Heading>
+          <Heading
+            fontSize="1rem"
+            letterSpacing=".8px"
+            fontWeight="semibold"
+            color="#FFF"
+          >
+            REACT KANBAN
+          </Heading>
         </Box>
         <List
           d="flex"
@@ -83,7 +87,12 @@ const AppBar = () => {
               </Tooltip>
             </ListItem>
             <ListItem cursor="pointer">
-              <Avatar name="C L" size="sm" />
+              <Avatar
+                name={user && user.name}
+                size="sm"
+                bg="purple.500"
+                color="#fff"
+              />
             </ListItem>
             {/* ********************** */}
           </ButtonGroup>

@@ -12,7 +12,7 @@ const SelectBoardInput = () => {
     dispatch(boardChanged({ boardId: e.target.value }));
   };
 
-  return (
+  return boardId ? (
     <Select
       value={boardId}
       onChange={handleBoardChange}
@@ -26,7 +26,7 @@ const SelectBoardInput = () => {
         </option>
       ))}
     </Select>
-  );
+  ) : null;
 };
 
 export default SelectBoardInput;

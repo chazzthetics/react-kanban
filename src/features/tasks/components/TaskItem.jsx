@@ -34,7 +34,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       }
       align="center"
       justify="space-between"
-      bg={isDragging ? "purple.200" : "gray.100"}
+      bg={isDragging ? "#f2f2f2" : "#FFF"}
       borderRadius={4}
       cursor="pointer"
       onMouseEnter={handleShowOptions}

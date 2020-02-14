@@ -23,7 +23,7 @@ const CreateNewColumnForm = () => {
     <CreateColumnButton onOpen={open} />
   ) : (
     <Flex
-      bg="gray.300"
+      bg="#ebecf0"
       h="96px"
       p="8px"
       borderRadius={4}

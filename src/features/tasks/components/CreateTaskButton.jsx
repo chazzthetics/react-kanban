@@ -19,10 +19,16 @@ const CreateTaskButton = ({ onOpen, columnId }) => {
       size="sm"
       w="17rem"
       h="36px"
-      bg="gray.300"
+      bg="#FFF"
       borderRadius={4}
       px={3}
-      _hover={{ bg: "gray.200" }}
+      opacity={0.8}
+      _hover={{
+        opacity: 1,
+        backgroundColor: "#f2f2f2",
+        textDecoration: "underline"
+      }}
+      transition="all 150ms ease-out"
       boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
     >
       <Icon name="add" size="12px" mr={2} />

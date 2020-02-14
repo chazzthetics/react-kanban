@@ -1,10 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import {
-  requestInitialDataSuccess,
-  fetchBoards
-} from "../../requests/requestSlice";
+import { requestInitialDataSuccess, fetchBoards } from "../../requests/";
 import {
   columnCreated,
   columnRemoved,

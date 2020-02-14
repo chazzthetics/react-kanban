@@ -79,7 +79,7 @@ export const login = ({ email, password }) => dispatch => {
 };
 
 export const getUser = token => async dispatch => {
-  console.log("FROM LS", localStorage.getItem("access_token"));
+  dispatch(userAuthStart());
   localStorage.setItem("access_token", token);
   axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
@@ -98,3 +98,5 @@ export const getUser = token => async dispatch => {
     dispatch(userAuthFailed(ex.message.toString()));
   }
 };
+
+//FIXME:

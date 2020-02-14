@@ -1,7 +1,7 @@
 import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import { fetchTasks } from "../../requests/requestSlice";
+import { fetchTasks } from "../../requests";
 import {
   boardRemoved,
   boardCleared,
@@ -118,11 +118,7 @@ export const allTasksReducer = allTasks.reducer;
 
 //TODO: refactor
 const baseUrl = "http://localhost:8000/api";
-const config = {
-  headers: {
-    Authorization: "Bearer " + localStorage.getItem("access_token")
-  }
-};
+
 export const createTask = ({ task, columnId }) => async dispatch => {
   try {
     dispatch(taskCreated({ task, columnId }));
@@ -146,10 +142,16 @@ export const removeTask = ({ taskId, columnId }) => async dispatch => {
   }
 };
 
-export const updateTaskContent = ({ taskId, content }) => async dispatch => {
+export const updateTaskContent = ({ taskId, content }) => async (
+  dispatch,
+  getState
+) => {
   try {
-    dispatch(taskContentUpdated({ taskId, content }));
-    await axios.patch(`${baseUrl}/tasks/${taskId}`, { content });
+    const oldTaskContent = getState().tasks.all[taskId].content;
+    if (oldTaskContent !== content) {
+      dispatch(taskContentUpdated({ taskId, content }));
+      await axios.patch(`${baseUrl}/tasks/${taskId}`, { content });
+    }
   } catch (ex) {
     console.error(ex);
   }

@@ -1,7 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 import axios from "axios";
 import { arrayToObject } from "../../../utils/arrayToObject";
-import { fetchColumns } from "../../requests/requestSlice";
+import { fetchColumns } from "../../requests";
 import {
   boardRemoved,
   boardCleared,
@@ -135,11 +135,7 @@ export const allColumnsReducer = allColumns.reducer;
 
 //TODO: refactor
 const baseUrl = "http://localhost:8000/api";
-const config = {
-  headers: {
-    Authorization: "Bearer " + localStorage.getItem("access_token")
-  }
-};
+
 export const createColumn = ({ column, boardId }) => async dispatch => {
   try {
     dispatch(columnCreated({ column, boardId }));

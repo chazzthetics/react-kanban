@@ -17,7 +17,7 @@ const ColumnItem = ({ index, columnId }) => {
     >
       {provided => (
         <Box
-          bg="gray.300"
+          bg="#ebecf0"
           mr={2}
           h="100%"
           px={2}
@@ -38,7 +38,7 @@ const ColumnItem = ({ index, columnId }) => {
                 justify="center"
                 mb={2}
                 cursor="pointer"
-                bg={snapshot.isDraggingOver ? "yellow.300" : "gray.300"}
+                bg={snapshot.isDraggingOver ? "#d9dadd" : "#ebecf0"}
                 borderRadius={4}
                 transition="background-color 120ms ease-out"
                 ref={provided.innerRef}
