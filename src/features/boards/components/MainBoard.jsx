@@ -2,8 +2,8 @@ import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useDrag, useBoard } from "../../../hooks";
 import { ColumnList } from "../../columns/components";
-import { Box } from "@chakra-ui/core";
 import { BoardHeader } from "./";
+import { Box } from "@chakra-ui/core";
 
 const MainBoard = () => {
   const { boardId, boardColumns, columnIds } = useBoard();

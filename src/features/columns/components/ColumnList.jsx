@@ -26,6 +26,7 @@ const ColumnList = () => {
             <ColumnItem key={column.id} index={index} columnId={column.id} />
           ))}
           {provided.placeholder}
+
           <CreateNewColumnForm />
         </Flex>
       )}

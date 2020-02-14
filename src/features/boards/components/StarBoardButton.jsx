@@ -15,7 +15,9 @@ const StarBoardButton = () => {
       fontSize="1.1rem"
       size="sm"
       onClick={handleClick}
-      // variantColor={isStarred ? "gray" : "blue"}
+      bg="rgba(0,0,0,.2)"
+      color="#fff"
+      _hover={{ color: "yellow.400" }}
     />
   );
 };

@@ -11,6 +11,7 @@ const AddButtonGroup = ({ onClose, value, iconColor = "black", ...props }) => {
         aria-label={value}
         size="sm"
         mr={1}
+        variantColor="purple"
         boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
       >
         {value}

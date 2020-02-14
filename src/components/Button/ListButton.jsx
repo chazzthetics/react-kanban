@@ -19,11 +19,11 @@ const ListButton = forwardRef(
         borderRadius={4}
         onClick={onClick}
         ref={ref}
-        bg="white"
+        bg="inherit"
         disabled={isDisabled}
         aria-label={label}
-        _focus={{ border: "2px solid #3182ce", outline: "none" }}
-        _hover={{ backgroundColor: "gray.50" }}
+        _focus={{ border: ".4px solid #cdcace", outline: "none" }}
+        _hover={{ backgroundColor: "#dfdee0" }}
         _disabled={{ opacity: 0.4, cursor: "default" }}
       >
         {children}

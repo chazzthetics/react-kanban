@@ -49,7 +49,12 @@ const AddLabelPopover = ({ taskId }) => {
         closeOnBlur={false}
       >
         <PopoverTrigger>
-          <Button size="sm" boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)">
+          <Button
+            size="sm"
+            variantColor="pink"
+            variant="outline"
+            boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          >
             Add Label
           </Button>
         </PopoverTrigger>

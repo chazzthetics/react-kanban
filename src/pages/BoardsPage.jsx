@@ -30,7 +30,9 @@ const BoardsPage = () => {
     <Box className="App" h="100vh">
       <Suspense fallback={<FullPageSpinner />}>
         <AppBar />
-        <MainBoard />
+        <Suspense fallback={<FullPageSpinner />}>
+          <MainBoard />
+        </Suspense>
       </Suspense>
     </Box>
   );

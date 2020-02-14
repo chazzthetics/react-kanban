@@ -9,3 +9,4 @@
 - REDO all styles -- use ...rest props, im so fuking stupid!!
 - performance
 - cancel open form pressing ESC key
+- popover placement

@@ -19,8 +19,11 @@ const RemoveBoardButton = () => {
         aria-label="Remove Board"
         icon="delete"
         size="sm"
-        fontSize="1.1rem"
+        fontSize="1rem"
+        bg="rgba(0,0,0,.3)"
+        color="#fff"
         onClick={handleRemoveBoard}
+        _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
       />
     </Tooltip>
   );

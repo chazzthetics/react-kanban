@@ -40,6 +40,9 @@ const CreateNewBoardForm = () => {
           aria-label="Add new board"
           size="sm"
           fontSize="1rem"
+          bg="rgba(0,0,0,.3)"
+          color="#fff"
+          _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
         />
       </PopoverTrigger>
       <PopoverContent
@@ -48,11 +51,17 @@ const CreateNewBoardForm = () => {
         right={100}
         zIndex={4}
         boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+        bg="#ebecf0"
       >
-        <PopoverHeader textAlign="center" mb={4}>
+        <PopoverHeader
+          textAlign="center"
+          mb={4}
+          borderColor="#ddd"
+          opacity={0.8}
+        >
           Create a New Board
         </PopoverHeader>
-        <PopoverCloseButton />
+        <PopoverCloseButton opacity={0.6} />
         <CreateForm
           p={2}
           mb={4}

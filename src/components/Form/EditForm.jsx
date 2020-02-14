@@ -42,7 +42,8 @@ const EditForm = ({
           borderRadius={4}
           size="sm"
           fontSize="1rem"
-          fontWeight="bold"
+          fontWeight="700"
+          _focus={{ border: ".4px solid #ddd" }}
           {...props}
         />
       ) : (
@@ -54,6 +55,8 @@ const EditForm = ({
             onChange={handleChange}
             fontSize=".9rem"
             mb={2}
+            boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+            _focus={{ border: ".4px solid #ddd" }}
             {...props}
           />
           {children}

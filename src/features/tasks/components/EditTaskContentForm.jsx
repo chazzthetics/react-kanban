@@ -42,9 +42,10 @@ const EditTaskContentForm = ({ taskId }) => {
           <Button
             size="sm"
             type="submit"
-            aria-label="Edit Task"
+            aria-label="Update Task"
             mr={1}
             boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+            variantColor="purple"
           >
             Save
           </Button>

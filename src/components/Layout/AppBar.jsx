@@ -39,6 +39,9 @@ const AppBar = () => {
                   icon={FiHome}
                   size="sm"
                   fontSize="1.3rem"
+                  bg="rgba(0,0,0,.3)"
+                  color="#fff"
+                  _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
                 />
               </ListItem>
             </Tooltip>
@@ -69,7 +72,6 @@ const AppBar = () => {
                 <CreateNewBoardForm />
               </ListItem>
             </Tooltip>
-            {/* Temporary placeholders */}
             <ListItem>
               <Tooltip label="Source Code" borderRadius={4}>
                 <a
@@ -77,24 +79,35 @@ const AppBar = () => {
                   target="_blank"
                   rel="noopener noreferrer"
                 >
-                  <IconButton icon={GoMarkGithub} size="sm" />
+                  <IconButton
+                    icon={GoMarkGithub}
+                    size="sm"
+                    bg="rgba(0,0,0,.3)"
+                    color="#fff"
+                    _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+                  />
                 </a>
               </Tooltip>
             </ListItem>
             <ListItem>
               <Tooltip label="Change Theme" borderRadius={4}>
-                <IconButton icon={FiSun} size="sm" />
+                <IconButton
+                  icon={FiSun}
+                  size="sm"
+                  bg="rgba(0,0,0,.3)"
+                  color="#fff"
+                  _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+                />
               </Tooltip>
             </ListItem>
             <ListItem cursor="pointer">
               <Avatar
                 name={user && user.name}
-                size="sm"
                 bg="purple.500"
                 color="#fff"
+                size="sm"
               />
             </ListItem>
-            {/* ********************** */}
           </ButtonGroup>
         </List>
       </Flex>

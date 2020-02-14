@@ -19,7 +19,7 @@ const CreateColumnButtom = ({ onOpen }) => {
       minW="160px"
       w="17rem"
       h="40px"
-      bg="#4c80a7"
+      bg="rgba(0,0,0,0.3)"
       opacity={0.9}
       color="#fff"
       borderRadius={4}
