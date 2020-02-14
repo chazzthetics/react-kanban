@@ -14,7 +14,9 @@ const CreateNewTaskForm = ({ columnId }) => {
 
   function create(taskContent) {
     const task = makeTask({ content: taskContent });
-    dispatch(createTask({ task, columnId }));
+    if (task.content.trim() !== "") {
+      dispatch(createTask({ task, columnId }));
+    }
   }
 
   return !isOpen ? (

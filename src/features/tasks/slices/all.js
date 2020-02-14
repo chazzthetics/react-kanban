@@ -44,7 +44,7 @@ const allTasks = createSlice({
     },
     taskCompleteToggled(state, action) {
       const { taskId, completed } = action.payload;
-      state[taskId].completed = completed;
+      state[taskId].completed = !completed;
     },
     taskLabelAdded(state, action) {
       const { taskId, labelId } = action.payload;
@@ -151,6 +151,8 @@ export const updateTaskContent = ({ taskId, content }) => async (
     if (oldTaskContent !== content) {
       dispatch(taskContentUpdated({ taskId, content }));
       await axios.patch(`${baseUrl}/tasks/${taskId}`, { content });
+    } else {
+      dispatch(taskEditingCancelled({ taskId }));
     }
   } catch (ex) {
     console.error(ex);
@@ -160,7 +162,7 @@ export const updateTaskContent = ({ taskId, content }) => async (
 export const toggleCompleteTask = ({ taskId, completed }) => async dispatch => {
   try {
     dispatch(taskCompleteToggled({ taskId, completed }));
-    await axios.patch(`${baseUrl}/tasks/${taskId}`, { completed });
+    await axios.patch(`${baseUrl}/tasks/${taskId}`, { completed: !completed });
   } catch (ex) {
     console.error(ex);
   }

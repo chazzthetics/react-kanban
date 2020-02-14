@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useTask } from "../../../hooks";
 import { taskEditing } from "../slices";
 import { ButtonGroup, Text, Flex } from "@chakra-ui/core";
-import { LabelList } from "../../labels/components";
+import { TaskLabelList } from "../../labels/components";
 import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
 
 const TaskItem = ({ taskId, columnId, isDragging }) => {
@@ -45,7 +45,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
         <>
           <Flex direction="column">
             <Flex>
-              <LabelList taskId={taskId} />
+              <TaskLabelList taskId={taskId} />
             </Flex>
             <Text fontSize=".9rem" maxW="180px" overflowWrap="break-word">
               {content}

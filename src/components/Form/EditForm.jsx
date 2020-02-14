@@ -21,11 +21,9 @@ const EditForm = ({
   const cancelRef = useCancel(isEditing, () => {
     if (values[inputName]) {
       update(values[inputName]);
-      onCancel();
-    } else {
-      onCancel();
     }
   });
+
   return (
     <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "100%" }}>
       {!textarea ? (

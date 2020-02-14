@@ -1,8 +1,8 @@
 import React from "react";
 import { useDispatch } from "react-redux";
 import { useBoard } from "../../../hooks";
-import { Select } from "@chakra-ui/core";
 import { boardChanged } from "../slices";
+import { Select } from "@chakra-ui/core";
 
 const SelectBoardInput = () => {
   const { boardId, allBoards } = useBoard();
@@ -17,11 +17,18 @@ const SelectBoardInput = () => {
       value={boardId}
       onChange={handleBoardChange}
       size="sm"
-      variant="outline"
       borderRadius={4}
+      bg="#31546e"
+      border="none"
+      color="#fff"
+      fontWeight="700"
     >
       {allBoards.map(board => (
-        <option key={board.id} value={board.id}>
+        <option
+          key={board.id}
+          value={board.id}
+          style={{ fontWeight: "inherit" }}
+        >
           {board.title}
         </option>
       ))}

@@ -1,6 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../utils/arrayToObject";
-import { getData, getBoards, getColumns, getTasks } from "../../api";
+import { getData, getBoards, columnsApi, getTasks } from "../../api";
 
 const request = createSlice({
   name: "request",
@@ -88,7 +88,7 @@ export const fetchBoards = boardId => async dispatch => {
 
 export const fetchColumns = ({ boardId, columnId }) => async dispatch => {
   try {
-    const { data } = await getColumns();
+    const { data } = await columnsApi.getColumns();
     console.log(columnId);
     dispatch(
       requestColumnsSuccess({

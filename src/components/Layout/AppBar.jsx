@@ -11,8 +11,7 @@ import {
   Box,
   List,
   ListItem,
-  Avatar,
-  Tooltip
+  Avatar
 } from "@chakra-ui/core";
 import {
   SelectBoardInput,
@@ -32,19 +31,17 @@ const AppBar = () => {
           flexBasis="14rem"
         >
           <ButtonGroup d="flex" spacing={1}>
-            <Tooltip label="Home" borderRadius={4} placement="bottom">
-              <ListItem mr={1}>
-                <IconButton
-                  aria-label="Go to Home"
-                  icon={FiHome}
-                  size="sm"
-                  fontSize="1.3rem"
-                  bg="rgba(0,0,0,.3)"
-                  color="#fff"
-                  _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
-                />
-              </ListItem>
-            </Tooltip>
+            <ListItem mr={1}>
+              <IconButton
+                aria-label="Go to Home"
+                icon={FiHome}
+                size="sm"
+                fontSize="1.3rem"
+                bg="rgba(0,0,0,.3)"
+                color="#fff"
+                _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+              />
+            </ListItem>
             <ListItem d="flex" alignItems="center">
               <SelectBoardInput />
             </ListItem>
@@ -67,38 +64,32 @@ const AppBar = () => {
           flexBasis="14rem"
         >
           <ButtonGroup d="flex" spacing={1}>
-            <Tooltip label="Create Board" borderRadius={4}>
-              <ListItem mr={1}>
-                <CreateNewBoardForm />
-              </ListItem>
-            </Tooltip>
-            <ListItem>
-              <Tooltip label="Source Code" borderRadius={4}>
-                <a
-                  href="https://github.com/chazzthetics/react-kanban"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                >
-                  <IconButton
-                    icon={GoMarkGithub}
-                    size="sm"
-                    bg="rgba(0,0,0,.3)"
-                    color="#fff"
-                    _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
-                  />
-                </a>
-              </Tooltip>
+            <ListItem mr={1}>
+              <CreateNewBoardForm />
             </ListItem>
             <ListItem>
-              <Tooltip label="Change Theme" borderRadius={4}>
+              <a
+                href="https://github.com/chazzthetics/react-kanban"
+                target="_blank"
+                rel="noopener noreferrer"
+              >
                 <IconButton
-                  icon={FiSun}
+                  icon={GoMarkGithub}
                   size="sm"
                   bg="rgba(0,0,0,.3)"
                   color="#fff"
                   _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
                 />
-              </Tooltip>
+              </a>
+            </ListItem>
+            <ListItem>
+              <IconButton
+                icon={FiSun}
+                size="sm"
+                bg="rgba(0,0,0,.3)"
+                color="#fff"
+                _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+              />
             </ListItem>
             <ListItem cursor="pointer">
               <Avatar

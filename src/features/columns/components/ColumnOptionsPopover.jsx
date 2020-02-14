@@ -54,7 +54,7 @@ const ColumnOptionsPopover = ({ columnId }) => {
           px={4}
           py={2}
           borderRadius={4}
-          bg="#ebecf0"
+          bg="#fff"
         >
           <PopoverCloseButton opacity={0.6} />
           <PopoverHeader

@@ -23,7 +23,7 @@ const ListButton = forwardRef(
         disabled={isDisabled}
         aria-label={label}
         _focus={{ border: ".4px solid #cdcace", outline: "none" }}
-        _hover={{ backgroundColor: "#dfdee0" }}
+        _hover={{ backgroundColor: "#efefef" }}
         _disabled={{ opacity: 0.4, cursor: "default" }}
       >
         {children}

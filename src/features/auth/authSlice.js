@@ -1,5 +1,6 @@
 import axios from "axios";
 import { createSlice } from "@reduxjs/toolkit";
+import { loginRequest, getUser } from "../../api";
 
 const auth = createSlice({
   name: "auth",
@@ -11,7 +12,7 @@ const auth = createSlice({
     isAuthenticated: false
   },
   reducers: {
-    loginStart(state, action) {
+    loginStart(state) {
       state.loading = true;
       state.error = null;
       state.isAuthenticated = false;
@@ -31,7 +32,7 @@ const auth = createSlice({
       state.isAuthenticated = false;
       state.error = action.payload;
     },
-    userAuthStart(state, action) {
+    userAuthStart(state) {
       state.loading = true;
       state.error = null;
     },
@@ -63,32 +64,31 @@ export const {
 const authReducer = auth.reducer;
 export default authReducer;
 
-const baseUrl = "http://localhost:8000/api";
-
-export const login = ({ email, password }) => dispatch => {
+export const login = ({ email, password }) => async dispatch => {
   dispatch(loginStart());
-  axios
-    .post(`${baseUrl}/auth/login`, { email, password })
-    .then(res => {
-      const token = res.data.access_token;
+  try {
+    const { data } = await loginRequest({ email, password });
+    const token = data.access_token;
+    if (token) {
       localStorage.setItem("access_token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       dispatch(loginSuccess({ token }));
-    })
-    .catch(err => dispatch(loginFailed(err.toString())));
+    }
+  } catch (ex) {
+    dispatch(loginFailed(ex.toString()));
+    console.error(ex);
+  }
 };
 
-export const getUser = token => async dispatch => {
+export const authenticateUser = token => async dispatch => {
   dispatch(userAuthStart());
-  localStorage.setItem("access_token", token);
-  axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
   try {
-    const { data } = await axios.get(`${baseUrl}/auth/user`, {
-      headers: {
-        Authorization: `Bearer ${token}`
-      }
-    });
+    if (token) {
+      localStorage.setItem("access_token", token);
+      axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
+    }
 
+    const { data } = await getUser(token);
     dispatch(
       userAuthSuccess({
         user: data
@@ -96,6 +96,7 @@ export const getUser = token => async dispatch => {
     );
   } catch (ex) {
     dispatch(userAuthFailed(ex.message.toString()));
+    console.error(ex);
   }
 };
 
