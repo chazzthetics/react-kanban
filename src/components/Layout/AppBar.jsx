@@ -1,6 +1,6 @@
 import React from "react";
-import { useSelector } from "react-redux";
-import { selectUser } from "../../features/auth";
+import { useSelector, useDispatch } from "react-redux";
+import { selectUser, logout } from "../../features/auth";
 import { FiHome, FiSun } from "react-icons/fi";
 import { GoMarkGithub } from "react-icons/go";
 import {
@@ -11,7 +11,9 @@ import {
   Box,
   List,
   ListItem,
-  Avatar
+  Avatar,
+  Link,
+  Button
 } from "@chakra-ui/core";
 import {
   SelectBoardInput,
@@ -20,6 +22,12 @@ import {
 
 const AppBar = () => {
   const user = useSelector(selectUser);
+  const dispatch = useDispatch();
+
+  const handleLogout = () => {
+    dispatch(logout());
+    window.location.href = "/login";
+  };
 
   return (
     <Box as="header" h="40px" bg="#4C80A7" p="4px">
@@ -68,10 +76,10 @@ const AppBar = () => {
               <CreateNewBoardForm />
             </ListItem>
             <ListItem>
-              <a
+              <Link
                 href="https://github.com/chazzthetics/react-kanban"
-                target="_blank"
                 rel="noopener noreferrer"
+                isExternal
               >
                 <IconButton
                   icon={GoMarkGithub}
@@ -80,7 +88,7 @@ const AppBar = () => {
                   color="#fff"
                   _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
                 />
-              </a>
+              </Link>
             </ListItem>
             <ListItem>
               <IconButton
@@ -92,12 +100,14 @@ const AppBar = () => {
               />
             </ListItem>
             <ListItem cursor="pointer">
-              <Avatar
-                name={user && user.name}
-                bg="purple.500"
-                color="#fff"
-                size="sm"
-              />
+              <Button variant="unstyled" size="sm" onClick={handleLogout}>
+                <Avatar
+                  name={user && user.name}
+                  bg="purple.500"
+                  color="#fff"
+                  size="sm"
+                />
+              </Button>
             </ListItem>
           </ButtonGroup>
         </List>
@@ -107,5 +117,3 @@ const AppBar = () => {
 };
 
 export default AppBar;
-
-// TODO: keep ListItem?

@@ -1,7 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
-import { arrayToObject } from "../../../utils/arrayToObject";
 import { requestInitialDataSuccess, fetchBoards } from "../../requests/";
+import { boardsApi } from "../../../api";
 import {
   columnCreated,
   columnRemoved,
@@ -92,14 +91,11 @@ export const {
 export const allBoardsReducer = allBoards.reducer;
 
 // TODO: cleanup & error handling
-const baseUrl = "http://localhost:8000/api";
 
 export const createBoard = ({ board }) => async dispatch => {
   try {
     dispatch(boardCreated({ board }));
-    const { data } = await axios.post(`${baseUrl}/boards`, {
-      title: board.title
-    });
+    const { data } = await boardsApi.create({ board });
 
     dispatch(fetchBoards(data.data.id));
   } catch (ex) {
@@ -110,7 +106,7 @@ export const createBoard = ({ board }) => async dispatch => {
 export const removeBoard = ({ boardId }) => async dispatch => {
   try {
     dispatch(boardRemoved({ boardId }));
-    await axios.delete(`${baseUrl}/boards/${boardId}`);
+    await boardsApi.remove({ boardId });
   } catch (ex) {
     console.error(ex);
   }
@@ -119,7 +115,7 @@ export const removeBoard = ({ boardId }) => async dispatch => {
 export const clearBoard = ({ boardId }) => async dispatch => {
   try {
     dispatch(boardCleared({ boardId }));
-    await axios.delete(`${baseUrl}/boards/${boardId}/clear`);
+    await boardsApi.clear({ boardId });
   } catch (ex) {
     console.error(ex);
   }
@@ -128,7 +124,7 @@ export const clearBoard = ({ boardId }) => async dispatch => {
 export const updateBoardTitle = ({ boardId, title }) => async dispatch => {
   try {
     dispatch(boardTitleUpdated({ boardId, title }));
-    await axios.patch(`${baseUrl}/boards/${boardId}`, { title });
+    await boardsApi.updateTitle({ boardId, title });
   } catch (ex) {
     console.error(ex);
   }
@@ -141,10 +137,7 @@ export const reorderColumn = ({
 }) => async dispatch => {
   try {
     dispatch(columnReordered({ boardId, columnOrder }));
-    await axios.put(`${baseUrl}/boards/${boardId}/reorder`, {
-      id: parseInt(boardId),
-      columnIds: arrayToObject(orderToPersist)
-    });
+    await boardsApi.reorder({ boardId, orderToPersist });
   } catch (ex) {
     console.error(ex);
   }

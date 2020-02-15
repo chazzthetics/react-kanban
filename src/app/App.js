@@ -1,6 +1,6 @@
 import React from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
-import { BoardsPage, HomePage, LoginPage, RegisterPage } from "../pages";
+import { HomePage, LoginPage, RegisterPage, BoardsPage } from "../pages";
 
 const App = () => {
   return (
@@ -47,3 +47,5 @@ const App = () => {
 };
 
 export default App;
+
+//FIXME: render phases

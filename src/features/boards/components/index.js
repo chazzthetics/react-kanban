@@ -7,3 +7,4 @@ export { default as ClearBoardButton } from "./ClearBoardButton";
 export { default as StarBoardButton } from "./StarBoardButton";
 export { default as BoardHeader } from "./BoardHeader";
 export { default as BoardTitle } from "./BoardTitle";
+export { default as CreateNewBoardModal } from "./CreateNewBoardModal";

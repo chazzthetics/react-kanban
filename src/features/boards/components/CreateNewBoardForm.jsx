@@ -59,7 +59,7 @@ const CreateNewBoardForm = () => {
           borderColor="#ddd"
           opacity={0.8}
         >
-          Create a New Board
+          Create New Board
         </PopoverHeader>
         <PopoverCloseButton opacity={0.6} />
         <CreateForm

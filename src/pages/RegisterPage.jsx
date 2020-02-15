@@ -1,83 +1,81 @@
 import React from "react";
-import axios from "axios";
-import { Button, Input } from "@chakra-ui/core";
+import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
+import { useForm } from "../hooks";
+import { register } from "../features/auth";
+import { Flex, Heading, Button, Input } from "@chakra-ui/core";
 
 const RegisterPage = () => {
-  const [values, setValues] = React.useState({
-    name: "",
-    email: "",
-    password: ""
-  });
-  const handleChange = e => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  const { values, handleChange, handleSubmit } = useForm(
+    { name: "", email: "", password: "" },
+    registerUser
+  );
 
-  const handleSubmit = async e => {
-    e.preventDefault();
-    const user = {
+  const history = useHistory();
+  const dispatch = useDispatch();
+
+  function registerUser() {
+    const credentials = {
       name: values.name,
       email: values.email,
       password: values.password
     };
-    const { data } = await axios.post(
-      "http://localhost:8000/api/auth/register",
-      user
-    );
-    localStorage.setItem("access_token", data.access_token);
-    return data;
-  };
-
-  const getUser = async () => {
-    const { data: authUser } = await axios.get(
-      "http://localhost:8000/api/auth/user",
-      {
-        headers: {
-          Authorization: "Bearer " + localStorage.getItem("access_token")
-        }
-      }
-    );
-
-    console.log(authUser);
-  };
+    dispatch(register(credentials));
+    history.replace("/app");
+  }
 
   return (
-    <div>
-      <h1>RegisterPage</h1>
-      <form onSubmit={handleSubmit}>
-        <div>
-          <label>Name</label>
-          <Input
-            type="text"
-            name="name"
-            value={values.name}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Email</label>
-          <Input
-            type="email"
-            name="email"
-            value={values.email}
-            onChange={handleChange}
-          />
-        </div>
-        <div>
-          <label>Password</label>
-          <Input
-            type="password"
-            name="password"
-            value={values.password}
-            onChange={handleChange}
-          />
-        </div>
-        <Button type="submit">Register</Button>
-      </form>
-
-      <Button type="button" onClick={getUser}>
-        Get User
-      </Button>
-    </div>
+    <Flex
+      h="100vh"
+      bg="gray.50"
+      flexDir="column"
+      align="center"
+      justify="flex-start"
+    >
+      <Flex
+        h="40%"
+        bg="gray.50"
+        flexDir="column"
+        align="center"
+        justify="center"
+      >
+        <Flex>
+          <Heading as="h1" textAlign="center" size="lg">
+            React Kanban | Register
+          </Heading>
+        </Flex>
+        <form onSubmit={handleSubmit}>
+          <div>
+            <label>Name</label>
+            <Input
+              type="text"
+              name="name"
+              value={values.name}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Email</label>
+            <Input
+              type="email"
+              name="email"
+              value={values.email}
+              onChange={handleChange}
+            />
+          </div>
+          <div>
+            <label>Password</label>
+            <Input
+              type="password"
+              name="password"
+              value={values.password}
+              onChange={handleChange}
+            />
+          </div>
+          <Button type="submit">Register</Button>
+        </form>
+      </Flex>
+    </Flex>
   );
 };
 

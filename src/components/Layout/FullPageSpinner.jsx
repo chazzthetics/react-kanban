@@ -3,7 +3,13 @@ import { Flex, Spinner } from "@chakra-ui/core";
 
 const FullPageSpinner = () => {
   return (
-    <Flex align="center" justify="center" h="100vh" bg="#437397">
+    <Flex
+      align="center"
+      justify="center"
+      h="calc(100% - 40px)"
+      bg="#437397"
+      overflow="hidden"
+    >
       <Spinner
         thickness="4px"
         speed="0.65s"

@@ -1,5 +1,4 @@
 import { createSlice } from "@reduxjs/toolkit";
-import axios from "axios";
 import { arrayToObject } from "../../../utils/arrayToObject";
 import { fetchColumns } from "../../requests";
 import { columnsApi } from "../../../api";

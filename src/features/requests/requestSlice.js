@@ -1,11 +1,11 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../utils/arrayToObject";
-import { getData, getBoards, columnsApi, getTasks } from "../../api";
+import { getData, boardsApi, columnsApi, tasksApi } from "../../api";
 
 const request = createSlice({
   name: "request",
   initialState: {
-    loading: false,
+    loading: true,
     error: null
   },
   reducers: {
@@ -72,7 +72,7 @@ export const fetchData = token => async dispatch => {
 
 export const fetchBoards = boardId => async dispatch => {
   try {
-    const { data } = await getBoards();
+    const { data } = await boardsApi.get();
 
     dispatch(
       requestBoardsSuccess({
@@ -88,7 +88,7 @@ export const fetchBoards = boardId => async dispatch => {
 
 export const fetchColumns = ({ boardId, columnId }) => async dispatch => {
   try {
-    const { data } = await columnsApi.getColumns();
+    const { data } = await columnsApi.get();
     console.log(columnId);
     dispatch(
       requestColumnsSuccess({
@@ -105,7 +105,7 @@ export const fetchColumns = ({ boardId, columnId }) => async dispatch => {
 
 export const fetchTasks = ({ columnId, taskId }) => async dispatch => {
   try {
-    const { data } = await getTasks();
+    const { data } = await tasksApi.get();
 
     dispatch(
       requestTasksSuccess({

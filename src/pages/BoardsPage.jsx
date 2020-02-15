@@ -1,14 +1,12 @@
-import React, { useEffect, Suspense, lazy } from "react";
+import React, { useEffect } from "react";
 import { Helmet } from "react-helmet";
 import { useSelector, useDispatch } from "react-redux";
 import { authenticateUser, getAuthState, selectUser } from "../features/auth";
 import { selectCurrentBoardTitle } from "../features/boards/slices";
 import { fetchData } from "../features/requests";
-import { FullPageSpinner } from "../components";
+import { AppBar } from "../components";
+import { MainBoard } from "../features/boards/components";
 import { Box } from "@chakra-ui/core";
-
-const AppBar = lazy(() => import("../components/Layout/AppBar"));
-const MainBoard = lazy(() => import("../features/boards/components/MainBoard"));
 
 const BoardsPage = () => {
   const { token, error: authError } = useSelector(getAuthState);
@@ -29,16 +27,18 @@ const BoardsPage = () => {
   }, [dispatch, token, user]);
 
   return (
-    <Box className="App" h="100vh">
+    <>
       <Helmet>
         <title>{boardTitle && `${boardTitle} |`} React Kanban</title>
       </Helmet>
-      <Suspense fallback={<FullPageSpinner />}>
+      <Box className="App" h="100vh" bg="#437397">
         <AppBar />
         <MainBoard />
-      </Suspense>
-    </Box>
+      </Box>
+    </>
   );
 };
 
 export default BoardsPage;
+
+//FIXME: on load

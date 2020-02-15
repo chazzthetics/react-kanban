@@ -1,11 +1,13 @@
 import React from "react";
 import { Droppable } from "react-beautiful-dnd";
+import { useSelector } from "react-redux";
 import { useBoard } from "../../../hooks";
 import { ColumnItem, CreateNewColumnForm } from "./";
 import { Flex } from "@chakra-ui/core";
 
 const ColumnList = () => {
   const { boardColumnsList } = useBoard();
+  const { loading: dataLoading } = useSelector(state => state.request);
 
   return (
     <Droppable droppableId="all-columns" direction="horizontal" type="column">
@@ -27,7 +29,7 @@ const ColumnList = () => {
           ))}
           {provided.placeholder}
 
-          <CreateNewColumnForm />
+          {!dataLoading && <CreateNewColumnForm />}
         </Flex>
       )}
     </Droppable>

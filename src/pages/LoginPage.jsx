@@ -17,7 +17,7 @@ const LoginPage = () => {
   function loginUser() {
     const credentials = { email: values.email, password: values.password };
     dispatch(login(credentials));
-    history.push("/app");
+    history.replace("/app");
   }
 
   return (
@@ -37,7 +37,7 @@ const LoginPage = () => {
       >
         <Flex>
           <Heading as="h1" textAlign="center" size="lg">
-            React Kanban
+            React Kanban | Login
           </Heading>
         </Flex>
         <form onSubmit={handleSubmit}>
