@@ -1,26 +1,43 @@
 import axios from "axios";
 import { arrayToObject } from "../utils/arrayToObject";
 
-const baseUrl = "http://localhost:8000/api";
+const baseUrl = process.env.REACT_APP_API_URL;
 
 export const boardsApi = {
-  get: () => axios.get(`${baseUrl}/boards`),
-
-  create: ({ board }) =>
-    axios.post(`${baseUrl}/boards`, {
+  get: () => {
+    return axios.get(`${baseUrl}/boards`);
+  },
+  create: ({ board }) => {
+    return axios.post(`${baseUrl}/boards`, {
       title: board.title
-    }),
-
-  remove: ({ boardId }) => axios.delete(`${baseUrl}/boards/${boardId}`),
-
-  clear: ({ boardId }) => axios.delete(`${baseUrl}/boards/${boardId}/clear`),
-
-  updateTitle: ({ boardId, title }) =>
-    axios.patch(`${baseUrl}/boards/${boardId}`, { title }),
-
-  reorder: ({ boardId, orderToPersist }) =>
-    axios.put(`${baseUrl}/boards/${boardId}/reorder`, {
+    });
+  },
+  remove: ({ boardId }) => {
+    return axios.delete(`${baseUrl}/boards/${boardId}`);
+  },
+  clear: ({ boardId }) => {
+    return axios.delete(`${baseUrl}/boards/${boardId}/clear`);
+  },
+  updateTitle: ({ boardId, title }) => {
+    return axios.patch(`${baseUrl}/boards/${boardId}`, { title });
+  },
+  reorder: ({ boardId, orderToPersist }) => {
+    return axios.put(`${baseUrl}/boards/${boardId}/reorder`, {
       id: parseInt(boardId),
       columnIds: arrayToObject(orderToPersist)
-    })
+    });
+  },
+  move: ({
+    startBoardId,
+    endBoardId,
+    startOrderToPersist,
+    endOrderToPersist
+  }) => {
+    return axios.put(`${baseUrl}/boards/${startBoardId}/move`, {
+      id: parseInt(startBoardId),
+      endBoardId: parseInt(endBoardId),
+      startColumnIds: arrayToObject(startOrderToPersist),
+      endColumnIds: arrayToObject(endOrderToPersist)
+    });
+  }
 };

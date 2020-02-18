@@ -1,4 +1,5 @@
 import React from "react";
+import { Link as RouterLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import { selectUser, logout } from "../../features/auth";
 import { FiHome, FiSun } from "react-icons/fi";
@@ -28,9 +29,9 @@ const AppBar = () => {
     dispatch(logout());
     window.location.href = "/login";
   };
-
+  //FIXME: HOME link dispatches
   return (
-    <Box as="header" h="40px" bg="#4C80A7" p="4px">
+    <Box as="header" h="40px" bg="#39729f" p="4px">
       <Flex as="nav" align="center" justify="space-between" h="100%">
         <List
           d="flex"
@@ -40,15 +41,17 @@ const AppBar = () => {
         >
           <ButtonGroup d="flex" spacing={1}>
             <ListItem mr={1}>
-              <IconButton
-                aria-label="Go to Home"
-                icon={FiHome}
-                size="sm"
-                fontSize="1.3rem"
-                bg="rgba(0,0,0,.3)"
-                color="#fff"
-                _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
-              />
+              <Link as={RouterLink} to="/dashboard">
+                <IconButton
+                  aria-label="Go to Home"
+                  icon={FiHome}
+                  size="sm"
+                  fontSize="1.3rem"
+                  bg="rgba(0,0,0,.3)"
+                  color="#fff"
+                  _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+                />
+              </Link>
             </ListItem>
             <ListItem d="flex" alignItems="center">
               <SelectBoardInput />

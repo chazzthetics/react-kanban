@@ -16,7 +16,7 @@ const StarBoardButton = () => {
       size="sm"
       onClick={handleClick}
       bg="rgba(0,0,0,.2)"
-      color="#fff"
+      color={isStarred ? "yellow.400" : "#fff"}
       _hover={{ color: "yellow.400" }}
     />
   );

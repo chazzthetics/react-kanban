@@ -18,7 +18,7 @@ import {
   PopoverBody,
   PopoverFooter
 } from "@chakra-ui/core";
-import { CreateLabelForm } from "./";
+// import { CreateLabelForm } from "./";
 
 const AddLabelPopover = ({ taskId }) => {
   const { isOpen, close, open } = useToggle();
@@ -52,7 +52,6 @@ const AddLabelPopover = ({ taskId }) => {
           <Button
             size="sm"
             variantColor="pink"
-            variant="outline"
             boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
           >
             Add Label
@@ -86,6 +85,7 @@ const AddLabelPopover = ({ taskId }) => {
                 type="button"
                 size="sm"
                 mr={1}
+                variantColor="green"
                 boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
                 onClick={handleSave}
               >
@@ -95,20 +95,6 @@ const AddLabelPopover = ({ taskId }) => {
           </PopoverBody>
         </PopoverContent>
       </Popover>
-      {/* <Popover closeOnBlur={false}>
-        <PopoverTrigger>
-          <Button
-            type="button"
-            size="sm"
-            boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          >
-            Create Label
-          </Button>
-        </PopoverTrigger>
-        <PopoverContent zIndex={4} placement="bottom-start">
-          <CreateLabelForm />
-        </PopoverContent>
-      </Popover> */}
     </>
   );
 };

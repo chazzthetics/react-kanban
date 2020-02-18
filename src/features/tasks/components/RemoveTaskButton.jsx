@@ -13,10 +13,14 @@ const RemoveTaskButton = ({ taskId, columnId }) => {
 
   return (
     <IconButton
-      onClick={handleRemove}
       size="sm"
       aria-label="Remove Task"
+      variant="ghost"
+      opacity={0.2}
+      _hover={{ backgroundColor: "#ebecf0", opacity: 1 }}
+      transition="background-color 100ms ease-in, opacity 100ms ease-in"
       icon="delete"
+      onClick={handleRemove}
     />
   );
 };
@@ -27,3 +31,5 @@ RemoveTaskButton.propTypes = {
 };
 
 export default React.memo(RemoveTaskButton);
+
+//TODO: refactor

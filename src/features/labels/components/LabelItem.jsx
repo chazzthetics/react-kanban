@@ -1,7 +1,7 @@
 import React, { useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { removeLabelFromTask } from "../../tasks/slices";
-import { darkenOnOver } from "../../../utils/darkenOnHover";
+import { darkenOnHover } from "../../../utils/darkenOnHover";
 import { PseudoBox } from "@chakra-ui/core";
 
 const LabelItem = ({ taskId, taskLabel }) => {
@@ -22,7 +22,7 @@ const LabelItem = ({ taskId, taskLabel }) => {
       mr={1}
       borderRadius={2}
       bg={`${taskLabel.color}`}
-      _hover={{ bg: darkenOnOver(taskLabel.color) }}
+      _hover={{ bg: darkenOnHover(taskLabel.color) }}
       transition="background-color 150ms ease-in"
     ></PseudoBox>
   );

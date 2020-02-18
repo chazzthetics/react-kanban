@@ -1,15 +1,17 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { boardIdsReducer } from "./ids";
 import { currentBoardReducer, boardChanged } from "./current";
+import { showReducer, boardListChanged } from "./show";
 import {
   allBoardsReducer,
   boardTitleEditing,
   boardTitleEditingCancelled,
   updateBoardTitle,
-  reorderColumn,
   createBoard,
   removeBoard,
-  clearBoard
+  clearBoard,
+  reorderColumn,
+  moveColumn
 } from "./all";
 import {
   selectAllBoards,
@@ -20,7 +22,10 @@ import {
   selectCurrentBoardTitle,
   selectCurrentBoardIsEditing,
   selectCurrentBoardColumnIds,
-  selectCurrentBoardColumnIdsLength
+  selectCurrentBoardColumnIdsLength,
+  selectShowBoardColumnPositions,
+  selectShowId,
+  selectShowBoard
 } from "./selectors";
 
 /**
@@ -35,7 +40,10 @@ export {
   selectCurrentBoardTitle,
   selectCurrentBoardIsEditing,
   selectCurrentBoardColumnIds,
-  selectCurrentBoardColumnIdsLength
+  selectCurrentBoardColumnIdsLength,
+  selectShowBoardColumnPositions,
+  selectShowId,
+  selectShowBoard
 };
 
 /**
@@ -45,11 +53,13 @@ export {
   boardTitleEditing,
   boardTitleEditingCancelled,
   updateBoardTitle,
+  boardListChanged,
   boardChanged,
   createBoard,
   removeBoard,
   clearBoard,
-  reorderColumn
+  reorderColumn,
+  moveColumn
 };
 
 /**
@@ -58,5 +68,6 @@ export {
 export default combineReducers({
   all: allBoardsReducer,
   ids: boardIdsReducer,
-  current: currentBoardReducer
+  current: currentBoardReducer,
+  show: showReducer
 });

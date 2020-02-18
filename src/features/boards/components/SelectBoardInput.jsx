@@ -14,7 +14,6 @@ const SelectBoardInput = () => {
 
   return boardId ? (
     <Select
-      value={boardId}
       onChange={handleBoardChange}
       size="sm"
       borderRadius={4}
@@ -22,6 +21,7 @@ const SelectBoardInput = () => {
       border="none"
       color="#fff"
       fontWeight="700"
+      value={boardId}
     >
       {allBoards.map(board => (
         <option

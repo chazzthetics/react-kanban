@@ -2,18 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useColumn } from "../../../hooks";
-import { columnTitleEditing, toggleLockColumn } from "../slices";
-import { Flex, Heading, IconButton, ButtonGroup } from "@chakra-ui/core";
-import { ColumnOptionsPopover, EditColumnTitleForm } from "./";
+import { toggleLockColumn } from "../slices";
+import { Flex, IconButton, ButtonGroup } from "@chakra-ui/core";
+import { ColumnTitle, ColumnOptionsPopover, EditColumnTitleForm } from "./";
 
 const ColumnHeader = ({ columnId }) => {
-  const { title, isLocked, isEditing } = useColumn(columnId);
+  const { isLocked, isEditing } = useColumn(columnId);
 
   const dispatch = useDispatch();
-
-  const handleEditColumnTitle = () => {
-    dispatch(columnTitleEditing({ columnId }));
-  };
 
   const handleToggleLockColumn = () => {
     dispatch(toggleLockColumn({ columnId, isLocked: !isLocked }));
@@ -24,23 +20,12 @@ const ColumnHeader = ({ columnId }) => {
       h="36px"
       align="center"
       justify="space-between"
-      cursor="pointer"
+      cursor={isEditing ? "default" : "pointer"}
       borderRadius={4}
       mb={1}
     >
       {!isEditing ? (
-        <Heading
-          as="h3"
-          cursor="pointer"
-          size="sm"
-          fontSize=".9rem"
-          fontWeight="semibold"
-          ml={1}
-          onClick={handleEditColumnTitle}
-          color="#000"
-        >
-          {title}
-        </Heading>
+        <ColumnTitle columnId={columnId} />
       ) : (
         <EditColumnTitleForm columnId={columnId} />
       )}

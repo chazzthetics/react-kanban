@@ -1,30 +1,13 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Helmet } from "react-helmet";
-import { useSelector, useDispatch } from "react-redux";
-import { authenticateUser, getAuthState, selectUser } from "../features/auth";
-import { selectCurrentBoardTitle } from "../features/boards/slices";
-import { fetchData } from "../features/requests";
+import { useAuth, useBoard } from "../hooks";
 import { AppBar } from "../components";
 import { MainBoard } from "../features/boards/components";
 import { Box } from "@chakra-ui/core";
 
 const BoardsPage = () => {
-  const { token, error: authError } = useSelector(getAuthState);
-  const user = useSelector(selectUser);
-  const boardTitle = useSelector(selectCurrentBoardTitle);
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (!authError && token) {
-      dispatch(authenticateUser(token));
-    }
-  }, [dispatch, authError, token]);
-
-  useEffect(() => {
-    if (token && user) {
-      dispatch(fetchData(token));
-    }
-  }, [dispatch, token, user]);
+  const { boardTitle } = useBoard();
+  useAuth();
 
   return (
     <>

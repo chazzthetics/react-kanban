@@ -1,22 +1,25 @@
 import axios from "axios";
-const baseUrl = "http://localhost:8000/api";
+
+const baseUrl = process.env.REACT_APP_API_URL;
 
 export const authApi = {
-  getUser: token =>
-    axios.get(`${baseUrl}/auth/user`, {
+  getUser: token => {
+    return axios.get(`${baseUrl}/auth/user`, {
       headers: {
         Authorization: `Bearer ${token}`
       }
-    }),
-
-  login: ({ email, password }) =>
-    axios.post(`${baseUrl}/auth/login`, {
+    });
+  },
+  login: ({ email, password }) => {
+    return axios.post(`${baseUrl}/auth/login`, {
       email,
       password
-    }),
-
-  register: ({ name, email, password }) =>
-    axios.post(`${baseUrl}/auth/register`, { name, email, password }),
-
-  logout: () => axios.post(`${baseUrl}/auth/logout`)
+    });
+  },
+  register: ({ name, email, password }) => {
+    return axios.post(`${baseUrl}/auth/register`, { name, email, password });
+  },
+  logout: () => {
+    return axios.post(`${baseUrl}/auth/logout`);
+  }
 };

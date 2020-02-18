@@ -8,7 +8,7 @@ import { TaskLabelList } from "../../labels/components";
 import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
 
 const TaskItem = ({ taskId, columnId, isDragging }) => {
-  const { content, isEditing } = useTask(taskId);
+  const { content, isEditing, completed, taskLabelIds } = useTask(taskId);
 
   const dispatch = useDispatch();
   const handleOpenEdit = () => {
@@ -34,7 +34,8 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       }
       align="center"
       justify="space-between"
-      bg={isDragging ? "#f2f2f2" : "#FFF"}
+      bg={isDragging ? "#f7f9fa" : "#FFF"}
+      transform={isDragging ? "rotate(-2deg)" : ""}
       borderRadius={4}
       cursor="pointer"
       onMouseEnter={handleShowOptions}
@@ -44,10 +45,15 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       {!isEditing ? (
         <>
           <Flex direction="column">
-            <Flex>
+            <Flex mb={taskLabelIds ? 1 : 0}>
               <TaskLabelList taskId={taskId} />
             </Flex>
-            <Text fontSize=".9rem" maxW="180px" overflowWrap="break-word">
+            <Text
+              fontSize=".9rem"
+              maxW="180px"
+              overflowWrap="break-word"
+              textDecor={completed ? "line-through" : "none"}
+            >
               {content}
             </Text>
           </Flex>

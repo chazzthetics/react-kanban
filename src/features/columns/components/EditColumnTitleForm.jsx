@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { useColumn } from "../../../hooks";
 import { updateColumnTitle, columnTitleEditingCancelled } from "../slices";
 import { EditForm } from "../../../components";
+import { Flex } from "@chakra-ui/core";
 
 const EditColumnTitleForm = ({ columnId }) => {
   const { title, isEditing } = useColumn(columnId);
@@ -18,16 +19,18 @@ const EditColumnTitleForm = ({ columnId }) => {
   }
 
   return (
-    <EditForm
-      inputName="columnTitle"
-      initialValues={{ columnTitle: title }}
-      isEditing={isEditing}
-      onCancel={onCancel}
-      update={update}
-      maxW="120px"
-      fontWeight="semibold"
-      fontSize=".9rem"
-    />
+    <Flex>
+      <EditForm
+        inputName="columnTitle"
+        initialValues={{ columnTitle: title }}
+        isEditing={isEditing}
+        onCancel={onCancel}
+        update={update}
+        maxW="120px"
+        fontWeight="semibold"
+        fontSize=".9rem"
+      />
+    </Flex>
   );
 };
 
@@ -36,5 +39,3 @@ EditColumnTitleForm.propTypes = {
 };
 
 export default EditColumnTitleForm;
-
-//FIXME: fix form length

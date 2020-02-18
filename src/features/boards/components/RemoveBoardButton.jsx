@@ -22,7 +22,7 @@ const RemoveBoardButton = () => {
       bg="rgba(0,0,0,.3)"
       color="#fff"
       onClick={handleRemoveBoard}
-      _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+      _hover={{ backgroundColor: "red.400" }}
     />
   );
 };

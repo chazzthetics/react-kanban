@@ -89,7 +89,6 @@ export const fetchBoards = boardId => async dispatch => {
 export const fetchColumns = ({ boardId, columnId }) => async dispatch => {
   try {
     const { data } = await columnsApi.get();
-    console.log(columnId);
     dispatch(
       requestColumnsSuccess({
         boardId,

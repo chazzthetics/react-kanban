@@ -21,7 +21,7 @@ const RegisterPage = () => {
       password: values.password
     };
     dispatch(register(credentials));
-    history.replace("/app");
+    history.replace("/app", { fromRegister: true });
   }
 
   return (

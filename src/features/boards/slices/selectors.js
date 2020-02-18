@@ -42,6 +42,21 @@ export const selectCurrentBoardColumnIds = createSelector(
   board => (board ? board.columnIds : [])
 );
 
+export const selectShowId = createSelector(
+  [getBoardState],
+  boards => boards.show
+);
+
+export const selectShowBoard = createSelector(
+  [selectAllBoards, selectShowId],
+  (all, id) => all[id]
+);
+
+export const selectShowBoardColumnPositions = createSelector(
+  [selectShowBoard],
+  board => (board ? board.columnIds.map((_id, index) => index) : [])
+);
+
 export const selectCurrentBoardColumnIdsLength = createSelector(
   [selectCurrentBoardColumnIds],
   columnIds => columnIds.length

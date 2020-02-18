@@ -1,12 +1,14 @@
 - refactor reducers
 - refactor redux middleware
-- finish async events
-- server/api
+- finish async events [x]
+- server/api [x]
 - finish and refactor ui
 - clean up reducers
-- save form value in add task form after clickoutside (x)
-- keep form value in add column form after clickoutside (x)
+- save form value in add task form after clickoutside [x]
+- keep form value in add column form after clickoutside [x]
 - REDO all styles -- use ...rest props, im so fuking stupid!!
 - performance
-- cancel open form pressing ESC key
-- popover placement
+- cancel open form pressing ESC key [x]
+- move column to different board
+- selectboardinput change when new board created [x]
+- selectboardinput change when board deleted [x]

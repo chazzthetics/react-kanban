@@ -149,9 +149,9 @@ export const authenticateUser = token => async dispatch => {
 
 export const logout = () => async dispatch => {
   try {
+    localStorage.removeItem("access_token");
     await authApi.logout();
     dispatch(logoutSuccess());
-    localStorage.removeItem("access_token");
   } catch (ex) {
     console.error(ex);
   }

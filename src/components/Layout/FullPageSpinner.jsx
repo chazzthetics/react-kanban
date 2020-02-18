@@ -13,8 +13,8 @@ const FullPageSpinner = () => {
       <Spinner
         thickness="4px"
         speed="0.65s"
-        emptyColor="purple.200"
-        color="purple.500"
+        emptyColor="purple.100"
+        color="purple.600"
         size="xl"
       />
     </Flex>

@@ -173,10 +173,18 @@ export const toggleLockColumn = ({ columnId, isLocked }) => async dispatch => {
   }
 };
 
-export const updateColumnTitle = ({ columnId, title }) => async dispatch => {
+export const updateColumnTitle = ({ columnId, title }) => async (
+  dispatch,
+  getState
+) => {
   try {
-    dispatch(columnTitleUpdated({ columnId, title }));
-    await columnsApi.updateTitle({ columnId, title });
+    const oldColumnTitle = getState().columns.all[columnId].title;
+    if (oldColumnTitle !== title) {
+      dispatch(columnTitleUpdated({ columnId, title }));
+      await columnsApi.updateTitle({ columnId, title });
+    } else {
+      dispatch(columnTitleEditingCancelled({ columnId }));
+    }
   } catch (ex) {
     console.error(ex);
   }

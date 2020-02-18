@@ -6,7 +6,10 @@ import {
   selectCurrentBoardTitle,
   selectCurrentBoardColumnIds,
   selectCurrentBoardColumnIdsLength,
-  selectAllBoardsWithTitle
+  selectShowBoardColumnPositions,
+  selectAllBoardsWithTitle,
+  selectShowId,
+  selectShowBoard
 } from "../features/boards/slices";
 import {
   selectCurrentBoardColumns,
@@ -22,7 +25,10 @@ const useBoard = () => {
   const boardColumnsList = useSelector(selectCurrentBoardColumnsList);
   const hasColumns = useSelector(selectCurrentBoardColumnIdsLength);
   const columnIds = useSelector(selectCurrentBoardColumnIds);
+  const columnPositions = useSelector(selectShowBoardColumnPositions);
   const allBoards = useSelector(selectAllBoardsWithTitle);
+  const showBoardId = useSelector(selectShowId);
+  const showBoard = useSelector(selectShowBoard);
 
   return {
     boardIds,
@@ -33,7 +39,10 @@ const useBoard = () => {
     boardColumns,
     boardColumnsList,
     columnIds,
-    allBoards
+    columnPositions,
+    allBoards,
+    showBoardId,
+    showBoard
   };
 };
 

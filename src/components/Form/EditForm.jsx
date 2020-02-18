@@ -41,7 +41,7 @@ const EditForm = ({
           size="sm"
           fontSize="1rem"
           fontWeight="700"
-          _focus={{ border: ".4px solid #ddd" }}
+          _focus={{ border: "1px solid #ddd" }}
           {...props}
         />
       ) : (

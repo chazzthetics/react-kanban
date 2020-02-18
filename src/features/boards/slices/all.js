@@ -44,6 +44,12 @@ const allBoards = createSlice({
     columnReordered(state, action) {
       const { boardId, columnOrder } = action.payload;
       state[boardId].columnIds = columnOrder;
+    },
+
+    columnMoved(state, action) {
+      const { startBoardId, endBoardId, startOrder, endOrder } = action.payload;
+      state[startBoardId].columnIds = startOrder;
+      state[endBoardId].columnIds = endOrder;
     }
   },
   extraReducers: {
@@ -85,7 +91,8 @@ export const {
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,
-  columnReordered
+  columnReordered,
+  columnMoved
 } = allBoards.actions;
 
 export const allBoardsReducer = allBoards.reducer;
@@ -121,10 +128,18 @@ export const clearBoard = ({ boardId }) => async dispatch => {
   }
 };
 
-export const updateBoardTitle = ({ boardId, title }) => async dispatch => {
+export const updateBoardTitle = ({ boardId, title }) => async (
+  dispatch,
+  getState
+) => {
   try {
-    dispatch(boardTitleUpdated({ boardId, title }));
-    await boardsApi.updateTitle({ boardId, title });
+    const oldBoardTitle = getState().boards.all[boardId].title;
+    if (oldBoardTitle !== title) {
+      dispatch(boardTitleUpdated({ boardId, title }));
+      await boardsApi.updateTitle({ boardId, title });
+    } else {
+      dispatch(boardTitleEditingCancelled({ boardId }));
+    }
   } catch (ex) {
     console.error(ex);
   }
@@ -138,6 +153,28 @@ export const reorderColumn = ({
   try {
     dispatch(columnReordered({ boardId, columnOrder }));
     await boardsApi.reorder({ boardId, orderToPersist });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const moveColumn = ({
+  startBoardId,
+  endBoardId,
+  startOrder,
+  endOrder,
+  startOrderToPersist,
+  endOrderToPersist
+}) => async dispatch => {
+  try {
+    //TODO: persist to database
+    dispatch(columnMoved({ startBoardId, endBoardId, startOrder, endOrder }));
+    await boardsApi.move({
+      startBoardId,
+      endBoardId,
+      startOrderToPersist,
+      endOrderToPersist
+    });
   } catch (ex) {
     console.error(ex);
   }

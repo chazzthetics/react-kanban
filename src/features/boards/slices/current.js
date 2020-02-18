@@ -22,6 +22,10 @@ const currentBoard = createSlice({
     boardChanged(_state, action) {
       const { boardId } = action.payload;
       return boardId;
+    },
+    columnMoved(_state, action) {
+      const { endBoardId } = action.payload;
+      return endBoardId;
     }
   },
   extraReducers: {

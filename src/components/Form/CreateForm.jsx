@@ -47,7 +47,7 @@ const CreateForm = ({
           placeholder={placeholder}
           ref={popover ? firstFieldRef : focusRef}
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          _focus={{ border: ".4px solid #ddd", borderRadius: "4px" }}
+          _focus={{ border: "1px solid #ddd", borderRadius: "4px" }}
           {...props}
         />
       ) : (
@@ -58,7 +58,7 @@ const CreateForm = ({
           placeholder={placeholder}
           ref={popover ? firstFieldRef : focusRef}
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          _focus={{ border: ".4px solid #ddd" }}
+          _focus={{ border: "1px solid #ddd" }}
           {...props}
         />
       )}
