@@ -104,6 +104,7 @@ export const login = ({ email, password }) => async dispatch => {
       localStorage.setItem("access_token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       dispatch(loginSuccess({ token }));
+      dispatch(authenticateUser(token));
     }
   } catch (ex) {
     dispatch(loginFailed(ex.toString()));
@@ -120,6 +121,7 @@ export const register = ({ name, email, password }) => async dispatch => {
       localStorage.setItem("access_token", token);
       axios.defaults.headers.common["Authorization"] = `Bearer ${token}`;
       dispatch(registerSuccess({ token }));
+      dispatch(authenticateUser(token));
     }
   } catch (ex) {
     dispatch(loginFailed(ex.toString()));

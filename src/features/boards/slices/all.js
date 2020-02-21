@@ -19,6 +19,7 @@ const allBoards = createSlice({
     boardCreated(state, action) {
       const { board } = action.payload;
       state[board.id] = board;
+      //FIXME: temp
     },
     boardRemoved(state, action) {
       const { boardId } = action.payload;
@@ -45,7 +46,6 @@ const allBoards = createSlice({
       const { boardId, columnOrder } = action.payload;
       state[boardId].columnIds = columnOrder;
     },
-
     columnMoved(state, action) {
       const { startBoardId, endBoardId, startOrder, endOrder } = action.payload;
       state[startBoardId].columnIds = startOrder;
@@ -167,7 +167,6 @@ export const moveColumn = ({
   endOrderToPersist
 }) => async dispatch => {
   try {
-    //TODO: persist to database
     dispatch(columnMoved({ startBoardId, endBoardId, startOrder, endOrder }));
     await boardsApi.move({
       startBoardId,

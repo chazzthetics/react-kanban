@@ -1,6 +1,12 @@
 import React from "react";
 import { Switch, Route, NavLink } from "react-router-dom";
-import { HomePage, LoginPage, RegisterPage, BoardsPage } from "../pages";
+import {
+  HomePage,
+  LoginPage,
+  RegisterPage,
+  BoardPage,
+  Dashboard
+} from "../pages";
 
 const App = () => {
   return (
@@ -25,9 +31,6 @@ const App = () => {
             <NavLink exact to="/register">
               Register
             </NavLink>
-            <NavLink exact to="/app">
-              Boards
-            </NavLink>
             {/* *********** */}
           </nav>
           <HomePage />
@@ -38,8 +41,11 @@ const App = () => {
         <Route path="/login">
           <LoginPage />
         </Route>
-        <Route path="/app">
-          <BoardsPage />
+        <Route path="/:userId/boards">
+          <Dashboard />
+        </Route>
+        <Route path="/b/:boardId/:boardTitle">
+          <BoardPage />
         </Route>
       </Switch>
     </>

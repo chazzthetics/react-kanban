@@ -6,6 +6,7 @@ import {
   selectCurrentBoardTitle,
   selectCurrentBoardColumnIds,
   selectCurrentBoardColumnIdsLength,
+  selectCurrentBoardColor,
   selectShowBoardColumnPositions,
   selectAllBoardsWithTitle,
   selectShowId,
@@ -29,6 +30,7 @@ const useBoard = () => {
   const allBoards = useSelector(selectAllBoardsWithTitle);
   const showBoardId = useSelector(selectShowId);
   const showBoard = useSelector(selectShowBoard);
+  const color = useSelector(selectCurrentBoardColor);
 
   return {
     boardIds,
@@ -42,7 +44,8 @@ const useBoard = () => {
     columnPositions,
     allBoards,
     showBoardId,
-    showBoard
+    showBoard,
+    color
   };
 };
 

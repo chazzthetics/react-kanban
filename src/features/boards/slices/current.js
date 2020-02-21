@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { requestInitialDataSuccess, requestBoardsSuccess } from "../../shared";
+import { boardsApi } from "../../../api";
 
 /**
  * Current Board Slice
@@ -15,9 +16,19 @@ const currentBoard = createSlice({
     boardRemoved(_state, action) {
       const { boardId, boardIds } = action.payload;
       const updatedBoardIds = boardIds.filter(id => id !== boardId);
-      const previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
-
-      return previousBoard ? previousBoard : "";
+      console.log(updatedBoardIds);
+      //FIXME:
+      let previousBoard;
+      if (updatedBoardIds.length > 2) {
+        previousBoard = updatedBoardIds[updatedBoardIds.length - 2];
+      } else if (updatedBoardIds.length === 2) {
+        previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
+      } else if (updatedBoardIds.length === 1) {
+        previousBoard = updatedBoardIds[0];
+      } else {
+        previousBoard = "";
+      }
+      return previousBoard;
     },
     boardChanged(_state, action) {
       const { boardId } = action.payload;
@@ -44,5 +55,14 @@ function boardsLoaded(_state, action) {
 
 export const { boardChanged } = currentBoard.actions;
 export const currentBoardReducer = currentBoard.reducer;
+
+export const changeBoard = ({ boardId }) => async dispatch => {
+  try {
+    dispatch(boardChanged({ boardId }));
+    await boardsApi.setCurrent({ boardId });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
 
 //TODO: refactor

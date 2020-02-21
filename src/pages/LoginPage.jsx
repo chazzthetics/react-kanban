@@ -1,9 +1,9 @@
 import React from "react";
-import { useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
 import { useForm } from "../hooks";
-import { login } from "../features/auth";
+import { login, selectUser } from "../features/auth";
 import { Flex, Heading, Button, Input } from "@chakra-ui/core";
-import { useHistory } from "react-router-dom";
 
 const LoginPage = () => {
   const { values, handleChange, handleSubmit } = useForm(
@@ -11,13 +11,23 @@ const LoginPage = () => {
     loginUser
   );
 
-  const history = useHistory();
   const dispatch = useDispatch();
+
+  //TODO: user on every key down--fix
+  const user = useSelector(selectUser);
 
   function loginUser() {
     const credentials = { email: values.email, password: values.password };
     dispatch(login(credentials));
-    history.replace("/app");
+  }
+
+  if (user && user.id) {
+    return (
+      <Redirect
+        push
+        to={{ pathname: `/${user.id}/boards`, state: { referrer: "login" } }}
+      />
+    );
   }
 
   return (

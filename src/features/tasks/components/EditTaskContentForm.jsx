@@ -48,7 +48,7 @@ const EditTaskContentForm = ({ taskId }) => {
         onCancel={handleCancelEdit}
         update={update}
         px={1}
-        mt={1}
+        mt={2}
         w="100%"
       >
         <ButtonGroup

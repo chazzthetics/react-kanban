@@ -1,37 +1,49 @@
 import React from "react";
+import PropTypes from "prop-types";
 import { Link as RouterLink } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { selectUser, logout } from "../../features/auth";
-import { FiHome, FiSun } from "react-icons/fi";
+import { useBoard } from "../../hooks";
+import { logout, selectUser } from "../../features/auth";
+import { FiHome, FiSun, FiMoon } from "react-icons/fi";
 import { GoMarkGithub } from "react-icons/go";
+import {
+  SelectBoardInput,
+  CreateNewBoardPopover
+} from "../../features/boards/components";
+import { AppBarIconButton } from "../";
 import {
   Flex,
   Heading,
   ButtonGroup,
-  IconButton,
   Box,
   List,
   ListItem,
   Avatar,
   Link,
-  Button
+  Button,
+  useColorMode
 } from "@chakra-ui/core";
-import {
-  SelectBoardInput,
-  CreateNewBoardForm
-} from "../../features/boards/components";
 
-const AppBar = () => {
+const AppBar = ({ dashboard }) => {
   const user = useSelector(selectUser);
   const dispatch = useDispatch();
 
+  //FIXME:REFACTOR
   const handleLogout = () => {
     dispatch(logout());
     window.location.href = "/login";
   };
-  //FIXME: HOME link dispatches
+  const { colorMode, toggleColorMode } = useColorMode();
+
+  const { color } = useBoard();
+
   return (
-    <Box as="header" h="40px" bg="#39729f" p="4px">
+    <Box
+      as="header"
+      h="40px"
+      bg={dashboard ? "gray.700" : `${color}.700`}
+      p="4px"
+    >
       <Flex as="nav" align="center" justify="space-between" h="100%">
         <List
           d="flex"
@@ -41,21 +53,23 @@ const AppBar = () => {
         >
           <ButtonGroup d="flex" spacing={1}>
             <ListItem mr={1}>
-              <Link as={RouterLink} to="/dashboard">
-                <IconButton
-                  aria-label="Go to Home"
+              <Link
+                as={RouterLink}
+                exact
+                to={user ? `/${user.id}/boards` : "/"}
+              >
+                <AppBarIconButton
                   icon={FiHome}
-                  size="sm"
+                  label="Go to Dashboard"
                   fontSize="1.3rem"
-                  bg="rgba(0,0,0,.3)"
-                  color="#fff"
-                  _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
                 />
               </Link>
             </ListItem>
-            <ListItem d="flex" alignItems="center">
-              <SelectBoardInput />
-            </ListItem>
+            {!dashboard && (
+              <ListItem d="flex" alignItems="center">
+                <SelectBoardInput />
+              </ListItem>
+            )}
           </ButtonGroup>
         </List>
         <Box>
@@ -76,7 +90,7 @@ const AppBar = () => {
         >
           <ButtonGroup d="flex" spacing={1}>
             <ListItem mr={1}>
-              <CreateNewBoardForm />
+              <CreateNewBoardPopover />
             </ListItem>
             <ListItem>
               <Link
@@ -84,29 +98,24 @@ const AppBar = () => {
                 rel="noopener noreferrer"
                 isExternal
               >
-                <IconButton
+                <AppBarIconButton
                   icon={GoMarkGithub}
-                  size="sm"
-                  bg="rgba(0,0,0,.3)"
-                  color="#fff"
-                  _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+                  label="Go to Source Code"
                 />
               </Link>
             </ListItem>
             <ListItem>
-              <IconButton
-                icon={FiSun}
-                size="sm"
-                bg="rgba(0,0,0,.3)"
-                color="#fff"
-                _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+              <AppBarIconButton
+                icon={colorMode === "light" ? FiMoon : FiSun}
+                label="Change Theme"
+                onClick={toggleColorMode}
               />
             </ListItem>
             <ListItem cursor="pointer">
               <Button variant="unstyled" size="sm" onClick={handleLogout}>
                 <Avatar
                   name={user && user.name}
-                  bg="purple.500"
+                  bg={dashboard ? "green.400" : `${color}.400`}
                   color="#fff"
                   size="sm"
                 />
@@ -117,6 +126,10 @@ const AppBar = () => {
       </Flex>
     </Box>
   );
+};
+
+AppBar.propTypes = {
+  dashboard: PropTypes.bool.isRequired
 };
 
 export default AppBar;

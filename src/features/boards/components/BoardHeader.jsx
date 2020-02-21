@@ -10,7 +10,7 @@ import {
 } from "./";
 
 const BoardHeader = () => {
-  const { isEditing } = useBoard();
+  const { color, isEditing } = useBoard();
 
   return (
     <Flex
@@ -19,7 +19,7 @@ const BoardHeader = () => {
       px={1}
       py={2}
       h="40px"
-      background="linear-gradient(90deg, rgba(2,0,36,0.8) 0%, rgba(57,114,159,0.8) 25%, rgba(57,114,159,0.8) 75%, rgba(2,0,36,0.8) 100%)"
+      bg={`${color}.800`}
       mb={2}
     >
       <Flex justify="flex-start" align="center" mx={2}>

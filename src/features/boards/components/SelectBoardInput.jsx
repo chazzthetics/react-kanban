@@ -1,33 +1,51 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import { useDispatch } from "react-redux";
+import { useHistory } from "react-router-dom";
 import { useBoard } from "../../../hooks";
-import { boardChanged } from "../slices";
+import { changeBoard } from "../slices";
 import { Select } from "@chakra-ui/core";
+import { slugify } from "../../../utils/slugify";
 
 const SelectBoardInput = () => {
-  const { boardId, allBoards } = useBoard();
+  const { color, boardId, allBoards, boardTitle } = useBoard();
   const dispatch = useDispatch();
 
-  const handleBoardChange = e => {
-    dispatch(boardChanged({ boardId: e.target.value }));
-  };
+  const history = useHistory();
 
+  const handleBoardChange = useCallback(
+    e => {
+      dispatch(changeBoard({ boardId: e.target.value }));
+    },
+    [dispatch]
+  );
+
+  useEffect(() => {
+    if (boardTitle) {
+      return history.push(`/b/${boardId}/${slugify(boardTitle)}`);
+    }
+  }, [boardTitle, boardId, history]);
+  //TODO: inside option color
   return boardId ? (
     <Select
-      onChange={handleBoardChange}
       size="sm"
       borderRadius={4}
-      bg="#31546e"
+      bg="rgba(0,0,0,0.3)"
       border="none"
       color="#fff"
       fontWeight="700"
       value={boardId}
+      cursor="pointer"
+      onChange={handleBoardChange}
+      focusBorderColor={`${color}.300`}
     >
       {allBoards.map(board => (
         <option
           key={board.id}
           value={board.id}
-          style={{ fontWeight: "inherit" }}
+          style={{
+            fontWeight: "inherit",
+            backgroundColor: "#2D3748"
+          }}
         >
           {board.title}
         </option>

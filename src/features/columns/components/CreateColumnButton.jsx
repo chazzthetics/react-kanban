@@ -4,7 +4,7 @@ import { useBoard } from "../../../hooks";
 import { PseudoBox, Icon } from "@chakra-ui/core";
 
 const CreateColumnButtom = ({ onOpen }) => {
-  const { hasColumns } = useBoard();
+  const { color, hasColumns } = useBoard();
 
   return (
     <PseudoBox
@@ -26,10 +26,10 @@ const CreateColumnButtom = ({ onOpen }) => {
       px={3}
       _hover={{
         opacity: 1,
-        backgroundColor: "#5389a7",
+        backgroundColor: `${color}.600`,
         textDecoration: "underline"
       }}
-      transition="all 150ms ease-out"
+      transition="all 100ms ease-out"
       boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
     >
       <Icon name="add" size="14px" mr={2} />

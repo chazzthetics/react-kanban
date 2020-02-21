@@ -5,8 +5,7 @@ import { Heading, PseudoBox } from "@chakra-ui/core";
 import { boardTitleEditing } from "../slices";
 
 const BoardTitle = () => {
-  const { boardId, boardTitle } = useBoard();
-
+  const { color, boardId, boardTitle } = useBoard();
   const dispatch = useDispatch();
 
   const handleEditBoardTitle = () => {
@@ -19,18 +18,13 @@ const BoardTitle = () => {
       d="flex"
       alignItems="center"
       mr={1}
+      cursor="pointer"
       borderRadius={4}
-      _hover={{ backgroundColor: "#5F9AC4" }}
+      _hover={{ backgroundColor: `${color}.500` }}
       transition="background-color 150ms ease-in"
+      onClick={handleEditBoardTitle}
     >
-      <Heading
-        as="h2"
-        cursor="pointer"
-        size="sm"
-        color="#F1F4FF"
-        mx={3}
-        onClick={handleEditBoardTitle}
-      >
+      <Heading as="h2" size="sm" color="#F1F4FF" mx={3}>
         {boardTitle}
       </Heading>
     </PseudoBox>

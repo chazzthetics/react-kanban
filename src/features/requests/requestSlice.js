@@ -52,13 +52,14 @@ function error(state, action) {
 
 //TODO: move to own slice/service
 
-export const fetchData = token => async dispatch => {
+//FIXME: boardId
+export const fetchData = (token, boardId) => async dispatch => {
   dispatch(requestInitialDataStart());
   try {
     const { data } = await getData(token);
-
     dispatch(
       requestInitialDataSuccess({
+        boardId,
         boards: data.boards.data,
         columns: data.columns.data,
         tasks: data.tasks.data,

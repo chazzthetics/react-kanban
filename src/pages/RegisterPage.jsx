@@ -1,8 +1,8 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useSelector, useDispatch } from "react-redux";
+import { Redirect } from "react-router-dom";
 import { useForm } from "../hooks";
-import { register } from "../features/auth";
+import { register, selectUser } from "../features/auth";
 import { Flex, Heading, Button, Input } from "@chakra-ui/core";
 
 const RegisterPage = () => {
@@ -11,7 +11,6 @@ const RegisterPage = () => {
     registerUser
   );
 
-  const history = useHistory();
   const dispatch = useDispatch();
 
   function registerUser() {
@@ -21,7 +20,16 @@ const RegisterPage = () => {
       password: values.password
     };
     dispatch(register(credentials));
-    history.replace("/app", { fromRegister: true });
+  }
+  const user = useSelector(selectUser);
+
+  if (user && user.id) {
+    return (
+      <Redirect
+        push
+        to={{ pathname: `/${user.id}/boards`, state: { referrer: "register" } }}
+      />
+    );
   }
 
   return (

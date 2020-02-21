@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
+import { useParams } from "react-router-dom";
+import { useBoard } from "../hooks";
 import { authenticateUser, getAuthState, selectUser } from "../features/auth";
 import { fetchData } from "../features/requests";
 
@@ -7,30 +9,28 @@ import { fetchData } from "../features/requests";
  * Authenticate user then make request for initial data
  */
 const useAuth = () => {
-  const { token, isAuthenticated, error: authError } = useSelector(
-    getAuthState
-  );
-
+  const { token } = useSelector(getAuthState);
   const user = useSelector(selectUser);
+
+  const { boardTitle } = useBoard();
 
   const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (!authError && token) {
-      dispatch(authenticateUser(token));
-    }
-  }, [dispatch, authError, token]);
+  const { boardId } = useParams();
 
   useEffect(() => {
-    if (token && user) {
-      dispatch(fetchData(token));
+    if (token && !user) {
+      dispatch(authenticateUser(token));
     }
   }, [dispatch, token, user]);
 
-  return { token, isAuthenticated, authError, user };
+  useEffect(() => {
+    if (user && !boardTitle) {
+      dispatch(fetchData(token, boardId));
+    }
+  }, [dispatch, user, token, boardTitle, boardId]);
+
+  return { user };
 };
 
 export default useAuth;
-
-//FIXME: prevent effect from running after returning from dashboard board page
-// TODO: No need to fire off getalldata on register, just get labels

@@ -9,7 +9,8 @@ export const boardsApi = {
   },
   create: ({ board }) => {
     return axios.post(`${baseUrl}/boards`, {
-      title: board.title
+      title: board.title,
+      color: board.color
     });
   },
   remove: ({ boardId }) => {
@@ -20,6 +21,9 @@ export const boardsApi = {
   },
   updateTitle: ({ boardId, title }) => {
     return axios.patch(`${baseUrl}/boards/${boardId}`, { title });
+  },
+  setCurrent: ({ boardId }) => {
+    return axios.patch(`http://localhost:8000/api/boards/${boardId}/current`);
   },
   reorder: ({ boardId, orderToPersist }) => {
     return axios.put(`${baseUrl}/boards/${boardId}/reorder`, {

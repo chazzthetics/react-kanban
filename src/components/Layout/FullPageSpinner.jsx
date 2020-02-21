@@ -1,20 +1,23 @@
 import React from "react";
+import { useBoard } from "../../hooks";
 import { Flex, Spinner } from "@chakra-ui/core";
 
 const FullPageSpinner = () => {
+  const { color } = useBoard();
+
   return (
     <Flex
       align="center"
       justify="center"
       h="calc(100% - 40px)"
-      bg="#437397"
+      bg={`${color}.300`}
       overflow="hidden"
     >
       <Spinner
         thickness="4px"
         speed="0.65s"
-        emptyColor="purple.100"
-        color="purple.600"
+        emptyColor={`${color}.100`}
+        color={`${color}.400`}
         size="xl"
       />
     </Flex>

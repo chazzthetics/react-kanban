@@ -34,7 +34,6 @@ const CreateForm = ({
   });
 
   const focusRef = useFocus();
-
   return (
     <form onSubmit={handleSubmit} ref={cancelRef}>
       {!textarea ? (
@@ -58,7 +57,7 @@ const CreateForm = ({
           placeholder={placeholder}
           ref={popover ? firstFieldRef : focusRef}
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          _focus={{ border: "1px solid #ddd" }}
+          _focus={{ border: "1px solid #ddd", borderRadius: "4px" }}
           {...props}
         />
       )}
@@ -66,6 +65,7 @@ const CreateForm = ({
     </form>
   );
 };
+
 CreateForm.propTypes = {
   inputName: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,

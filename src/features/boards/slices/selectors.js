@@ -32,6 +32,12 @@ export const selectCurrentBoardTitle = createSelector(
   board => (board ? board.title : "")
 );
 
+// TODO: default color...
+export const selectCurrentBoardColor = createSelector(
+  [selectCurrentBoard],
+  board => (board ? board.color : "gray")
+);
+
 export const selectCurrentBoardIsEditing = createSelector(
   [selectCurrentBoard],
   board => (board ? board.isEditing : false)

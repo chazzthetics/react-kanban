@@ -13,6 +13,23 @@ const show = createSlice({
       const { boardId } = action.payload;
       return boardId;
     },
+    boardRemoved(state, action) {
+      //TODO: refactor
+      const { boardId, boardIds } = action.payload;
+      const updatedBoardIds = boardIds.filter(id => id !== boardId);
+      //FIXME:
+      let previousBoard;
+      if (updatedBoardIds.length > 2) {
+        previousBoard = updatedBoardIds[updatedBoardIds.length - 2];
+      } else if (updatedBoardIds.length === 2) {
+        previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
+      } else if (updatedBoardIds.length === 1) {
+        previousBoard = updatedBoardIds[0];
+      } else {
+        previousBoard = "";
+      }
+      return previousBoard;
+    },
     boardListChanged(_state, action) {
       const { boardId } = action.payload;
       return boardId;

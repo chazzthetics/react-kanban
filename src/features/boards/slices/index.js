@@ -1,6 +1,6 @@
 import { combineReducers } from "@reduxjs/toolkit";
 import { boardIdsReducer } from "./ids";
-import { currentBoardReducer, boardChanged } from "./current";
+import { currentBoardReducer, boardChanged, changeBoard } from "./current";
 import { showReducer, boardListChanged } from "./show";
 import {
   allBoardsReducer,
@@ -23,6 +23,7 @@ import {
   selectCurrentBoardIsEditing,
   selectCurrentBoardColumnIds,
   selectCurrentBoardColumnIdsLength,
+  selectCurrentBoardColor,
   selectShowBoardColumnPositions,
   selectShowId,
   selectShowBoard
@@ -41,6 +42,7 @@ export {
   selectCurrentBoardIsEditing,
   selectCurrentBoardColumnIds,
   selectCurrentBoardColumnIdsLength,
+  selectCurrentBoardColor,
   selectShowBoardColumnPositions,
   selectShowId,
   selectShowBoard
@@ -55,6 +57,7 @@ export {
   updateBoardTitle,
   boardListChanged,
   boardChanged,
+  changeBoard,
   createBoard,
   removeBoard,
   clearBoard,

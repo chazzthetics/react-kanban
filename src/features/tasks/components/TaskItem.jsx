@@ -8,7 +8,7 @@ import { TaskLabelList } from "../../labels/components";
 import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
 
 const TaskItem = ({ taskId, columnId, isDragging }) => {
-  const { content, isEditing, completed, taskLabelIds } = useTask(taskId);
+  const { content, isEditing, completed } = useTask(taskId);
 
   const dispatch = useDispatch();
   const handleOpenEdit = () => {
@@ -38,14 +38,14 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       transform={isDragging ? "rotate(-2deg)" : ""}
       borderRadius={4}
       cursor="pointer"
-      onMouseEnter={handleShowOptions}
+      onMouseOver={handleShowOptions}
       onMouseLeave={handleHideOptions}
       onDoubleClick={handleOpenEdit}
     >
       {!isEditing ? (
         <>
           <Flex direction="column">
-            <Flex mb={taskLabelIds ? 1 : 0}>
+            <Flex align="center">
               <TaskLabelList taskId={taskId} />
             </Flex>
             <Text

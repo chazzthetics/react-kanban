@@ -1,5 +1,5 @@
 export { default as MainBoard } from "./MainBoard";
-export { default as CreateNewBoardForm } from "./CreateNewBoardForm";
+export { default as CreateNewBoardPopover } from "./CreateNewBoardPopover";
 export { default as EditBoardTitleForm } from "./EditBoardTitleForm";
 export { default as SelectBoardInput } from "./SelectBoardInput";
 export { default as RemoveBoardButton } from "./RemoveBoardButton";

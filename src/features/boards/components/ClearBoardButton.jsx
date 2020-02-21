@@ -23,11 +23,11 @@ const ClearBoardButton = () => {
         size="sm"
         fontSize="1rem"
         icon="minus"
-        bg="rgba(0,0,0,.3)"
+        bg="rgba(255,255,255,0.1)"
         color="#fff"
         mr={1}
         onClick={handleClearBoard}
-        _hover={{ backgroundColor: "rgba(0,0,0,.1)" }}
+        _hover={{ backgroundColor: "rgba(255,255,255,0.2)" }}
       />
     </Tooltip>
   );

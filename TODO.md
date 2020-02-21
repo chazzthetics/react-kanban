@@ -9,6 +9,7 @@
 - REDO all styles -- use ...rest props, im so fuking stupid!!
 - performance
 - cancel open form pressing ESC key [x]
-- move column to different board
+- move column to different board [x]
 - selectboardinput change when new board created [x]
 - selectboardinput change when board deleted [x]
+- fix: two clicks to go from board to dashboard
