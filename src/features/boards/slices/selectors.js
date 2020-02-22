@@ -32,7 +32,6 @@ export const selectCurrentBoardTitle = createSelector(
   board => (board ? board.title : "")
 );
 
-// TODO: default color...
 export const selectCurrentBoardColor = createSelector(
   [selectCurrentBoard],
   board => (board ? board.color : "gray")

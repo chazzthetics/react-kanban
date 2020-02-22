@@ -19,7 +19,6 @@ const allBoards = createSlice({
     boardCreated(state, action) {
       const { board } = action.payload;
       state[board.id] = board;
-      //FIXME: temp
     },
     boardRemoved(state, action) {
       const { boardId } = action.payload;
@@ -28,6 +27,10 @@ const allBoards = createSlice({
     boardCleared(state, action) {
       const { boardId } = action.payload;
       state[boardId].columnIds = [];
+    },
+    boardColorChanged(state, action) {
+      // const { boardId, color } = action.payload;
+      // state[boardId].color = color;
     },
     boardTitleEditing(state, action) {
       const { boardId } = action.payload;
@@ -88,6 +91,7 @@ export const {
   boardCreated,
   boardRemoved,
   boardCleared,
+  boardColorChanged,
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,

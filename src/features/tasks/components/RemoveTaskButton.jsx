@@ -2,7 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { removeTask } from "../slices";
-import { IconButton } from "@chakra-ui/core";
+import { TaskOptionButton } from "./";
 
 const RemoveTaskButton = ({ taskId, columnId }) => {
   const dispatch = useDispatch();
@@ -12,14 +12,9 @@ const RemoveTaskButton = ({ taskId, columnId }) => {
   };
 
   return (
-    <IconButton
-      size="sm"
-      aria-label="Remove Task"
-      variant="ghost"
-      opacity={0.2}
-      _hover={{ backgroundColor: "#ebecf0", opacity: 1 }}
-      transition="background-color 100ms ease-in, opacity 100ms ease-in"
+    <TaskOptionButton
       icon="delete"
+      label="Remove Task"
       onClick={handleRemove}
     />
   );
@@ -31,5 +26,3 @@ RemoveTaskButton.propTypes = {
 };
 
 export default React.memo(RemoveTaskButton);
-
-//TODO: refactor

@@ -1,6 +1,6 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useBoard, useToggle } from "../../../hooks";
+import { useBoard, useToggle, useLightMode } from "../../../hooks";
 import { createColumn } from "../slices";
 import { makeColumn } from "../utils/makeColumn";
 import { CreateForm, AddButtonGroup } from "../../../components";
@@ -14,6 +14,8 @@ const CreateNewColumnForm = () => {
 
   const dispatch = useDispatch();
 
+  const [isLightMode] = useLightMode();
+
   function create(columnTitle) {
     const column = makeColumn({ title: columnTitle });
     dispatch(createColumn({ column, boardId }));
@@ -23,7 +25,7 @@ const CreateNewColumnForm = () => {
     <CreateColumnButton onOpen={open} />
   ) : (
     <Flex
-      bg="#ebecf0"
+      bg={isLightMode ? "#ebecf0" : "gray.600"}
       h="96px"
       p="8px"
       borderRadius={4}

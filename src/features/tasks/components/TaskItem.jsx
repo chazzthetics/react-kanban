@@ -1,11 +1,11 @@
 import React, { useState, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { useTask } from "../../../hooks";
+import { useTask, useLightMode } from "../../../hooks";
 import { taskEditing } from "../slices";
-import { ButtonGroup, Text, Flex } from "@chakra-ui/core";
+import { Text, Flex } from "@chakra-ui/core";
 import { TaskLabelList } from "../../labels/components";
-import { EditTaskButton, EditTaskContentForm, RemoveTaskButton } from "./";
+import { EditTaskContentForm, TaskOptions } from "./";
 
 const TaskItem = ({ taskId, columnId, isDragging }) => {
   const { content, isEditing, completed } = useTask(taskId);
@@ -21,6 +21,8 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
   const handleShowOptions = useCallback(() => setIsHover(true), []);
   const handleHideOptions = useCallback(() => setIsHover(false), []);
 
+  const [isLightMode] = useLightMode();
+
   return (
     <Flex
       py={1}
@@ -34,8 +36,14 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       }
       align="center"
       justify="space-between"
-      bg={isDragging ? "#f7f9fa" : "#FFF"}
-      transform={isDragging ? "rotate(-2deg)" : ""}
+      bg={
+        isDragging && isLightMode
+          ? "white"
+          : !isLightMode
+          ? "gray.700"
+          : "white"
+      }
+      transform={isDragging ? "rotate(-2deg)" : "none"}
       borderRadius={4}
       cursor="pointer"
       onMouseOver={handleShowOptions}
@@ -57,12 +65,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
               {content}
             </Text>
           </Flex>
-          {isHover && (
-            <ButtonGroup d="flex" alignItems="center">
-              <EditTaskButton taskId={taskId} />
-              <RemoveTaskButton taskId={taskId} columnId={columnId} />
-            </ButtonGroup>
-          )}
+          {isHover && <TaskOptions taskId={taskId} columnId={columnId} />}
         </>
       ) : (
         <EditTaskContentForm taskId={taskId} />
@@ -73,7 +76,8 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
 
 TaskItem.propTypes = {
   taskId: PropTypes.string.isRequired,
-  columnId: PropTypes.string.isRequired
+  columnId: PropTypes.string.isRequired,
+  isDragging: PropTypes.bool.isRequired
 };
 
 export default React.memo(TaskItem);

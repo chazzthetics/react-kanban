@@ -1,12 +1,13 @@
 import React from "react";
 import { useDispatch } from "react-redux";
-import { useColumn } from "../../../hooks";
+import { useColumn, useLightMode } from "../../../hooks";
 import { columnTitleEditing } from "../slices";
 import { PseudoBox, Heading } from "@chakra-ui/core";
 
 const ColumnTitle = ({ columnId }) => {
   const { title } = useColumn(columnId);
   const dispatch = useDispatch();
+  const [isLightMode] = useLightMode();
 
   const handleEditColumnTitle = () => {
     dispatch(columnTitleEditing({ columnId }));
@@ -20,7 +21,7 @@ const ColumnTitle = ({ columnId }) => {
       py={2}
       pr={1}
       _hover={{
-        backgroundColor: "#d4d4d4",
+        backgroundColor: isLightMode ? "#d4d4d4" : "gray.500",
         borderRadius: 4
       }}
       transition="background-color 100ms ease-in"
@@ -32,7 +33,7 @@ const ColumnTitle = ({ columnId }) => {
         fontSize=".9rem"
         fontWeight="semibold"
         ml={1}
-        color="#000"
+        color={isLightMode ? "black" : "white"}
         onClick={handleEditColumnTitle}
       >
         {title}

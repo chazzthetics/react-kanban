@@ -10,7 +10,7 @@ const FullPageSpinner = () => {
       align="center"
       justify="center"
       h="calc(100% - 40px)"
-      bg={`${color}.300`}
+      bg={`${color}.700`}
       overflow="hidden"
     >
       <Spinner

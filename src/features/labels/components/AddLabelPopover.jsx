@@ -1,7 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
-import { useToggle, useTask, useLabel } from "../../../hooks";
+import { useToggle, useTask, useLabel, useLightMode } from "../../../hooks";
 import {
   removeLabelFromTask,
   addLabelToTask,
@@ -39,6 +39,8 @@ const AddLabelPopover = ({ taskId }) => {
     dispatch(taskEditingCancelled({ taskId }));
   };
 
+  const [isLightMode] = useLightMode();
+
   return (
     <>
       <Popover
@@ -57,9 +59,19 @@ const AddLabelPopover = ({ taskId }) => {
             Add Label
           </Button>
         </PopoverTrigger>
-        <PopoverContent zIndex={4} bg="gray.50" cursor="default">
-          <PopoverHeader textAlign="center">Labels</PopoverHeader>
-          <PopoverCloseButton />
+        <PopoverContent
+          zIndex={4}
+          bg={isLightMode ? "gray.50" : "gray.700"}
+          cursor="default"
+        >
+          <PopoverHeader
+            fontSize=".9rem"
+            textAlign="center"
+            opacity={isLightMode ? 0.8 : 1}
+          >
+            Labels
+          </PopoverHeader>
+          <PopoverCloseButton opacity={0.6} />
           <PopoverBody>
             {labelIds.map(labelId => (
               <PseudoBox

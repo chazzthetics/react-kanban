@@ -3,8 +3,8 @@ import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { useBoard } from "../../../hooks";
 import { removeBoard } from "../slices";
-import { IconButton } from "@chakra-ui/core";
 import { selectUser } from "../../auth";
+import { AppBarIconButton } from "../../../components";
 
 const RemoveBoardButton = () => {
   const { boardId, boardIds } = useBoard();
@@ -22,15 +22,11 @@ const RemoveBoardButton = () => {
   };
 
   return (
-    <IconButton
-      aria-label="Remove Board"
+    <AppBarIconButton
       icon="delete"
-      size="sm"
-      fontSize="1rem"
-      bg="rgba(255,255,255,0.1)"
-      color="#fff"
+      label="Remove Board"
       onClick={handleRemoveBoard}
-      _hover={{ color: "red.500", backgroundColor: "rgba(255,255,255,0.2)" }}
+      _hover={{ backgroundColor: "rgba(0,0,0,0.5)", color: "red.400" }}
     />
   );
 };

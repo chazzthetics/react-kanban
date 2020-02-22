@@ -1,5 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
+import { useLightMode } from "../../hooks";
 import { Button, ButtonGroup, CloseButton } from "@chakra-ui/core";
 
 const AddButtonGroup = ({
@@ -9,6 +10,8 @@ const AddButtonGroup = ({
   iconColor = "black",
   ...props
 }) => {
+  const [isLightMode] = useLightMode();
+
   return (
     <ButtonGroup d="flex" alignItems="center" {...props}>
       <Button
@@ -26,7 +29,10 @@ const AddButtonGroup = ({
         type="button"
         aria-label="Cancel"
         onClick={onClose}
-        color={iconColor}
+        color={isLightMode ? iconColor : "white"}
+        _hover={{
+          backgroundColor: isLightMode ? "rgba(0,0,0,0.06)" : "gray.500"
+        }}
       />
     </ButtonGroup>
   );

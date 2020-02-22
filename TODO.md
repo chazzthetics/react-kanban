@@ -13,3 +13,4 @@
 - selectboardinput change when new board created [x]
 - selectboardinput change when board deleted [x]
 - fix: two clicks to go from board to dashboard
+- fix all psuedo states

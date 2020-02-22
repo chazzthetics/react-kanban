@@ -18,13 +18,13 @@ const LabelItem = ({ taskId, taskLabel }) => {
       onClick={handleRemoveLabelFromTask(taskLabel.id)}
       cursor="pointer"
       w="30px"
-      h="7.5px"
+      minH="7.5px"
       mr={1}
       borderRadius={2}
       bg={`${taskLabel.color}`}
       _hover={{ bg: darkenOnHover(taskLabel.color) }}
       transition="background-color 150ms ease-in"
-    ></PseudoBox>
+    />
   );
 };
 

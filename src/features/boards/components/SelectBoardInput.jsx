@@ -24,7 +24,7 @@ const SelectBoardInput = () => {
       return history.push(`/b/${boardId}/${slugify(boardTitle)}`);
     }
   }, [boardTitle, boardId, history]);
-  //TODO: inside option color
+
   return boardId ? (
     <Select
       size="sm"

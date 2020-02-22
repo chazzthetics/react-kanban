@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useCancel, useFocus, useForm } from "../../hooks";
+import { useCancel, useFocus, useForm, useLightMode } from "../../hooks";
 import { Input, Textarea } from "@chakra-ui/core";
 
 const EditForm = ({
@@ -18,11 +18,14 @@ const EditForm = ({
   );
 
   const focusRef = useFocus(true);
+
   const cancelRef = useCancel(isEditing, () => {
     if (values[inputName]) {
       update(values[inputName]);
     }
   });
+
+  const [isLightMode] = useLightMode();
 
   return (
     <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "100%" }}>
@@ -41,7 +44,12 @@ const EditForm = ({
           size="sm"
           fontSize="1rem"
           fontWeight="700"
-          _focus={{ border: "1px solid #ddd" }}
+          bg={isLightMode ? "white" : "gray.700"}
+          _focus={{
+            border: "1px solid",
+            borderRadius: "4px",
+            borderColor: isLightMode ? "#ddd" : "gray.200"
+          }}
           {...props}
         />
       ) : (
@@ -54,7 +62,11 @@ const EditForm = ({
             fontSize=".9rem"
             mb={2}
             boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-            _focus={{ border: ".4px solid #ddd" }}
+            _focus={{
+              border: "1px solid",
+              borderRadius: "4px",
+              borderColor: isLightMode ? "#ddd" : "gray.200"
+            }}
             {...props}
           />
           {children}

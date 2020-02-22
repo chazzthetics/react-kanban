@@ -27,5 +27,3 @@ const BoardPage = () => {
 };
 
 export default BoardPage;
-
-//FIXME: on load

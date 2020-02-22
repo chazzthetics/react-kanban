@@ -13,9 +13,7 @@ export const cascadeOnDelete = store => next => action => {
     case boardCleared:
       const { boardId } = action.payload;
       const boardIds = state.boards.ids;
-      const boardColumnIds = state.boards.all[boardId]
-        ? state.boards.all[boardId].columnIds
-        : [];
+      const boardColumnIds = state.boards.all[boardId].columnIds || [];
 
       const columns = state.columns.all;
       const removedColumns = boardColumnIds.map(columnId => columns[columnId]);
@@ -32,7 +30,7 @@ export const cascadeOnDelete = store => next => action => {
     case columnCleared:
       const { columnId } = action.payload;
       const columnIds = state.columns.ids;
-      const columnTaskIds = state.columns.all[columnId].taskIds;
+      const columnTaskIds = state.columns.all[columnId].taskIds || [];
       const tasks = state.tasks.all;
       const columnTasks = columnTaskIds.map(taskId => tasks[taskId]);
 
@@ -44,5 +42,3 @@ export const cascadeOnDelete = store => next => action => {
       return next(action);
   }
 };
-
-// TODO: REFACTOR! make into thunk instead? use selectors? move into separate reducer? something...

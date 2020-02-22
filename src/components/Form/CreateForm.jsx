@@ -1,6 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useForm, useFocus, useCancel } from "../../hooks";
+import { useForm, useFocus, useCancel, useLightMode } from "../../hooks";
 import { Input, Textarea } from "@chakra-ui/core";
 
 const CreateForm = ({
@@ -34,6 +34,8 @@ const CreateForm = ({
   });
 
   const focusRef = useFocus();
+  const [isLightMode] = useLightMode();
+
   return (
     <form onSubmit={handleSubmit} ref={cancelRef}>
       {!textarea ? (
@@ -46,7 +48,15 @@ const CreateForm = ({
           placeholder={placeholder}
           ref={popover ? firstFieldRef : focusRef}
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          _focus={{ border: "1px solid #ddd", borderRadius: "4px" }}
+          bg={isLightMode ? "white" : "gray.700"}
+          _focus={{
+            border: "1px solid",
+            borderRadius: "4px",
+            borderColor: isLightMode ? "#ddd" : "gray.200"
+          }}
+          _placeholder={{
+            color: isLightMode ? "gray.400" : "gray.200"
+          }}
           {...props}
         />
       ) : (
@@ -57,7 +67,15 @@ const CreateForm = ({
           placeholder={placeholder}
           ref={popover ? firstFieldRef : focusRef}
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          _focus={{ border: "1px solid #ddd", borderRadius: "4px" }}
+          bg={isLightMode ? "white" : "gray.700"}
+          _focus={{
+            border: "1px solid",
+            borderRadius: "4px",
+            borderColor: isLightMode ? "#ddd" : "gray.200"
+          }}
+          _placeholder={{
+            color: isLightMode ? "gray.400" : "gray.200"
+          }}
           {...props}
         />
       )}

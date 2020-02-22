@@ -1,7 +1,9 @@
 export { default as AppBar } from "./Layout/AppBar";
-export { default as AppBarIconButton } from "./Layout/AppBarIconButton";
 export { default as CreateForm } from "./Form/CreateForm";
-export { default as EditForm } from "./Form/EditForm";
+export { default as AppBarIconButton } from "./Button/AppBarIconButton";
+export { default as AvatarButton } from "./Button/AvatarButton";
 export { default as AddButtonGroup } from "./Button/AddButtonGroup";
 export { default as ListButton } from "./Button/ListButton";
+export { default as ColorRadioButton } from "./Button/ColorRadioButton";
+export { default as EditForm } from "./Form/EditForm";
 export { default as FullPageSpinner } from "./Layout/FullPageSpinner";

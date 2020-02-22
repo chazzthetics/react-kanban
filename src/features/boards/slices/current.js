@@ -13,31 +13,9 @@ const currentBoard = createSlice({
       const { board } = action.payload;
       return board.id;
     },
-    boardRemoved(_state, action) {
-      const { boardId, boardIds } = action.payload;
-      const updatedBoardIds = boardIds.filter(id => id !== boardId);
-      console.log(updatedBoardIds);
-      //FIXME:
-      let previousBoard;
-      if (updatedBoardIds.length > 2) {
-        previousBoard = updatedBoardIds[updatedBoardIds.length - 2];
-      } else if (updatedBoardIds.length === 2) {
-        previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
-      } else if (updatedBoardIds.length === 1) {
-        previousBoard = updatedBoardIds[0];
-      } else {
-        previousBoard = "";
-      }
-      return previousBoard;
-    },
-    boardChanged(_state, action) {
-      const { boardId } = action.payload;
-      return boardId;
-    },
-    columnMoved(_state, action) {
-      const { endBoardId } = action.payload;
-      return endBoardId;
-    }
+    boardRemoved: getPreviousBoard,
+    boardChanged: setCurrentBoard,
+    columnMoved: setCurrentBoardAfterMove
   },
   extraReducers: {
     [requestInitialDataSuccess]: boardsLoaded,
@@ -45,12 +23,39 @@ const currentBoard = createSlice({
   }
 });
 
-function boardsLoaded(_state, action) {
+export function boardsLoaded(_state, action) {
   const { boards, boardId } = action.payload;
   if (boardId) {
     return boardId;
   }
   return Object.keys(boards)[0];
+}
+
+export function setCurrentBoard(_state, action) {
+  const { boardId } = action.payload;
+  return boardId;
+}
+
+export function setCurrentBoardAfterMove(_state, action) {
+  const { endBoardId } = action.payload;
+  return endBoardId;
+}
+
+export function getPreviousBoard(_state, action) {
+  const { boardId, boardIds } = action.payload;
+  const updatedBoardIds = boardIds.filter(id => id !== boardId);
+
+  let previousBoard;
+  if (updatedBoardIds.length > 2) {
+    previousBoard = updatedBoardIds[updatedBoardIds.length - 2];
+  } else if (updatedBoardIds.length === 2) {
+    previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
+  } else if (updatedBoardIds.length === 1) {
+    previousBoard = updatedBoardIds[0];
+  } else {
+    previousBoard = "";
+  }
+  return previousBoard;
 }
 
 export const { boardChanged } = currentBoard.actions;

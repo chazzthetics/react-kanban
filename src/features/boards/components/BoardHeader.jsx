@@ -1,5 +1,5 @@
 import React from "react";
-import { useBoard } from "../../../hooks";
+import { useBoard, useLightMode } from "../../../hooks";
 import { Flex, Box, ButtonGroup } from "@chakra-ui/core";
 import {
   BoardTitle,
@@ -11,6 +11,7 @@ import {
 
 const BoardHeader = () => {
   const { color, isEditing } = useBoard();
+  const [isLightMode] = useLightMode();
 
   return (
     <Flex
@@ -19,7 +20,7 @@ const BoardHeader = () => {
       px={1}
       py={2}
       h="40px"
-      bg={`${color}.800`}
+      bg={isLightMode ? `${color}.800` : "gray.800"}
       mb={2}
     >
       <Flex justify="flex-start" align="center" mx={2}>

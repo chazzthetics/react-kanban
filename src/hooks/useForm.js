@@ -7,6 +7,10 @@ const useForm = (initialValues, submit) => {
     setValues({ ...values, [e.target.name]: e.target.value });
   };
 
+  const handleRadioSelect = value => {
+    setValues({ ...values, color: value });
+  };
+
   const handleSubmit = e => {
     e.preventDefault();
     // Check if empty values
@@ -26,7 +30,7 @@ const useForm = (initialValues, submit) => {
     setValues(initialValues);
   };
 
-  return { values, handleChange, handleSubmit, resetForm };
+  return { values, handleChange, handleRadioSelect, handleSubmit, resetForm };
 };
 
 export default useForm;

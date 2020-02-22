@@ -1,16 +1,16 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Link as RouterLink } from "react-router-dom";
-import { useSelector, useDispatch } from "react-redux";
-import { useBoard } from "../../hooks";
-import { logout, selectUser } from "../../features/auth";
+import { useSelector } from "react-redux";
+import { useBoard, useLightMode } from "../../hooks";
+import { selectUser } from "../../features/auth";
 import { FiHome, FiSun, FiMoon } from "react-icons/fi";
 import { GoMarkGithub } from "react-icons/go";
 import {
   SelectBoardInput,
   CreateNewBoardPopover
 } from "../../features/boards/components";
-import { AppBarIconButton } from "../";
+import { AppBarIconButton, AvatarButton } from "../";
 import {
   Flex,
   Heading,
@@ -18,30 +18,23 @@ import {
   Box,
   List,
   ListItem,
-  Avatar,
-  Link,
-  Button,
-  useColorMode
+  Link
 } from "@chakra-ui/core";
 
 const AppBar = ({ dashboard }) => {
   const user = useSelector(selectUser);
-  const dispatch = useDispatch();
-
-  //FIXME:REFACTOR
-  const handleLogout = () => {
-    dispatch(logout());
-    window.location.href = "/login";
-  };
-  const { colorMode, toggleColorMode } = useColorMode();
-
   const { color } = useBoard();
+  const [isLightMode, toggleColorMode] = useLightMode();
+
+  const handleChangeTheme = () => {
+    toggleColorMode();
+  };
 
   return (
     <Box
       as="header"
       h="40px"
-      bg={dashboard ? "gray.700" : `${color}.700`}
+      bg={dashboard || !isLightMode ? "gray.700" : `${color}.700`}
       p="4px"
     >
       <Flex as="nav" align="center" justify="space-between" h="100%">
@@ -97,6 +90,8 @@ const AppBar = ({ dashboard }) => {
                 href="https://github.com/chazzthetics/react-kanban"
                 rel="noopener noreferrer"
                 isExternal
+                _focus="none"
+                tabIndex={-1}
               >
                 <AppBarIconButton
                   icon={GoMarkGithub}
@@ -106,20 +101,17 @@ const AppBar = ({ dashboard }) => {
             </ListItem>
             <ListItem>
               <AppBarIconButton
-                icon={colorMode === "light" ? FiMoon : FiSun}
+                icon={isLightMode ? FiMoon : FiSun}
                 label="Change Theme"
-                onClick={toggleColorMode}
+                onClick={handleChangeTheme}
               />
             </ListItem>
             <ListItem cursor="pointer">
-              <Button variant="unstyled" size="sm" onClick={handleLogout}>
-                <Avatar
-                  name={user && user.name}
-                  bg={dashboard ? "green.400" : `${color}.400`}
-                  color="#fff"
-                  size="sm"
-                />
-              </Button>
+              <AvatarButton
+                name={user ? user.name : ""}
+                dashboard={dashboard}
+                color={color}
+              />
             </ListItem>
           </ButtonGroup>
         </List>

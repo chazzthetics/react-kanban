@@ -1,13 +1,14 @@
 import React from "react";
 import PropTypes from "prop-types";
 import { Draggable, Droppable } from "react-beautiful-dnd";
-import { useColumn } from "../../../hooks";
+import { useColumn, useLightMode } from "../../../hooks";
 import { ColumnHeader } from "./";
 import { TaskList, CreateNewTaskForm } from "../../tasks/components";
 import { Box, Flex } from "@chakra-ui/core";
 
 const ColumnItem = ({ index, columnId }) => {
   const { isOpen, isLocked, isDisabled } = useColumn(columnId);
+  const [isLightMode] = useLightMode();
 
   return (
     <Draggable
@@ -17,7 +18,7 @@ const ColumnItem = ({ index, columnId }) => {
     >
       {provided => (
         <Box
-          bg="#ebecf0"
+          bg={isLightMode ? "#ebecf0" : "gray.600"}
           mr={2}
           h="100%"
           px={2}
@@ -38,7 +39,7 @@ const ColumnItem = ({ index, columnId }) => {
                 justify="center"
                 mb={2}
                 cursor="pointer"
-                bg={snapshot.isDraggingOver ? "#d9dadd" : "#ebecf0"}
+                bg={snapshot.isDraggingOver && isLightMode ? "#d9dadd" : "none"}
                 borderRadius={4}
                 transition="background-color 120ms ease-out"
                 ref={provided.innerRef}

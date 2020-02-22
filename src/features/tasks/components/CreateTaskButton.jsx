@@ -1,10 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useColumn } from "../../../hooks";
+import { useColumn, useLightMode } from "../../../hooks";
 import { PseudoBox, Icon } from "@chakra-ui/core";
 
 const CreateTaskButton = ({ onOpen, columnId }) => {
   const { hasTasks } = useColumn(columnId);
+  const [isLightMode] = useLightMode();
 
   return (
     <PseudoBox
@@ -19,13 +20,13 @@ const CreateTaskButton = ({ onOpen, columnId }) => {
       size="sm"
       w="17rem"
       h="36px"
-      bg="#FFF"
+      bg={isLightMode ? "white" : "gray.700"}
       borderRadius={4}
       px={3}
       opacity={0.8}
       _hover={{
         opacity: 1,
-        backgroundColor: "#f2f2f2",
+        backgroundColor: isLightMode ? "#f2f2f2" : "gray.500",
         textDecoration: "underline"
       }}
       transition="all 150ms ease-out"

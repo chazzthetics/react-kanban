@@ -10,6 +10,7 @@ import {
   createBoard,
   removeBoard,
   clearBoard,
+  boardColorChanged,
   reorderColumn,
   moveColumn
 } from "./all";
@@ -57,6 +58,7 @@ export {
   updateBoardTitle,
   boardListChanged,
   boardChanged,
+  boardColorChanged,
   changeBoard,
   createBoard,
   removeBoard,

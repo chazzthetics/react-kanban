@@ -8,14 +8,8 @@ import {
   toggleCompleteTask
 } from "../slices";
 import { AddLabelPopover, TaskLabelList } from "../../labels/components";
-import { EditForm } from "../../../components";
-import {
-  Flex,
-  Button,
-  ButtonGroup,
-  CloseButton,
-  Checkbox
-} from "@chakra-ui/core";
+import { EditForm, AddButtonGroup } from "../../../components";
+import { Flex, ButtonGroup, Checkbox } from "@chakra-ui/core";
 
 const EditTaskContentForm = ({ taskId }) => {
   const { content, isEditing, completed } = useTask(taskId);
@@ -57,23 +51,11 @@ const EditTaskContentForm = ({ taskId }) => {
           justifyContent="space-between"
           pb={2}
         >
-          <Flex align="center" justify="flex-start">
-            <Button
-              size="sm"
-              type="submit"
-              aria-label="Update Task"
-              mr={1}
-              boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-              variantColor="purple"
-            >
-              Save
-            </Button>
-            <CloseButton
-              type="button"
-              onClick={handleCancelEdit}
-              aria-label="Cancel"
-            />
-          </Flex>
+          <AddButtonGroup
+            value="Save"
+            onClose={handleCancelEdit}
+            justifyContent="flex-start"
+          />
           <Flex align="center" justify="flex-end">
             <Checkbox
               onChange={handleToggleComplete}

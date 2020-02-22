@@ -8,3 +8,4 @@ export { default as useColumn } from "./useColumn";
 export { default as useTask } from "./useTask";
 export { default as useLabel } from "./useLabel";
 export { default as useAuth } from "./useAuth";
+export { default as useLightMode } from "./useLightMode";

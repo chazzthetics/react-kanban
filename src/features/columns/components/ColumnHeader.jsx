@@ -3,8 +3,8 @@ import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useColumn } from "../../../hooks";
 import { toggleLockColumn } from "../slices";
-import { Flex, IconButton, ButtonGroup } from "@chakra-ui/core";
 import { ColumnTitle, ColumnOptionsPopover, EditColumnTitleForm } from "./";
+import { Flex, IconButton, ButtonGroup } from "@chakra-ui/core";
 
 const ColumnHeader = ({ columnId }) => {
   const { isLocked, isEditing } = useColumn(columnId);

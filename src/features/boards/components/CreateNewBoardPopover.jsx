@@ -3,8 +3,9 @@ import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createBoard } from "../slices";
 import { makeBoard } from "../utils/makeBoard";
-import { useToggle, useForm } from "../../../hooks";
-import { AddButtonGroup } from "../../../components";
+import { boardColors } from "../utils/boardColors";
+import { useToggle, useForm, useLightMode } from "../../../hooks";
+import { AddButtonGroup, ColorRadioButton } from "../../../components";
 import {
   FormControl,
   FormLabel,
@@ -16,8 +17,7 @@ import {
   IconButton,
   Input,
   Stack,
-  RadioGroup,
-  Radio
+  RadioButtonGroup
 } from "@chakra-ui/core";
 
 const CreateNewBoardForm = () => {
@@ -27,7 +27,7 @@ const CreateNewBoardForm = () => {
   const history = useHistory();
   const dispatch = useDispatch();
 
-  const { values, handleChange, handleSubmit } = useForm(
+  const { values, handleChange, handleRadioSelect, handleSubmit } = useForm(
     { title: "", color: "" },
     () => create({ title: values.title, color: values.color })
   );
@@ -40,18 +40,7 @@ const CreateNewBoardForm = () => {
     history.push(`/b/${board.id}/${board.title}`);
   }
 
-  const colors = [
-    "gray",
-    "red",
-    "orange",
-    "yellow",
-    "green",
-    "teal",
-    "blue",
-    "cyan",
-    "purple",
-    "pink"
-  ];
+  const [isLightMode] = useLightMode();
 
   return (
     <Popover
@@ -67,9 +56,15 @@ const CreateNewBoardForm = () => {
           aria-label="Add new board"
           size="sm"
           fontSize="1rem"
-          bg="rgba(0,0,0,.3)"
+          bg="rgba(0,0,0,0.3)"
           color="#fff"
-          _hover={{ backgroundColor: "rgba(0,0,0,0.1)" }}
+          _active={{ backgroundColor: "rgba(255,255,255,0.2)" }}
+          _hover={{ backgroundColor: "rgba(0,0,0,0.5)" }}
+          _focus={{
+            boxShadow: isLightMode
+              ? `0 0 0 2px lightgray`
+              : "0 0 0 2px lightgreen"
+          }}
         />
       </PopoverTrigger>
       <PopoverContent
@@ -78,13 +73,13 @@ const CreateNewBoardForm = () => {
         right={100}
         zIndex={4}
         boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-        bg="#ebecf0"
+        bg={isLightMode ? "#ebecf0" : "gray.700"}
       >
         <PopoverHeader
           textAlign="center"
           mb={4}
           borderColor="#ddd"
-          opacity={0.8}
+          opacity={isLightMode ? 0.8 : 1}
         >
           Create New Board
         </PopoverHeader>
@@ -112,18 +107,16 @@ const CreateNewBoardForm = () => {
               <FormLabel htmlFor="color" fontSize=".9rem">
                 Choose Board Color
               </FormLabel>
-              <RadioGroup
+              <RadioButtonGroup
+                id="color"
                 isInline
                 name="color"
-                value={values.color}
-                onChange={handleChange}
+                onChange={handleRadioSelect}
               >
-                {colors.map(color => (
-                  <Radio key={color} value={color}>
-                    {color}
-                  </Radio>
+                {boardColors.map(color => (
+                  <ColorRadioButton key={color} value={color} />
                 ))}
-              </RadioGroup>
+              </RadioButtonGroup>
             </FormControl>
             <AddButtonGroup onClose={close} value="Create Board" />
           </Stack>

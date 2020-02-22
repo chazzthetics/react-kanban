@@ -2,7 +2,7 @@ import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { columnOptionsOpened, columnOptionsClosed } from "../slices";
-import { useCancel, useToggle, useBoard } from "../../../hooks";
+import { useCancel, useToggle, useLightMode } from "../../../hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
 import {
   Box,
@@ -24,7 +24,6 @@ import {
 
 const ColumnOptionsPopover = ({ columnId }) => {
   const { isOpen, close, open } = useToggle();
-  const { boardId } = useBoard();
   const dispatch = useDispatch();
 
   const handleOpen = useCallback(() => {
@@ -34,11 +33,12 @@ const ColumnOptionsPopover = ({ columnId }) => {
 
   const handleClose = useCallback(() => {
     close();
-    dispatch(columnOptionsClosed({ boardId, columnId }));
-  }, [boardId, columnId, close, dispatch]);
+    dispatch(columnOptionsClosed({ columnId }));
+  }, [columnId, close, dispatch]);
 
   const initialFocusRef = useRef(null);
   const cancelRef = useCancel(isOpen, handleClose);
+  const [isLightMode] = useLightMode();
 
   return (
     <Box ref={cancelRef} cursor="default">
@@ -54,7 +54,9 @@ const ColumnOptionsPopover = ({ columnId }) => {
             icon={FiMoreHorizontal}
             size="sm"
             variant="ghost"
-            _hover={{ backgroundColor: "#d4d4d4" }}
+            _hover={{
+              backgroundColor: isLightMode ? "#d4d4d4" : "gray.500"
+            }}
             _active={{ backgroundColor: "#d4d4d4" }}
           />
         </PopoverTrigger>
@@ -63,13 +65,13 @@ const ColumnOptionsPopover = ({ columnId }) => {
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
           p={2}
           borderRadius={4}
-          bg="#fff"
+          bg={isLightMode ? "white" : "gray.700"}
         >
           <PopoverHeader
             textAlign="center"
             fontSize=".9rem"
             mb={2}
-            opacity={0.8}
+            opacity={isLightMode ? 0.8 : 1}
             borderColor="#ddd"
           >
             <span>List Actions</span>
