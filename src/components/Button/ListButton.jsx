@@ -1,10 +1,9 @@
-import React, { forwardRef } from "react";
-import { useBoard, useLightMode } from "../../hooks";
+import React, { memo, forwardRef } from "react";
+import { useLightMode } from "../../hooks";
 import { PseudoBox } from "@chakra-ui/core";
 
 const ListButton = forwardRef(
-  ({ onClick, children, label, isDisabled = false }, ref) => {
-    const { color } = useBoard();
+  ({ onClick, children, label, isDisabled = false, ...props }, ref) => {
     const [isLightMode] = useLightMode();
 
     return (
@@ -20,6 +19,7 @@ const ListButton = forwardRef(
         fontSize=".9rem"
         px={2}
         py={1}
+        mb={1}
         borderRadius={4}
         onClick={onClick}
         ref={ref}
@@ -27,15 +27,15 @@ const ListButton = forwardRef(
         disabled={isDisabled}
         aria-label={label}
         _focus={{
-          borderStyle: "solid",
-          borderWidth: isLightMode ? "2px" : "2px",
-          borderColor: isLightMode ? "#cdcace" : `${color}.300`,
+          boxShadow: isLightMode ? "0 0 0 2px #efefef" : "0 0 0 2px lightgreen",
+          backgroundColor: isLightMode ? "#efefef" : "inherit",
           outline: "none"
         }}
         _hover={{
           backgroundColor: isLightMode ? "#efefef" : "gray.600"
         }}
         _disabled={{ opacity: 0.4, cursor: "default" }}
+        {...props}
       >
         {children}
       </PseudoBox>
@@ -43,4 +43,4 @@ const ListButton = forwardRef(
   }
 );
 
-export default ListButton;
+export default memo(ListButton);

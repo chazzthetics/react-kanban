@@ -8,7 +8,7 @@ import {
   selectCurrentBoardColumnIdsLength,
   selectCurrentBoardColor,
   selectShowBoardColumnPositions,
-  selectAllBoardsWithTitle,
+  selectAllBoardsWithTitleAndColor,
   selectShowId,
   selectShowBoard
 } from "../features/boards/slices";
@@ -27,7 +27,7 @@ const useBoard = () => {
   const hasColumns = useSelector(selectCurrentBoardColumnIdsLength);
   const columnIds = useSelector(selectCurrentBoardColumnIds);
   const columnPositions = useSelector(selectShowBoardColumnPositions);
-  const allBoards = useSelector(selectAllBoardsWithTitle);
+  const allBoards = useSelector(selectAllBoardsWithTitleAndColor);
   const showBoardId = useSelector(selectShowId);
   const showBoard = useSelector(selectShowBoard);
   const color = useSelector(selectCurrentBoardColor);

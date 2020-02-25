@@ -1,17 +1,20 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useColumn, useLightMode } from "../../../hooks";
+import React, { memo, useMemo, useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { makeSelectColumnTitle } from "../slices";
+import { useLightMode } from "../../../hooks";
 import { columnTitleEditing } from "../slices";
 import { PseudoBox, Heading } from "@chakra-ui/core";
 
 const ColumnTitle = ({ columnId }) => {
-  const { title } = useColumn(columnId);
+  const columnTitleSelector = useMemo(makeSelectColumnTitle, []);
+  const title = useSelector(state => columnTitleSelector(state, columnId));
+
   const dispatch = useDispatch();
   const [isLightMode] = useLightMode();
 
-  const handleEditColumnTitle = () => {
+  const handleEditColumnTitle = useCallback(() => {
     dispatch(columnTitleEditing({ columnId }));
-  };
+  }, [dispatch, columnId]);
 
   return (
     <PseudoBox
@@ -42,4 +45,4 @@ const ColumnTitle = ({ columnId }) => {
   );
 };
 
-export default ColumnTitle;
+export default memo(ColumnTitle);

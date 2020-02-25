@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { logout } from "../../features/auth";
@@ -7,10 +7,10 @@ import { Button, Avatar } from "@chakra-ui/core";
 const AvatarButton = ({ name, dashboard, color }) => {
   const dispatch = useDispatch();
 
-  const handleLogout = () => {
+  const handleLogout = useCallback(() => {
     dispatch(logout());
     window.location.href = "/login";
-  };
+  }, [dispatch]);
 
   return (
     <Button variant="unstyled" size="sm" onClick={handleLogout}>
@@ -30,4 +30,4 @@ AvatarButton.propTypes = {
   color: PropTypes.string.isRequired
 };
 
-export default AvatarButton;
+export default memo(AvatarButton);

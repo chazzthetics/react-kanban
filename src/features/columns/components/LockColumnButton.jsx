@@ -29,5 +29,3 @@ LockColumnButton.propTypes = {
 };
 
 export default LockColumnButton;
-
-//TODO: proptypes (ref)

@@ -1,4 +1,4 @@
-import React, { forwardRef } from "react";
+import React, { memo, forwardRef } from "react";
 import { IconButton } from "@chakra-ui/core";
 
 const ColorRadioButton = forwardRef(({ isChecked, value, ...props }, ref) => {
@@ -29,4 +29,4 @@ const ColorRadioButton = forwardRef(({ isChecked, value, ...props }, ref) => {
   );
 });
 
-export default ColorRadioButton;
+export default memo(ColorRadioButton);

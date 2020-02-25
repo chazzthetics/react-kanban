@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { IconButton } from "@chakra-ui/core";
 import { useLightMode } from "../../hooks";
@@ -22,7 +22,7 @@ const AppBarIconButton = ({
       _hover={{ backgroundColor: "rgba(255,255,255,0.4)" }}
       _active={{ backgroundColor: "rgba(255,255,255,0.2)" }}
       _focus={{
-        boxShadow: isLightMode ? `0 0 0 2px lightgray` : "0 0 0 2px lightgreen"
+        boxShadow: isLightMode ? "0 0 0 2px lightgray" : "0 0 0 2px lightgreen"
       }}
       {...props}
     />
@@ -36,4 +36,4 @@ AppBarIconButton.propTypes = {
   color: PropTypes.string
 };
 
-export default AppBarIconButton;
+export default memo(AppBarIconButton);

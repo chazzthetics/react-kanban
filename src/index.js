@@ -6,6 +6,7 @@ import store from "./app/redux/store";
 import App from "./app/App";
 import { CSSReset, ThemeProvider, ColorModeProvider } from "@chakra-ui/core";
 import ErrorBoundary from "./components/Layout/ErrorBoundary";
+import "./index.css";
 // import * as serviceWorker from "./serviceWorker";
 
 ReactDOM.render(

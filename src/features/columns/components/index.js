@@ -10,3 +10,5 @@ export { default as ColumnOptionsPopover } from "./ColumnOptionsPopover";
 export { default as LockColumnButton } from "./LockColumnButton";
 export { default as ClearColumnButton } from "./ClearColumnButton";
 export { default as MoveColumnButton } from "./MoveColumnButton";
+export { default as MoveColumnSelect } from "./MoveColumnSelect";
+export { default as LockIconButton } from "./LockIconButton";

@@ -16,7 +16,7 @@ import {
 } from "./all";
 import {
   selectAllBoards,
-  selectAllBoardsWithTitle,
+  selectAllBoardsWithTitleAndColor,
   selectBoardIds,
   selectCurrentBoardId,
   selectCurrentBoard,
@@ -35,7 +35,7 @@ import {
  */
 export {
   selectAllBoards,
-  selectAllBoardsWithTitle,
+  selectAllBoardsWithTitleAndColor,
   selectBoardIds,
   selectCurrentBoardId,
   selectCurrentBoard,

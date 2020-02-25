@@ -1,27 +1,23 @@
 import React from "react";
-import { useBoard } from "../../hooks";
+import PropTypes from "prop-types";
 import { Flex, Spinner } from "@chakra-ui/core";
 
-const FullPageSpinner = () => {
-  const { color } = useBoard();
-
+const FullPageSpinner = ({ height = "90vh" }) => {
   return (
-    <Flex
-      align="center"
-      justify="center"
-      h="calc(100% - 40px)"
-      bg={`${color}.700`}
-      overflow="hidden"
-    >
+    <Flex align="center" justify="center" h={height} overflow="hidden">
       <Spinner
         thickness="4px"
         speed="0.65s"
-        emptyColor={`${color}.100`}
-        color={`${color}.400`}
+        emptyColor="gray.100"
+        color="gray.400"
         size="xl"
       />
     </Flex>
   );
+};
+
+FullPageSpinner.propTypes = {
+  height: PropTypes.string
 };
 
 export default FullPageSpinner;

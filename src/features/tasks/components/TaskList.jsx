@@ -1,12 +1,14 @@
-import React from "react";
+import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 import { Draggable } from "react-beautiful-dnd";
-import { useColumn } from "../../../hooks";
+import { useSelector } from "react-redux";
+import { makeSelectColumnTasks } from "../../shared";
 import { TaskItem } from "./";
 import { Flex } from "@chakra-ui/core";
 
 const TaskList = ({ columnId }) => {
-  const { columnTasks: tasks } = useColumn(columnId);
+  const columnTasksSelector = useMemo(makeSelectColumnTasks, []);
+  const tasks = useSelector(state => columnTasksSelector(state, columnId));
 
   return tasks.map((task, index) => (
     <Draggable
@@ -39,4 +41,4 @@ TaskList.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default TaskList;
+export default memo(TaskList);

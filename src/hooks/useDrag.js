@@ -31,6 +31,7 @@ const useDrag = (currentBoardId, columns, columnIds) => {
             orderToPersist
           })
         );
+
         return;
       }
 
@@ -53,6 +54,7 @@ const useDrag = (currentBoardId, columns, columnIds) => {
             orderToPersist
           })
         );
+
         return;
       }
 

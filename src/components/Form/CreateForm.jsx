@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { useForm, useFocus, useCancel, useLightMode } from "../../hooks";
 import { Input, Textarea } from "@chakra-ui/core";

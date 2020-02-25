@@ -1,22 +1,32 @@
-import React from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useColumn } from "../../../hooks";
-import { updateColumnTitle, columnTitleEditingCancelled } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  makeSelectColumn,
+  updateColumnTitle,
+  columnTitleEditingCancelled
+} from "../slices";
 import { EditForm } from "../../../components";
 import { Flex } from "@chakra-ui/core";
 
 const EditColumnTitleForm = ({ columnId }) => {
-  const { title, isEditing } = useColumn(columnId);
+  const columnSelector = useMemo(makeSelectColumn, []);
+  const { isEditing, title } = useSelector(state =>
+    columnSelector(state, columnId)
+  );
+
   const dispatch = useDispatch();
 
-  const onCancel = () => {
+  const onCancel = useCallback(() => {
     dispatch(columnTitleEditingCancelled({ columnId }));
-  };
+  }, [dispatch, columnId]);
 
-  function update(columnTitle) {
-    dispatch(updateColumnTitle({ columnId, title: columnTitle }));
-  }
+  const update = useCallback(
+    columnTitle => {
+      dispatch(updateColumnTitle({ columnId, title: columnTitle }));
+    },
+    [dispatch, columnId]
+  );
 
   return (
     <Flex>
@@ -38,4 +48,4 @@ EditColumnTitleForm.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default EditColumnTitleForm;
+export default memo(EditColumnTitleForm);

@@ -14,13 +14,23 @@ import { taskIdsReducer } from "./ids";
 import {
   selectAllTasks,
   makeSelectTask,
-  makeSelectTaskLabelIds
+  makeSelectTaskLabelIds,
+  makeSelectTaskContent,
+  makeSelectTaskIsEditing,
+  makeSelectTaskCompleted
 } from "./selectors";
 
 /**
  * Task Selectors
  */
-export { selectAllTasks, makeSelectTask, makeSelectTaskLabelIds };
+export {
+  selectAllTasks,
+  makeSelectTask,
+  makeSelectTaskLabelIds,
+  makeSelectTaskContent,
+  makeSelectTaskIsEditing,
+  makeSelectTaskCompleted
+};
 
 /**
  * Task Actions

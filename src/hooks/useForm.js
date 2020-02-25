@@ -1,15 +1,21 @@
-import { useState } from "react";
+import { useState, useCallback } from "react";
 
-const useForm = (initialValues, submit) => {
+const useForm = (initialValues, submit, resetOnSuccess = true) => {
   const [values, setValues] = useState(initialValues);
 
-  const handleChange = e => {
-    setValues({ ...values, [e.target.name]: e.target.value });
-  };
+  const handleChange = useCallback(
+    e => {
+      setValues({ ...values, [e.target.name]: e.target.value });
+    },
+    [values]
+  );
 
-  const handleRadioSelect = value => {
-    setValues({ ...values, color: value });
-  };
+  const handleRadioSelect = useCallback(
+    value => {
+      setValues({ ...values, color: value });
+    },
+    [values]
+  );
 
   const handleSubmit = e => {
     e.preventDefault();
@@ -20,15 +26,17 @@ const useForm = (initialValues, submit) => {
 
     try {
       submit();
-      resetForm();
+      if (resetOnSuccess) {
+        resetForm();
+      }
     } catch (ex) {
       console.error(ex); // FIXME: error handling
     }
   };
 
-  const resetForm = () => {
+  const resetForm = useCallback(() => {
     setValues(initialValues);
-  };
+  }, [initialValues]);
 
   return { values, handleChange, handleRadioSelect, handleSubmit, resetForm };
 };

@@ -37,10 +37,10 @@ const allTasks = createSlice({
     },
     taskContentUpdated(state, action) {
       const { taskId, content } = action.payload;
-      if (state[taskId].content !== content) {
-        state[taskId].content = content;
-        state[taskId].isEditing = false;
-      }
+      state[taskId].content = content;
+      state[taskId].isEditing = false;
+      //     if (state[taskId].content !== content) {
+      // }
     },
     taskCompleteToggled(state, action) {
       const { taskId, completed } = action.payload;

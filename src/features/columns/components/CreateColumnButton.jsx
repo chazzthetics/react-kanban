@@ -17,7 +17,7 @@ const CreateColumnButtom = ({ onOpen }) => {
       fontWeight="normal"
       fontSize="14px"
       size="sm"
-      minW="160px"
+      minW="17rem"
       w="17rem"
       h="40px"
       bg="rgba(0, 0, 0, 0.3)"
@@ -25,15 +25,18 @@ const CreateColumnButtom = ({ onOpen }) => {
       color="#fff"
       borderRadius={4}
       px={3}
+      transition="all 150ms ease-out"
+      boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
       _hover={{
         opacity: 1,
         backgroundColor: isLightMode ? `${color}.600` : `${color}.300`,
         color: isLightMode ? "white" : "black",
         textDecoration: "underline"
       }}
-      _focus={{ outline: "none" }}
-      transition="all 150ms ease-out"
-      boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+      _focus={{
+        outline: "none",
+        boxShadow: "2px 4px 6px -4px rgba(0, 0, 0, 1)"
+      }}
     >
       <Icon name="add" size="14px" mr={2} />
       {hasColumns ? "Add another list" : "Add a list"}

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useToggle, useTask, useLabel, useLightMode } from "../../../hooks";
@@ -7,7 +7,9 @@ import {
   addLabelToTask,
   taskEditingCancelled
 } from "../../tasks/slices";
+import { Fade } from "../../../components";
 import {
+  Box,
   Popover,
   PopoverTrigger,
   PopoverCloseButton,
@@ -19,7 +21,7 @@ import {
   PopoverFooter
 } from "@chakra-ui/core";
 // import { CreateLabelForm } from "./";
-
+//FIXME: Fix position
 const AddLabelPopover = ({ taskId }) => {
   const { isOpen, close, open } = useToggle();
   const { taskLabelIds } = useTask(taskId);
@@ -27,41 +29,47 @@ const AddLabelPopover = ({ taskId }) => {
 
   const dispatch = useDispatch();
 
-  const handleToggleLabel = labelId => {
-    if (taskLabelIds.includes(labelId)) {
-      dispatch(removeLabelFromTask({ taskId, labelId }));
-    } else {
-      dispatch(addLabelToTask({ taskId, labelId }));
-    }
-  };
+  const handleToggleLabel = useCallback(
+    labelId => {
+      if (taskLabelIds.includes(labelId)) {
+        dispatch(removeLabelFromTask({ taskId, labelId }));
+      } else {
+        dispatch(addLabelToTask({ taskId, labelId }));
+      }
+    },
+    [dispatch, taskId, taskLabelIds]
+  );
 
-  const handleSave = () => {
+  const handleSave = useCallback(() => {
     dispatch(taskEditingCancelled({ taskId }));
-  };
+  }, [dispatch, taskId]);
 
   const [isLightMode] = useLightMode();
+  const initialFocusRef = useRef(null);
 
   return (
-    <>
-      <Popover
-        placement="bottom"
-        isOpen={isOpen}
-        onClose={close}
-        onOpen={open}
-        closeOnBlur={false}
-      >
-        <PopoverTrigger>
-          <Button
-            size="sm"
-            variantColor="pink"
-            boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          >
-            Add Label
-          </Button>
-        </PopoverTrigger>
+    <Popover
+      isOpen={isOpen}
+      onClose={close}
+      onOpen={open}
+      closeOnBlur={false}
+      initialFocusRef={initialFocusRef}
+      placement="bottom-start"
+      usePortal
+    >
+      <PopoverTrigger>
+        <Button
+          size="sm"
+          variantColor="pink"
+          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+        >
+          Add Label
+        </Button>
+      </PopoverTrigger>
+      <Fade in={isOpen}>
         <PopoverContent
           zIndex={4}
-          bg={isLightMode ? "gray.50" : "gray.700"}
+          bg={isLightMode ? "white" : "gray.700"}
           cursor="default"
         >
           <PopoverHeader
@@ -85,6 +93,7 @@ const AddLabelPopover = ({ taskId }) => {
                 bg={allLabels[labelId].color}
                 opacity={taskLabelIds.includes(labelId) ? 1 : 0.6}
                 _hover={{ opacity: 0.9 }}
+                ref={labelId === "1" ? initialFocusRef : null}
               ></PseudoBox>
             ))}
             <PopoverFooter
@@ -106,8 +115,8 @@ const AddLabelPopover = ({ taskId }) => {
             </PopoverFooter>
           </PopoverBody>
         </PopoverContent>
-      </Popover>
-    </>
+      </Fade>
+    </Popover>
   );
 };
 

@@ -2,10 +2,10 @@ import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { columnOptionsOpened, columnOptionsClosed } from "../slices";
-import { useCancel, useToggle, useLightMode } from "../../../hooks";
+import { useToggle, useLightMode } from "../../../hooks";
 import { FiMoreHorizontal } from "react-icons/fi";
+import { Fade } from "../../../components";
 import {
-  Box,
   Popover,
   ButtonGroup,
   IconButton,
@@ -23,7 +23,11 @@ import {
 } from "./";
 
 const ColumnOptionsPopover = ({ columnId }) => {
+  const initialFocusRef = useRef(null);
+  const [isLightMode] = useLightMode();
+
   const { isOpen, close, open } = useToggle();
+
   const dispatch = useDispatch();
 
   const handleOpen = useCallback(() => {
@@ -36,30 +40,34 @@ const ColumnOptionsPopover = ({ columnId }) => {
     dispatch(columnOptionsClosed({ columnId }));
   }, [columnId, close, dispatch]);
 
-  const initialFocusRef = useRef(null);
-  const cancelRef = useCancel(isOpen, handleClose);
-  const [isLightMode] = useLightMode();
-
   return (
-    <Box ref={cancelRef} cursor="default">
-      <Popover
-        placement="bottom-start"
-        isOpen={isOpen}
-        onClose={handleClose}
-        onOpen={handleOpen}
-        initialFocusRef={initialFocusRef}
-      >
-        <PopoverTrigger>
-          <IconButton
-            icon={FiMoreHorizontal}
-            size="sm"
-            variant="ghost"
-            _hover={{
-              backgroundColor: isLightMode ? "#d4d4d4" : "gray.500"
-            }}
-            _active={{ backgroundColor: "#d4d4d4" }}
-          />
-        </PopoverTrigger>
+    <Popover
+      placement="bottom-start"
+      isOpen={isOpen}
+      onClose={handleClose}
+      onOpen={handleOpen}
+      initialFocusRef={initialFocusRef}
+      usePortal
+    >
+      <PopoverTrigger>
+        <IconButton
+          icon={FiMoreHorizontal}
+          size="sm"
+          variant="ghost"
+          _hover={{
+            backgroundColor: isLightMode ? "#d4d4d4" : "gray.500"
+          }}
+          _active={{
+            backgroundColor: isLightMode ? "#d4d4d4" : "gray.500"
+          }}
+          _focus={{
+            boxShadow: isLightMode
+              ? "0 0 0 2px #d4d4d4"
+              : "0 0 0 2px lightgreen"
+          }}
+        />
+      </PopoverTrigger>
+      <Fade in={isOpen}>
         <PopoverContent
           zIndex={4}
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
@@ -90,8 +98,8 @@ const ColumnOptionsPopover = ({ columnId }) => {
             </ButtonGroup>
           </PopoverBody>
         </PopoverContent>
-      </Popover>
-    </Box>
+      </Fade>
+    </Popover>
   );
 };
 

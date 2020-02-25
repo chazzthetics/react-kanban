@@ -1,16 +1,23 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useBoard } from "../../../hooks";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
 import { Heading, PseudoBox } from "@chakra-ui/core";
-import { boardTitleEditing } from "../slices";
+import {
+  boardTitleEditing,
+  selectCurrentBoardTitle,
+  selectCurrentBoardColor,
+  selectCurrentBoardId
+} from "../slices";
 
 const BoardTitle = () => {
-  const { color, boardId, boardTitle } = useBoard();
+  const boardId = useSelector(selectCurrentBoardId);
+  const boardTitle = useSelector(selectCurrentBoardTitle);
+  const color = useSelector(selectCurrentBoardColor);
+
   const dispatch = useDispatch();
 
-  const handleEditBoardTitle = () => {
+  const handleEditBoardTitle = useCallback(() => {
     dispatch(boardTitleEditing({ boardId }));
-  };
+  }, [dispatch, boardId]);
 
   return (
     <PseudoBox

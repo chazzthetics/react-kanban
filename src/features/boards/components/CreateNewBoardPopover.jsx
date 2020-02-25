@@ -5,7 +5,7 @@ import { createBoard } from "../slices";
 import { makeBoard } from "../utils/makeBoard";
 import { boardColors } from "../utils/boardColors";
 import { useToggle, useForm, useLightMode } from "../../../hooks";
-import { AddButtonGroup, ColorRadioButton } from "../../../components";
+import { AddButtonGroup, ColorRadioButton, Fade } from "../../../components";
 import {
   FormControl,
   FormLabel,
@@ -67,61 +67,63 @@ const CreateNewBoardForm = () => {
           }}
         />
       </PopoverTrigger>
-      <PopoverContent
-        p={4}
-        borderRadius={4}
-        right={100}
-        zIndex={4}
-        boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-        bg={isLightMode ? "#ebecf0" : "gray.700"}
-      >
-        <PopoverHeader
-          textAlign="center"
-          mb={4}
-          borderColor="#ddd"
-          opacity={isLightMode ? 0.8 : 1}
+      <Fade in={isOpen}>
+        <PopoverContent
+          p={4}
+          borderRadius={4}
+          right={100}
+          zIndex={4}
+          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          bg={isLightMode ? "white" : "gray.700"}
         >
-          Create New Board
-        </PopoverHeader>
-        <PopoverCloseButton opacity={0.6} />
-        <form onSubmit={handleSubmit}>
-          <Stack spacing={2}>
-            <FormControl>
-              <FormLabel htmlFor="title" fontSize=".9rem">
-                Board Title
-              </FormLabel>
-              <Input
-                name="title"
-                id="title"
-                size="sm"
-                borderRadius={4}
-                p={2}
-                ref={firstFieldRef}
-                value={values.title}
-                onChange={handleChange}
-                placeholder="Enter board title..."
-                _focus={{ border: "1px solid #ddd", borderRadius: "4px" }}
-              />
-            </FormControl>
-            <FormControl>
-              <FormLabel htmlFor="color" fontSize=".9rem">
-                Choose Board Color
-              </FormLabel>
-              <RadioButtonGroup
-                id="color"
-                isInline
-                name="color"
-                onChange={handleRadioSelect}
-              >
-                {boardColors.map(color => (
-                  <ColorRadioButton key={color} value={color} />
-                ))}
-              </RadioButtonGroup>
-            </FormControl>
-            <AddButtonGroup onClose={close} value="Create Board" />
-          </Stack>
-        </form>
-      </PopoverContent>
+          <PopoverHeader
+            textAlign="center"
+            mb={4}
+            borderColor="#ddd"
+            opacity={isLightMode ? 0.8 : 1}
+          >
+            Create New Board
+          </PopoverHeader>
+          <PopoverCloseButton opacity={0.6} />
+          <form onSubmit={handleSubmit}>
+            <Stack spacing={2}>
+              <FormControl>
+                <FormLabel htmlFor="title" fontSize=".9rem">
+                  Board Title
+                </FormLabel>
+                <Input
+                  name="title"
+                  id="title"
+                  size="sm"
+                  borderRadius={4}
+                  p={2}
+                  ref={firstFieldRef}
+                  value={values.title}
+                  onChange={handleChange}
+                  placeholder="Enter board title..."
+                  _focus={{ border: "1px solid #ddd", borderRadius: "4px" }}
+                />
+              </FormControl>
+              <FormControl>
+                <FormLabel htmlFor="color" fontSize=".9rem">
+                  Choose Board Color
+                </FormLabel>
+                <RadioButtonGroup
+                  id="color"
+                  isInline
+                  name="color"
+                  onChange={handleRadioSelect}
+                >
+                  {boardColors.map(color => (
+                    <ColorRadioButton key={color} value={color} />
+                  ))}
+                </RadioButtonGroup>
+              </FormControl>
+              <AddButtonGroup onClose={close} value="Create Board" />
+            </Stack>
+          </form>
+        </PopoverContent>
+      </Fade>
     </Popover>
   );
 };
@@ -129,3 +131,4 @@ const CreateNewBoardForm = () => {
 export default CreateNewBoardForm;
 
 //TODO: refactor
+// #ebecf0

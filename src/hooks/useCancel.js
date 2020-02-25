@@ -1,5 +1,10 @@
 import { useRef, useEffect, useCallback } from "react";
 
+//FIXME: disgusting, fix doesn't even work
+const isLabelPopover = e => {
+  return e.target.textContent === "Labels" || e.target.textContent === "Save";
+};
+
 const useCancel = (isActive, cancelAction) => {
   const cancelRef = useRef(null);
 

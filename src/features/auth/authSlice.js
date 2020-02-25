@@ -5,7 +5,7 @@ import { authApi } from "../../api";
 const auth = createSlice({
   name: "auth",
   initialState: {
-    loading: true,
+    loading: false,
     error: null,
     user: null,
     token: localStorage.getItem("access_token") || null,

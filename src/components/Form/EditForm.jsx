@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { useCancel, useFocus, useForm, useLightMode } from "../../hooks";
 import { Input, Textarea } from "@chakra-ui/core";
@@ -8,11 +8,12 @@ const EditForm = ({
   initialValues,
   isEditing,
   update,
-  onCancel,
   children,
   textarea = false,
   ...props
 }) => {
+  const [isLightMode] = useLightMode();
+
   const { values, handleChange, handleSubmit } = useForm(initialValues, () =>
     update(values[inputName])
   );
@@ -24,8 +25,6 @@ const EditForm = ({
       update(values[inputName]);
     }
   });
-
-  const [isLightMode] = useLightMode();
 
   return (
     <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "100%" }}>
@@ -80,8 +79,7 @@ EditForm.propTypes = {
   inputName: PropTypes.string.isRequired,
   initialValues: PropTypes.object.isRequired,
   isEditing: PropTypes.bool.isRequired,
-  update: PropTypes.func.isRequired,
-  onCancel: PropTypes.func.isRequired
+  update: PropTypes.func.isRequired
 };
 
 export default EditForm;

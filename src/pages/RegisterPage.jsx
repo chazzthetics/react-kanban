@@ -8,7 +8,8 @@ import { Flex, Heading, Button, Input } from "@chakra-ui/core";
 const RegisterPage = () => {
   const { values, handleChange, handleSubmit } = useForm(
     { name: "", email: "", password: "" },
-    registerUser
+    registerUser,
+    false
   );
 
   const dispatch = useDispatch();

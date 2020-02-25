@@ -17,7 +17,10 @@ const useColumn = columnId => {
     columnTasksSelector(state, columnId)
   );
 
-  const isDisabled = columnTasks.some(task => task.isEditing);
+  //FIXME:
+  const isDisabled = useMemo(() => columnTasks.some(task => task.isEditing), [
+    columnTasks
+  ]);
 
   const hasTasksSelector = useMemo(makeSelectColumnTaskIdsLength, []);
   const hasTasks = useSelector(state => hasTasksSelector(state, columnId));

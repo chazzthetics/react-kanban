@@ -6,10 +6,9 @@ import { MainBoard } from "../features/boards/components";
 import { AppBar, FullPageSpinner } from "../components";
 import { Box } from "@chakra-ui/core";
 
+// const { boardTitle } = useBoard();
 const BoardPage = () => {
-  const { boardTitle } = useBoard();
-
-  useAuth();
+  const { boardTitle } = useAuth();
 
   const { loading } = useSelector(state => state.request);
 
@@ -18,7 +17,7 @@ const BoardPage = () => {
       <Helmet>
         <title>{boardTitle && `${boardTitle} |`} React Kanban</title>
       </Helmet>
-      <Box className="App" h="100vh">
+      <Box className="App" h="100vh" overflowY="hidden">
         <AppBar dashboard={false} />
         {!loading ? <MainBoard /> : <FullPageSpinner />}
       </Box>

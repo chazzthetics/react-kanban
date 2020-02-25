@@ -1,5 +1,10 @@
 import React from "react";
-import { useBoard, useLightMode } from "../../../hooks";
+import { useSelector } from "react-redux";
+import {
+  selectCurrentBoardColor,
+  selectCurrentBoardIsEditing
+} from "../slices";
+import { useLightMode } from "../../../hooks";
 import { Flex, Box, ButtonGroup } from "@chakra-ui/core";
 import {
   BoardTitle,
@@ -10,7 +15,9 @@ import {
 } from "./";
 
 const BoardHeader = () => {
-  const { color, isEditing } = useBoard();
+  const color = useSelector(selectCurrentBoardColor);
+  const isEditing = useSelector(selectCurrentBoardIsEditing);
+
   const [isLightMode] = useLightMode();
 
   return (

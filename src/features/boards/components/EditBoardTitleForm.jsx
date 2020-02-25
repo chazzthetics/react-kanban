@@ -1,11 +1,18 @@
 import React from "react";
-import { useDispatch } from "react-redux";
-import { useBoard } from "../../../hooks";
-import { boardTitleEditingCancelled, updateBoardTitle } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  selectCurrentBoardTitle,
+  selectCurrentBoardIsEditing,
+  selectCurrentBoardId,
+  boardTitleEditingCancelled,
+  updateBoardTitle
+} from "../slices";
 import { EditForm } from "../../../components";
 
 const EditBoardTitleForm = () => {
-  const { boardId, boardTitle, isEditing } = useBoard();
+  const boardId = useSelector(selectCurrentBoardId);
+  const boardTitle = useSelector(selectCurrentBoardTitle);
+  const isEditing = useSelector(selectCurrentBoardIsEditing);
 
   const dispatch = useDispatch();
 

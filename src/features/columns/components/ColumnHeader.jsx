@@ -1,19 +1,35 @@
-import React from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useColumn } from "../../../hooks";
-import { toggleLockColumn } from "../slices";
-import { ColumnTitle, ColumnOptionsPopover, EditColumnTitleForm } from "./";
-import { Flex, IconButton, ButtonGroup } from "@chakra-ui/core";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  makeSelectColumnIsLocked,
+  makeSelectColumnIsEditing,
+  toggleLockColumn
+} from "../slices";
+import {
+  ColumnTitle,
+  ColumnOptionsPopover,
+  EditColumnTitleForm,
+  LockIconButton
+} from "./";
+import { Flex, ButtonGroup } from "@chakra-ui/core";
 
 const ColumnHeader = ({ columnId }) => {
-  const { isLocked, isEditing } = useColumn(columnId);
+  const columnIsLockedSelector = useMemo(makeSelectColumnIsLocked, []);
+  const isLocked = useSelector(state =>
+    columnIsLockedSelector(state, columnId)
+  );
+
+  const columnIsEditingSelector = useMemo(makeSelectColumnIsEditing, []);
+  const isEditing = useSelector(state =>
+    columnIsEditingSelector(state, columnId)
+  );
 
   const dispatch = useDispatch();
 
-  const handleToggleLockColumn = () => {
+  const handleToggleLockColumn = useCallback(() => {
     dispatch(toggleLockColumn({ columnId, isLocked: !isLocked }));
-  };
+  }, [dispatch, columnId, isLocked]);
 
   return (
     <Flex
@@ -29,22 +45,17 @@ const ColumnHeader = ({ columnId }) => {
       ) : (
         <EditColumnTitleForm columnId={columnId} />
       )}
-
       <ButtonGroup d="flex" spacing={0}>
         {isLocked ? (
-          <IconButton
-            size="sm"
+          <LockIconButton
+            isLocked={isLocked}
             icon="lock"
-            variant="ghost"
             onClick={handleToggleLockColumn}
           />
         ) : (
-          <IconButton
-            size="sm"
+          <LockIconButton
+            isLocked={isLocked}
             icon="unlock"
-            variant="ghost"
-            opacity={0}
-            _hover={{ opacity: 1 }}
             onClick={handleToggleLockColumn}
           />
         )}
@@ -58,4 +69,4 @@ ColumnHeader.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default React.memo(ColumnHeader);
+export default memo(ColumnHeader);

@@ -1,20 +1,23 @@
 import React from "react";
 import { Redirect } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
-import { useForm } from "../hooks";
+import { useForm, useAuth } from "../hooks";
 import { login, selectUser } from "../features/auth";
 import { Flex, Heading, Button, Input } from "@chakra-ui/core";
 
 const LoginPage = () => {
   const { values, handleChange, handleSubmit } = useForm(
     { email: "", password: "" },
-    loginUser
+    loginUser,
+    false
   );
 
   const dispatch = useDispatch();
+  const { loading } = useSelector(state => state.auth);
 
   //TODO: user on every key down--fix
   const user = useSelector(selectUser);
+  // const { user } = useAuth();
 
   function loginUser() {
     const credentials = { email: values.email, password: values.password };
@@ -69,7 +72,9 @@ const LoginPage = () => {
               onChange={handleChange}
             />
           </div>
-          <Button type="submit">Login</Button>
+          <Button type="submit" isLoading={loading}>
+            Login
+          </Button>
         </form>
       </Flex>
     </Flex>

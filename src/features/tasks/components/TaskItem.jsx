@@ -1,27 +1,41 @@
-import React, { useState, useCallback } from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useTask, useLightMode } from "../../../hooks";
-import { taskEditing } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import { useLightMode, useToggle } from "../../../hooks";
+import {
+  makeSelectTaskContent,
+  makeSelectTaskIsEditing,
+  makeSelectTaskCompleted,
+  taskEditing
+} from "../slices";
 import { Text, Flex } from "@chakra-ui/core";
 import { TaskLabelList } from "../../labels/components";
 import { EditTaskContentForm, TaskOptions } from "./";
 
 const TaskItem = ({ taskId, columnId, isDragging }) => {
-  const { content, isEditing, completed } = useTask(taskId);
+  const [isLightMode] = useLightMode();
+
+  const taskContentSelector = useMemo(makeSelectTaskContent, []);
+  const content = useSelector(state => taskContentSelector(state, taskId));
+
+  const taskIsEditingSelector = useMemo(makeSelectTaskIsEditing, []);
+  const isEditing = useSelector(state => taskIsEditingSelector(state, taskId));
+
+  const taskCompletedSelector = useMemo(makeSelectTaskCompleted, []);
+  const completed = useSelector(state => taskCompletedSelector(state, taskId));
 
   const dispatch = useDispatch();
-  const handleOpenEdit = () => {
+
+  const handleOpenEdit = useCallback(() => {
     if (!isEditing) {
       dispatch(taskEditing({ taskId }));
     }
-  };
+  }, [dispatch, isEditing, taskId]);
 
-  const [isHover, setIsHover] = useState(false);
-  const handleShowOptions = useCallback(() => setIsHover(true), []);
-  const handleHideOptions = useCallback(() => setIsHover(false), []);
+  const { isOpen: isHover, open, close } = useToggle();
 
-  const [isLightMode] = useLightMode();
+  const handleShowOptions = useCallback(() => open(), [open]);
+  const handleHideOptions = useCallback(() => close(), [close]);
 
   return (
     <Flex
@@ -29,6 +43,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       px={2}
       mb={1}
       minH="40px"
+      minW="272px"
       boxShadow={
         isDragging
           ? "2px 8px 12px -1px rgba(0,0,0,0.29)"
@@ -60,6 +75,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
               fontSize=".9rem"
               maxW="180px"
               overflowWrap="break-word"
+              whiteSpace="pre-wrap"
               textDecor={completed ? "line-through" : "none"}
             >
               {content}
@@ -80,4 +96,4 @@ TaskItem.propTypes = {
   isDragging: PropTypes.bool.isRequired
 };
 
-export default React.memo(TaskItem);
+export default memo(TaskItem);

@@ -1,8 +1,10 @@
-import React from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useTask } from "../../../hooks";
+import { useSelector, useDispatch } from "react-redux";
 import {
+  makeSelectTaskContent,
+  makeSelectTaskIsEditing,
+  makeSelectTaskCompleted,
   taskEditingCancelled,
   updateTaskContent,
   toggleCompleteTask
@@ -12,21 +14,31 @@ import { EditForm, AddButtonGroup } from "../../../components";
 import { Flex, ButtonGroup, Checkbox } from "@chakra-ui/core";
 
 const EditTaskContentForm = ({ taskId }) => {
-  const { content, isEditing, completed } = useTask(taskId);
+  const taskContentSelector = useMemo(makeSelectTaskContent, []);
+  const content = useSelector(state => taskContentSelector(state, taskId));
+
+  const taskIsEditingSelector = useMemo(makeSelectTaskIsEditing, []);
+  const isEditing = useSelector(state => taskIsEditingSelector(state, taskId));
+
+  const taskCompletedSelector = useMemo(makeSelectTaskCompleted, []);
+  const completed = useSelector(state => taskCompletedSelector(state, taskId));
 
   const dispatch = useDispatch();
 
-  const handleCancelEdit = () => {
+  const handleCancelEdit = useCallback(() => {
     dispatch(taskEditingCancelled({ taskId }));
-  };
+  }, [dispatch, taskId]);
 
-  const handleToggleComplete = () => {
+  const handleToggleComplete = useCallback(() => {
     dispatch(toggleCompleteTask({ taskId, completed }));
-  };
+  }, [dispatch, taskId, completed]);
 
-  function update(content) {
-    dispatch(updateTaskContent({ taskId, content }));
-  }
+  const update = useCallback(
+    content => {
+      dispatch(updateTaskContent({ taskId, content }));
+    },
+    [dispatch, taskId]
+  );
 
   return (
     <Flex flexDir="column" flexBasis="100%">
@@ -39,7 +51,6 @@ const EditTaskContentForm = ({ taskId }) => {
         textarea={true}
         initialValues={{ taskContent: content }}
         isEditing={isEditing}
-        onCancel={handleCancelEdit}
         update={update}
         px={1}
         mt={2}
@@ -74,6 +85,6 @@ EditTaskContentForm.propTypes = {
   taskId: PropTypes.string.isRequired
 };
 
-export default EditTaskContentForm;
+export default memo(EditTaskContentForm);
 
 //FIXME: fix styles

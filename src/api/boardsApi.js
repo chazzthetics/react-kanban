@@ -23,7 +23,7 @@ export const boardsApi = {
     return axios.patch(`${baseUrl}/boards/${boardId}`, { title });
   },
   setCurrent: ({ boardId }) => {
-    return axios.patch(`http://localhost:8000/api/boards/${boardId}/current`);
+    return axios.patch(`${baseUrl}/boards/${boardId}/current`);
   },
   reorder: ({ boardId, orderToPersist }) => {
     return axios.put(`${baseUrl}/boards/${boardId}/reorder`, {

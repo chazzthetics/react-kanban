@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { ButtonGroup } from "@chakra-ui/core";
 import { EditTaskButton, RemoveTaskButton } from "./";
@@ -17,4 +17,4 @@ TaskOptions.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default TaskOptions;
+export default memo(TaskOptions);

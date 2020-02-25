@@ -4,7 +4,11 @@ import {
   selectAllColumns,
   selectColumnTaskIds,
   makeSelectColumn,
-  makeSelectColumnTaskIdsLength
+  makeSelectColumnTaskIdsLength,
+  makeSelectColumnTitle,
+  makeSelectColumnIsLocked,
+  makeSelectColumnIsEditing,
+  makeSelectColumnIsOpen
 } from "./selectors";
 import {
   allColumnsReducer,
@@ -28,7 +32,11 @@ export {
   selectAllColumns,
   selectColumnTaskIds,
   makeSelectColumn,
-  makeSelectColumnTaskIdsLength
+  makeSelectColumnTaskIdsLength,
+  makeSelectColumnTitle,
+  makeSelectColumnIsLocked,
+  makeSelectColumnIsEditing,
+  makeSelectColumnIsOpen
 };
 
 /**

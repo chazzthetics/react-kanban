@@ -1,8 +1,8 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { Link as RouterLink } from "react-router-dom";
 import { useSelector } from "react-redux";
-import { useBoard, useLightMode } from "../../hooks";
+import { useLightMode } from "../../hooks";
 import { selectUser } from "../../features/auth";
 import { FiHome, FiSun, FiMoon } from "react-icons/fi";
 import { GoMarkGithub } from "react-icons/go";
@@ -20,15 +20,12 @@ import {
   ListItem,
   Link
 } from "@chakra-ui/core";
+import { selectCurrentBoardColor } from "../../features/boards/slices";
 
 const AppBar = ({ dashboard }) => {
+  const [isLightMode, handleColorChange] = useLightMode();
   const user = useSelector(selectUser);
-  const { color } = useBoard();
-  const [isLightMode, toggleColorMode] = useLightMode();
-
-  const handleChangeTheme = () => {
-    toggleColorMode();
-  };
+  const color = useSelector(selectCurrentBoardColor);
 
   return (
     <Box
@@ -103,7 +100,8 @@ const AppBar = ({ dashboard }) => {
               <AppBarIconButton
                 icon={isLightMode ? FiMoon : FiSun}
                 label="Change Theme"
-                onClick={handleChangeTheme}
+                color={isLightMode ? "white" : "yellow.300"}
+                onClick={handleColorChange}
               />
             </ListItem>
             <ListItem cursor="pointer">
@@ -124,4 +122,4 @@ AppBar.propTypes = {
   dashboard: PropTypes.bool.isRequired
 };
 
-export default AppBar;
+export default memo(AppBar);

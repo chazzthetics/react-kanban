@@ -15,3 +15,12 @@ export const makeSelectTask = () =>
 
 export const makeSelectTaskLabelIds = () =>
   createSelector([makeSelectTask()], task => task.labelIds);
+
+export const makeSelectTaskContent = () =>
+  createSelector([makeSelectTask()], task => task.content);
+
+export const makeSelectTaskIsEditing = () =>
+  createSelector([makeSelectTask()], task => task.isEditing);
+
+export const makeSelectTaskCompleted = () =>
+  createSelector([makeSelectTask()], task => task.completed);

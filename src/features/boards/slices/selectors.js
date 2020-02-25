@@ -12,9 +12,12 @@ export const selectAllBoards = createSelector(
   boards => boards.all
 );
 
-export const selectAllBoardsWithTitle = createSelector(
+export const selectAllBoardsWithTitleAndColor = createSelector(
   [selectAllBoards, selectBoardIds],
-  (all, ids) => (ids ? ids.map(id => ({ id, title: all[id].title })) : [])
+  (all, ids) =>
+    ids
+      ? ids.map(id => ({ id, title: all[id].title, color: all[id].color }))
+      : []
 );
 
 export const selectCurrentBoardId = createSelector(

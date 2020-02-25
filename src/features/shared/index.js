@@ -18,7 +18,8 @@ import {
   selectCurrentBoardColumnsList,
   selectCurrentBoardColumns,
   makeSelectColumnTasks,
-  makeSelectTaskLabels
+  makeSelectTaskLabels,
+  makeSelectColumnIsDisabled
 } from "./selectors";
 
 export {
@@ -42,5 +43,6 @@ export {
   selectCurrentBoardColumnsList,
   selectCurrentBoardColumns,
   makeSelectColumnTasks,
+  makeSelectColumnIsDisabled,
   makeSelectTaskLabels
 };
