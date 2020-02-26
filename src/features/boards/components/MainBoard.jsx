@@ -23,7 +23,8 @@ const MainBoard = () => {
   const [isLightMode] = useLightMode();
 
   return (
-    <Box bg={isLightMode ? `${color}.700` : "gray.700"}>
+    // <Box bg={isLightMode ? `${color}.700` : "gray.700"}>
+    <Box bg={isLightMode ? `${color}.400` : "gray.700"}>
       <BoardHeader />
       <DragDropContext onDragEnd={handleDragEnd}>
         <ColumnList />

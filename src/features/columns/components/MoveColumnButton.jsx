@@ -1,12 +1,16 @@
-import React from "react";
+import React, { useMemo } from "react";
 import PropTypes from "prop-types";
-import { useToggle, useColumn } from "../../../hooks";
+import { useSelector } from "react-redux";
+import { useToggle } from "../../../hooks";
+import { makeSelectColumnIsLocked } from "../slices";
 import { ListButton } from "../../../components";
 import { MoveColumnSelect } from "./";
 
 const MoveColumnButton = ({ columnId, close }) => {
   const { isOpen, toggle } = useToggle();
-  const { isLocked } = useColumn(columnId);
+
+  const isLockedSelector = useMemo(makeSelectColumnIsLocked, []);
+  const isLocked = useSelector(state => isLockedSelector(state, columnId));
 
   return (
     <>

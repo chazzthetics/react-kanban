@@ -2,11 +2,22 @@ import React, { useCallback } from "react";
 import { Helmet } from "react-helmet";
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useAuth, useBoard, useLightMode } from "../hooks";
-import { changeBoard } from "../features/boards/slices";
+import { useAuth, useLightMode } from "../hooks";
+import {
+  selectAllBoardsWithTitleAndColor,
+  changeBoard
+} from "../features/boards/slices";
 import { slugify } from "../utils/slugify";
+import { CreateNewBoardModal } from "../features/boards/components";
 import { AppBar, FullPageSpinner } from "../components";
-import { Grid, Flex, Box, PseudoBox, Heading } from "@chakra-ui/core";
+import {
+  SimpleGrid,
+  Flex,
+  Box,
+  PseudoBox,
+  Heading,
+  Text
+} from "@chakra-ui/core";
 import { FiUser } from "react-icons/fi";
 
 const Dashboard = () => {
@@ -15,8 +26,7 @@ const Dashboard = () => {
 
   const { user, loading: userLoading } = useAuth();
   const { loading: dataLoading } = useSelector(state => state.request);
-
-  const { allBoards } = useBoard();
+  const allBoards = useSelector(selectAllBoardsWithTitleAndColor);
 
   const handleBoardChange = useCallback(
     boardId => {
@@ -26,7 +36,7 @@ const Dashboard = () => {
   );
 
   const [isLightMode] = useLightMode();
-
+  //FIXME: styling/grid
   return (
     <>
       <Helmet>
@@ -39,29 +49,22 @@ const Dashboard = () => {
           <FullPageSpinner height="35vh" />
         </Flex>
       ) : (
-        <Grid
+        <Box
           mx="auto"
-          px="20%"
+          px={{ xs: "5%", sm: "5%", md: "10%", lg: "12%", xl: "20%" }}
           h="100%"
-          gridTemplateColumns="1fr 3fr"
-          pt={16}
-          gridColumnGap={8}
-          gridRowGap={2}
+          mb={6}
         >
-          <Box flexDir="column" border="1px solid black">
-            SIDENAV
-          </Box>
-
-          <Flex align="center" my={2}>
+          <Flex align="center" mt={{ xs: 6, sm: 12 }} mb={6}>
             <Box as={FiUser} mr={2} size="24px" />
             <Heading as="h2" size="sm">
               Personal Boards
             </Heading>
           </Flex>
-          <Grid
-            gridTemplateColumns="repeat(4, 1fr)"
-            gridColumn="2 / 3"
-            gridGap={4}
+          <SimpleGrid
+            columns={{ xs: 1, sm: 2, md: 3, lg: 4 }}
+            overflowX="auto"
+            spacing={4}
           >
             {allBoards &&
               allBoards.map(board => (
@@ -72,11 +75,11 @@ const Dashboard = () => {
                 >
                   <PseudoBox
                     h={100}
-                    w={200}
+                    w="100%"
                     d="inline-block"
                     borderRadius={4}
                     bg={
-                      isLightMode ? `${board.color}.700` : `${board.color}.500`
+                      isLightMode ? `${board.color}.400` : `${board.color}.400`
                     }
                     _hover={{
                       transform: "translateY(-2px)",
@@ -88,7 +91,7 @@ const Dashboard = () => {
                   >
                     <Flex
                       p={2}
-                      bg={`${board.color}.600`}
+                      bg={`${board.color}.500`}
                       borderRadius="4px 4px 0 0"
                       justify="space-between"
                       align="center"
@@ -100,8 +103,9 @@ const Dashboard = () => {
                   </PseudoBox>
                 </Link>
               ))}
-          </Grid>
-        </Grid>
+            <CreateNewBoardModal />
+          </SimpleGrid>
+        </Box>
       )}
     </>
   );

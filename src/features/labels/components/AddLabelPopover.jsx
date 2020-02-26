@@ -1,11 +1,12 @@
-import React, { memo, useRef, useCallback } from "react";
+import React, { memo, useMemo, useRef, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useToggle, useTask, useLabel, useLightMode } from "../../../hooks";
+import { useDispatch, useSelector } from "react-redux";
+import { useToggle, useLabel, useLightMode } from "../../../hooks";
 import {
   removeLabelFromTask,
   addLabelToTask,
-  taskEditingCancelled
+  taskEditingCancelled,
+  makeSelectTaskLabelIds
 } from "../../tasks/slices";
 import { Fade } from "../../../components";
 import {
@@ -24,7 +25,12 @@ import {
 //FIXME: Fix position
 const AddLabelPopover = ({ taskId }) => {
   const { isOpen, close, open } = useToggle();
-  const { taskLabelIds } = useTask(taskId);
+
+  const taskLabelIdsSelector = useMemo(makeSelectTaskLabelIds, []);
+  const taskLabelIds = useSelector(state =>
+    taskLabelIdsSelector(state, taskId)
+  );
+
   const { labelIds, allLabels } = useLabel();
 
   const dispatch = useDispatch();
@@ -55,7 +61,7 @@ const AddLabelPopover = ({ taskId }) => {
       closeOnBlur={false}
       initialFocusRef={initialFocusRef}
       placement="bottom-start"
-      usePortal
+      // usePortal
     >
       <PopoverTrigger>
         <Button
@@ -124,7 +130,7 @@ AddLabelPopover.propTypes = {
   taskId: PropTypes.string.isRequired
 };
 
-export default AddLabelPopover;
+export default memo(AddLabelPopover);
 
 // TODO: refactor
 //FIXME: form cant be child of form , maybe use modal instead of popover

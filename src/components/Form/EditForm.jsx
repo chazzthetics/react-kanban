@@ -82,6 +82,6 @@ EditForm.propTypes = {
   update: PropTypes.func.isRequired
 };
 
-export default EditForm;
+export default memo(EditForm);
 
 //TODO: checkout style props

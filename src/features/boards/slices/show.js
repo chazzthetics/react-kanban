@@ -1,5 +1,10 @@
 import { createSlice } from "@reduxjs/toolkit";
-import { requestInitialDataSuccess, requestBoardsSuccess } from "../../shared";
+import {
+  requestInitialDataSuccess,
+  requestBoardsSuccess,
+  columnOptionsOpened,
+  columnOptionsClosed
+} from "../../shared";
 import {
   boardsLoaded,
   setCurrentBoard,
@@ -21,7 +26,15 @@ const show = createSlice({
   },
   extraReducers: {
     [requestInitialDataSuccess]: boardsLoaded,
-    [requestBoardsSuccess]: boardsLoaded
+    [requestBoardsSuccess]: boardsLoaded,
+    [columnOptionsOpened]: (_state, action) => {
+      const { boardId } = action.payload;
+      return boardId;
+    },
+    [columnOptionsClosed]: (_state, action) => {
+      const { boardId } = action.payload;
+      return boardId;
+    }
   }
 });
 

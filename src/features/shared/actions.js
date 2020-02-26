@@ -3,6 +3,8 @@ export const boardCleared = "boards/boardCleared";
 export const columnCreated = "columns/columnCreated";
 export const columnRemoved = "columns/columnRemoved";
 export const columnCleared = "columns/columnCleared";
+export const columnOptionsOpened = "columns/columnOptionsOpened";
+export const columnOptionsClosed = "columns/columnOptionsClosed";
 export const taskCreated = "tasks/taskCreated";
 export const taskRemoved = "tasks/taskRemoved";
 

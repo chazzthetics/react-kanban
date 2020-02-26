@@ -1,25 +1,28 @@
-import React from "react";
-import { useDispatch } from "react-redux";
-import { useBoard, useToggle, useLightMode } from "../../../hooks";
+import React, { useCallback } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { useToggle, useLightMode } from "../../../hooks";
 import { createColumn } from "../slices";
+import { selectCurrentBoardId } from "../../boards/slices";
 import { makeColumn } from "../utils/makeColumn";
 import { CreateForm, AddButtonGroup } from "../../../components";
 import { CreateColumnButton } from "./";
 import { Flex } from "@chakra-ui/core";
 
 const CreateNewColumnForm = () => {
+  const [isLightMode] = useLightMode();
   const { isOpen, close, open } = useToggle();
 
-  const { boardId } = useBoard();
+  const boardId = useSelector(selectCurrentBoardId);
 
   const dispatch = useDispatch();
 
-  const [isLightMode] = useLightMode();
-
-  function create(columnTitle) {
-    const column = makeColumn({ title: columnTitle });
-    dispatch(createColumn({ column, boardId }));
-  }
+  const create = useCallback(
+    columnTitle => {
+      const column = makeColumn({ title: columnTitle });
+      dispatch(createColumn({ column, boardId }));
+    },
+    [dispatch, boardId]
+  );
 
   return !isOpen ? (
     <CreateColumnButton onOpen={open} />

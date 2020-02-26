@@ -1,14 +1,21 @@
-import React, { useCallback } from "react";
+import React, { useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useColumn } from "../../../hooks";
-import { clearColumn } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import {
+  makeSelectColumnIsLocked,
+  makeSelectColumnTaskIdsLength,
+  clearColumn
+} from "../slices";
 import { ListButton } from "../../../components";
 
 const ClearColumnButton = ({ columnId }) => {
   const dispatch = useDispatch();
 
-  const { isLocked, hasTasks } = useColumn(columnId);
+  const isLockedSelector = useMemo(makeSelectColumnIsLocked, []);
+  const isLocked = useSelector(state => isLockedSelector(state, columnId));
+
+  const hasTasksSelector = useMemo(makeSelectColumnTaskIdsLength, []);
+  const hasTasks = useSelector(state => hasTasksSelector(state, columnId));
 
   const handleClearColumn = useCallback(() => {
     if (hasTasks) {

@@ -1,22 +1,28 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useBoard, useLightMode } from "../../../hooks";
-import { boardListChanged } from "../../boards/slices";
+import { useSelector, useDispatch } from "react-redux";
+import { useLightMode } from "../../../hooks";
+import {
+  boardListChanged,
+  selectCurrentBoardId,
+  selectCurrentBoardColumnIds,
+  selectShowBoardColumnPositions,
+  selectAllBoardsWithTitleAndColor,
+  selectShowId,
+  selectShowBoard
+} from "../../boards/slices";
 import { move } from "../utils/move";
 import { FormLabel, Select, Stack, Box } from "@chakra-ui/core";
 
 const MoveColumnSelect = ({ columnId, onClose }) => {
   const dispatch = useDispatch();
 
-  const {
-    boardId,
-    allBoards,
-    columnIds,
-    columnPositions,
-    showBoardId,
-    showBoard
-  } = useBoard();
+  const boardId = useSelector(selectCurrentBoardId);
+  const columnIds = useSelector(selectCurrentBoardColumnIds);
+  const allBoards = useSelector(selectAllBoardsWithTitleAndColor);
+  const columnPositions = useSelector(selectShowBoardColumnPositions);
+  const showBoardId = useSelector(selectShowId);
+  const showBoard = useSelector(selectShowBoard);
 
   const [isLightMode] = useLightMode();
 
@@ -38,10 +44,6 @@ const MoveColumnSelect = ({ columnId, onClose }) => {
       dispatch
     );
     onClose();
-  };
-  //FIXME: redux - shwo and current are different (doesn't work now)
-  const isBoardDisabled = () => {
-    return showBoardId === boardId && columnIds.length === 1;
   };
 
   const isPositionDisabled = position => {
@@ -92,7 +94,6 @@ const MoveColumnSelect = ({ columnId, onClose }) => {
           id="column"
           size="sm"
           focusBorderColor="#ddd"
-          isDisabled={isBoardDisabled()}
           onChange={handleMoveColumn}
           placeholder="Position"
           bg={isLightMode ? "white" : "gray.600"}
@@ -105,7 +106,15 @@ const MoveColumnSelect = ({ columnId, onClose }) => {
               value={position}
               style={{
                 backgroundColor: isLightMode ? "white" : "#2D3748",
-                color: isPositionDisabled(position) ? "#e4e4e4" : "black"
+                // color: isLightMode ? "#86838c" : "#e4e4e4",
+                color:
+                  isPositionDisabled(position) && isLightMode
+                    ? "lightgray"
+                    : isPositionDisabled(position) && !isLightMode
+                    ? "#888589"
+                    : !isPositionDisabled(position) && isLightMode
+                    ? "black"
+                    : "lightgray"
               }}
               disabled={isPositionDisabled(position)}
             >

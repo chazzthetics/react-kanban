@@ -27,6 +27,8 @@ export const makeSelectColumnIsDisabled = () =>
   );
 
 export const makeSelectTaskLabels = () =>
-  createSelector([makeSelectTask(), selectAllLabels], (task, labels) =>
-    task.labelIds ? task.labelIds.map(labelId => labels[labelId]) : []
+  createSelector(
+    [makeSelectTask(), selectAllLabels],
+    (task, labels) =>
+      task.labelIds && task.labelIds.map(labelId => labels[labelId])
   );

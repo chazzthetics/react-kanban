@@ -37,7 +37,7 @@ const CreateForm = ({
   const [isLightMode] = useLightMode();
 
   return (
-    <form onSubmit={handleSubmit} ref={cancelRef}>
+    <form onSubmit={handleSubmit} ref={cancelRef} style={{ width: "100%" }}>
       {!textarea ? (
         <Input
           type="text"
@@ -100,7 +100,7 @@ CreateForm.propTypes = {
   ])
 };
 
-export default CreateForm;
+export default memo(CreateForm);
 
 //TODO: fix proptypes
 //FIX: fix rest props

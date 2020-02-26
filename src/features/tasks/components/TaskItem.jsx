@@ -15,6 +15,11 @@ import { EditTaskContentForm, TaskOptions } from "./";
 const TaskItem = ({ taskId, columnId, isDragging }) => {
   const [isLightMode] = useLightMode();
 
+  const { isOpen: isHover, open, close } = useToggle();
+
+  const handleShowOptions = useCallback(() => open(), [open]);
+  const handleHideOptions = useCallback(() => close(), [close]);
+
   const taskContentSelector = useMemo(makeSelectTaskContent, []);
   const content = useSelector(state => taskContentSelector(state, taskId));
 
@@ -31,11 +36,6 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       dispatch(taskEditing({ taskId }));
     }
   }, [dispatch, isEditing, taskId]);
-
-  const { isOpen: isHover, open, close } = useToggle();
-
-  const handleShowOptions = useCallback(() => open(), [open]);
-  const handleHideOptions = useCallback(() => close(), [close]);
 
   return (
     <Flex

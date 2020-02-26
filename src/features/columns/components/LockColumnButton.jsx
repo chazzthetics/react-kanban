@@ -1,12 +1,12 @@
-import React, { forwardRef, useCallback } from "react";
+import React, { forwardRef, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useColumn } from "../../../hooks";
-import { toggleLockColumn } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import { makeSelectColumnIsLocked, toggleLockColumn } from "../slices";
 import { ListButton } from "../../../components";
 
 const LockColumnButton = forwardRef(({ columnId }, ref) => {
-  const { isLocked } = useColumn(columnId);
+  const isLockedSelector = useMemo(makeSelectColumnIsLocked, []);
+  const isLocked = useSelector(state => isLockedSelector(state, columnId));
 
   const dispatch = useDispatch();
   const handleLockToggle = useCallback(() => {

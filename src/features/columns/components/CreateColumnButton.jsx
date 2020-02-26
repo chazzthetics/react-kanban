@@ -1,11 +1,18 @@
 import React from "react";
 import PropTypes from "prop-types";
-import { useBoard, useLightMode } from "../../../hooks";
+import { useSelector } from "react-redux";
+import { useLightMode } from "../../../hooks";
+import {
+  selectCurrentBoardColor,
+  selectCurrentBoardColumnIdsLength
+} from "../../boards/slices";
 import { PseudoBox, Icon } from "@chakra-ui/core";
 
 const CreateColumnButtom = ({ onOpen }) => {
-  const { color, hasColumns } = useBoard();
   const [isLightMode] = useLightMode();
+
+  const color = useSelector(selectCurrentBoardColor);
+  const hasColumns = useSelector(selectCurrentBoardColumnIdsLength);
 
   return (
     <PseudoBox

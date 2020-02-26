@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { createBoard } from "../slices";
@@ -32,13 +32,16 @@ const CreateNewBoardForm = () => {
     () => create({ title: values.title, color: values.color })
   );
 
-  function create({ title, color }) {
-    const board = makeBoard({ title, color });
-    dispatch(createBoard({ board }));
-    close();
+  const create = useCallback(
+    ({ title, color }) => {
+      const board = makeBoard({ title, color });
+      dispatch(createBoard({ board }));
+      close();
 
-    history.push(`/b/${board.id}/${board.title}`);
-  }
+      history.push(`/b/${board.id}/${board.title}`);
+    },
+    [dispatch, close, history]
+  );
 
   const [isLightMode] = useLightMode();
 
@@ -61,9 +64,7 @@ const CreateNewBoardForm = () => {
           _active={{ backgroundColor: "rgba(255,255,255,0.2)" }}
           _hover={{ backgroundColor: "rgba(0,0,0,0.5)" }}
           _focus={{
-            boxShadow: isLightMode
-              ? `0 0 0 2px lightgray`
-              : "0 0 0 2px lightgreen"
+            boxShadow: isLightMode ? `0 0 0 2px white` : "0 0 0 2px lightgreen"
           }}
         />
       </PopoverTrigger>

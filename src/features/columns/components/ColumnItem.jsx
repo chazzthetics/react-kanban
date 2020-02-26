@@ -10,6 +10,8 @@ import { TaskList, CreateNewTaskForm } from "../../tasks/components";
 import { Box, Flex } from "@chakra-ui/core";
 
 const ColumnItem = ({ index, columnId }) => {
+  const [isLightMode] = useLightMode();
+
   const columnIsOpenSelector = useMemo(makeSelectColumnIsOpen, []);
   const isOpen = useSelector(state => columnIsOpenSelector(state, columnId));
 
@@ -22,8 +24,6 @@ const ColumnItem = ({ index, columnId }) => {
   const isDisabled = useSelector(state =>
     columnIsDisabledSelector(state, columnId)
   );
-
-  const [isLightMode] = useLightMode();
 
   const bottomRef = useRef(null);
 
@@ -38,7 +38,7 @@ const ColumnItem = ({ index, columnId }) => {
           ref={provided.innerRef}
           {...provided.draggableProps}
           {...provided.dragHandleProps}
-          className="column-item"
+          className={`column-item ${isLightMode ? "light" : "dark"}`}
           overflowY="auto"
           overflowX="hidden"
           bg={isLightMode ? "#ebecf0" : "gray.600"}

@@ -1,10 +1,10 @@
 import React, { useRef, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { columnOptionsOpened, columnOptionsClosed } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
 import { useToggle, useLightMode } from "../../../hooks";
+import { columnOptionsOpened, columnOptionsClosed } from "../slices";
+import { selectCurrentBoardId } from "../../boards/slices";
 import { FiMoreHorizontal } from "react-icons/fi";
-import { Fade } from "../../../components";
 import {
   Popover,
   ButtonGroup,
@@ -25,20 +25,20 @@ import {
 const ColumnOptionsPopover = ({ columnId }) => {
   const initialFocusRef = useRef(null);
   const [isLightMode] = useLightMode();
-
   const { isOpen, close, open } = useToggle();
 
+  const boardId = useSelector(selectCurrentBoardId);
   const dispatch = useDispatch();
 
   const handleOpen = useCallback(() => {
     open();
-    dispatch(columnOptionsOpened({ columnId }));
-  }, [columnId, open, dispatch]);
+    dispatch(columnOptionsOpened({ boardId, columnId }));
+  }, [boardId, columnId, open, dispatch]);
 
   const handleClose = useCallback(() => {
     close();
-    dispatch(columnOptionsClosed({ columnId }));
-  }, [columnId, close, dispatch]);
+    dispatch(columnOptionsClosed({ boardId, columnId }));
+  }, [boardId, columnId, close, dispatch]);
 
   return (
     <Popover
@@ -67,38 +67,32 @@ const ColumnOptionsPopover = ({ columnId }) => {
           }}
         />
       </PopoverTrigger>
-      <Fade in={isOpen}>
-        <PopoverContent
-          zIndex={4}
-          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-          p={2}
-          borderRadius={4}
-          bg={isLightMode ? "white" : "gray.700"}
+      <PopoverContent
+        zIndex={4}
+        boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+        p={2}
+        borderRadius={4}
+        bg={isLightMode ? "white" : "gray.700"}
+      >
+        <PopoverHeader
+          textAlign="center"
+          fontSize=".9rem"
+          mb={2}
+          opacity={isLightMode ? 0.8 : 1}
+          borderColor="#ddd"
         >
-          <PopoverHeader
-            textAlign="center"
-            fontSize=".9rem"
-            mb={2}
-            opacity={isLightMode ? 0.8 : 1}
-            borderColor="#ddd"
-          >
-            <span>List Actions</span>
-          </PopoverHeader>
-          <PopoverCloseButton opacity={0.6} />
-          <PopoverBody p={0}>
-            <ButtonGroup
-              d="flex"
-              flexDirection="column"
-              alignItems="flex-start"
-            >
-              <LockColumnButton columnId={columnId} ref={initialFocusRef} />
-              <RemoveColumnButton columnId={columnId} />
-              <ClearColumnButton columnId={columnId} />
-              <MoveColumnButton columnId={columnId} close={handleClose} />
-            </ButtonGroup>
-          </PopoverBody>
-        </PopoverContent>
-      </Fade>
+          <span>List Actions</span>
+        </PopoverHeader>
+        <PopoverCloseButton opacity={0.6} />
+        <PopoverBody p={0}>
+          <ButtonGroup d="flex" flexDirection="column" alignItems="flex-start">
+            <LockColumnButton columnId={columnId} ref={initialFocusRef} />
+            <RemoveColumnButton columnId={columnId} />
+            <ClearColumnButton columnId={columnId} />
+            <MoveColumnButton columnId={columnId} close={handleClose} />
+          </ButtonGroup>
+        </PopoverBody>
+      </PopoverContent>
     </Popover>
   );
 };

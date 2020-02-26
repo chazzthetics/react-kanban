@@ -44,8 +44,8 @@ const CreateNewTaskForm = forwardRef(({ columnId }, ref) => {
             w="17rem"
             h="36px"
             px={2}
-            size="sm"
             mb={2}
+            size="sm"
             borderRadius={4}
           >
             <AddButtonGroup onClose={close} value="Add Task" />

@@ -14,13 +14,13 @@ export const makeSelectTask = () =>
   );
 
 export const makeSelectTaskLabelIds = () =>
-  createSelector([makeSelectTask()], task => task.labelIds);
+  createSelector([makeSelectTask()], task => task && task.labelIds);
 
 export const makeSelectTaskContent = () =>
-  createSelector([makeSelectTask()], task => task.content);
+  createSelector([makeSelectTask()], task => task && task.content);
 
 export const makeSelectTaskIsEditing = () =>
-  createSelector([makeSelectTask()], task => task.isEditing);
+  createSelector([makeSelectTask()], task => task && task.isEditing);
 
 export const makeSelectTaskCompleted = () =>
-  createSelector([makeSelectTask()], task => task.completed);
+  createSelector([makeSelectTask()], task => task && task.completed);

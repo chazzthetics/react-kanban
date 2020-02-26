@@ -30,16 +30,16 @@ const AppBar = ({ dashboard }) => {
   return (
     <Box
       as="header"
+      bg={dashboard || !isLightMode ? "gray.700" : `${color}.400`}
       h="40px"
-      bg={dashboard || !isLightMode ? "gray.700" : `${color}.700`}
       p="4px"
     >
-      <Flex as="nav" align="center" justify="space-between" h="100%">
+      <Flex as="nav" align="center" justify={{ xs: "space-between" }} h="100%">
         <List
           d="flex"
           alignItems="center"
           justifyContent="flex-start"
-          flexBasis="14rem"
+          flexBasis={{ sm: "12rem" }}
         >
           <ButtonGroup d="flex" spacing={1}>
             <ListItem mr={1}>
@@ -62,21 +62,21 @@ const AppBar = ({ dashboard }) => {
             )}
           </ButtonGroup>
         </List>
-        <Box>
+        <Flex>
           <Heading
-            fontSize="1rem"
+            fontSize={{ sm: ".9rem", md: "1rem" }}
             letterSpacing=".8px"
             fontWeight="semibold"
             color="#FFF"
           >
             REACT KANBAN
           </Heading>
-        </Box>
+        </Flex>
         <List
           d="flex"
           alignItems="center"
           justifyContent="flex-end"
-          flexBasis="14rem"
+          flexBasis={{ sm: "12rem" }}
         >
           <ButtonGroup d="flex" spacing={1}>
             <ListItem mr={1}>

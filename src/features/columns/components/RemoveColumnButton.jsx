@@ -1,13 +1,15 @@
-import React, { useCallback } from "react";
+import React, { useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { useBoard, useColumn } from "../../../hooks";
-import { removeColumn } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import { selectCurrentBoardId } from "../../boards/slices";
+import { removeColumn, makeSelectColumnIsLocked } from "../slices";
 import { ListButton } from "../../../components/";
 
 const RemoveColumnButton = ({ columnId }) => {
-  const { boardId } = useBoard();
-  const { isLocked } = useColumn(columnId);
+  const boardId = useSelector(selectCurrentBoardId);
+
+  const isLockedSelector = useMemo(makeSelectColumnIsLocked);
+  const isLocked = useSelector(state => isLockedSelector(state, columnId));
 
   const dispatch = useDispatch();
   const handleRemoveColumn = useCallback(() => {

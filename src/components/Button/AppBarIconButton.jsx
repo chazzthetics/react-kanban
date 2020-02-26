@@ -22,7 +22,7 @@ const AppBarIconButton = ({
       _hover={{ backgroundColor: "rgba(255,255,255,0.4)" }}
       _active={{ backgroundColor: "rgba(255,255,255,0.2)" }}
       _focus={{
-        boxShadow: isLightMode ? "0 0 0 2px lightgray" : "0 0 0 2px lightgreen"
+        boxShadow: isLightMode ? "0 0 0 2px white" : "0 0 0 2px lightgreen"
       }}
       {...props}
     />

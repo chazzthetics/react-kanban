@@ -1,10 +1,13 @@
-import React, { useRef } from "react";
+import React, { useRef, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
-import { useToggle, useForm } from "../../../hooks";
+import { useLightMode, useToggle, useForm } from "../../../hooks";
 import { createBoard } from "../slices";
+import { boardColors } from "../utils/boardColors";
 import { makeBoard } from "../utils/makeBoard";
+import { ColorRadioButton } from "../../../components";
 import {
+  PseudoBox,
   Flex,
   Button,
   FormControl,
@@ -15,42 +18,68 @@ import {
   ModalOverlay,
   ModalContent,
   ModalHeader,
-  ModalCloseButton
+  ModalCloseButton,
+  RadioButtonGroup
 } from "@chakra-ui/core";
 
 const CreateNewBoardModal = () => {
+  const [isLightMode] = useLightMode();
   const { isOpen, close, open } = useToggle();
-  const { values, handleChange, handleSubmit } = useForm(
-    { boardTitle: "" },
-    () => create(values.boardTitle)
-  );
 
+  const initialRef = useRef(null);
   const history = useHistory();
   const fromRegister = history.location.state;
 
-  const initialRef = useRef(null);
+  const { values, handleChange, handleRadioSelect, handleSubmit } = useForm(
+    { title: "", color: "" },
+    () => create({ title: values.title, color: values.color })
+  );
 
   const dispatch = useDispatch();
-  function create(boardTitle) {
-    const board = makeBoard({ title: boardTitle });
-    dispatch(createBoard({ board }));
-  }
-  //FIXME:
+  const create = useCallback(
+    ({ title, color }) => {
+      const board = makeBoard({ title, color });
+      dispatch(createBoard({ board }));
+      close();
+
+      history.push(`/b/${board.id}/${board.title}`);
+    },
+    [dispatch, close, history]
+  );
+
+  //FIXME: refactor with popover
   return (
     <>
-      <Flex justify="center" mx={2} mt={16}>
-        <Button
-          onClick={open}
-          size="sm"
-          variantColor="purple"
-          boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-        >
-          {fromRegister ? "Create Your First Board" : "Create a New Board"}
-        </Button>
-      </Flex>
+      <PseudoBox
+        h={100}
+        w="100%"
+        d="inline-block"
+        cursor="pointer"
+        borderRadius={4}
+        bg={isLightMode ? "gray.300" : "gray.600"}
+        transition="transform 175ms ease-in, box-shadow 175ms ease-in"
+        onClick={open}
+        _hover={{
+          transform: "translateY(-2px)",
+          boxShadow: isLightMode
+            ? "2px 12px 14px -10px rgba(0, 0, 0, 0.75)"
+            : "2px 10px 6px -8px rgba(255, 255, 255, 0.55)"
+        }}
+      >
+        <Flex align="center" justify="center" h="100%" fontWeight="bold">
+          Create new board
+        </Flex>
+      </PseudoBox>
+
       <Modal isOpen={isOpen} onClose={close} initialFocusRef={initialRef}>
         <ModalOverlay backgroundColor="rgba(0,0,0,0.8)" />
-        <ModalContent borderRadius={4} bg="#ebecf0" px={4} pt={2} pb={4}>
+        <ModalContent
+          borderRadius={4}
+          bg={isLightMode ? "#ebecf0" : "gray.700"}
+          px={4}
+          pt={2}
+          pb={4}
+        >
           <ModalHeader fontSize="1rem" textAlign="center" fontWeight="normal">
             Create New Board
           </ModalHeader>
@@ -58,34 +87,36 @@ const CreateNewBoardModal = () => {
           <form onSubmit={handleSubmit}>
             <Stack spacing={2}>
               <FormControl>
-                <FormLabel htmlFor="boardTitle" fontSize=".9rem">
+                <FormLabel htmlFor="title" fontSize=".9rem">
                   Board Title
                 </FormLabel>
                 <Input
-                  name="boardTitle"
-                  id="boardTitle"
+                  name="title"
+                  id="title"
                   size="sm"
                   borderRadius={4}
                   p={2}
-                  value={values.boardTitle}
-                  onChange={handleChange}
                   ref={initialRef}
+                  value={values.title}
+                  onChange={handleChange}
                   placeholder="Enter board title..."
                   _focus={{ border: "1px solid #ddd", borderRadius: "4px" }}
                 />
               </FormControl>
               <FormControl>
-                <FormLabel htmlFor="theme" fontSize=".9rem">
-                  Choose Theme
+                <FormLabel htmlFor="color" fontSize=".9rem">
+                  Choose Board Color
                 </FormLabel>
-                <Input
-                  name="theme"
-                  id="theme"
-                  size="sm"
-                  value={values.boardTheme}
-                  onChange={handleChange}
-                  isDisabled
-                />
+                <RadioButtonGroup
+                  id="color"
+                  isInline
+                  name="color"
+                  onChange={handleRadioSelect}
+                >
+                  {boardColors.map(color => (
+                    <ColorRadioButton key={color} value={color} />
+                  ))}
+                </RadioButtonGroup>
               </FormControl>
               <Button
                 type="submit"
