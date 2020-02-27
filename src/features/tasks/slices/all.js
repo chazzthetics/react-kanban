@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
+import { formatDate } from "../../../utils/dates";
 import { fetchTasks } from "../../requests";
 import { tasksApi } from "../../../api";
 import {
@@ -39,8 +40,24 @@ const allTasks = createSlice({
       const { taskId, content } = action.payload;
       state[taskId].content = content;
       state[taskId].isEditing = false;
-      //     if (state[taskId].content !== content) {
+      // if (state[taskId].content !== content) {
       // }
+    },
+    taskDueDateChanged(state, action) {
+      const { taskId, dueDate } = action.payload;
+      state[taskId].dueDate = dueDate;
+    },
+    taskDueDateRemoved(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].dueDate = "";
+    },
+    taskPriorityChanged(state, action) {
+      const { taskId, priority } = action.payload;
+      state[taskId].priority = priority;
+    },
+    taskPriorityRemoved(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].priority = "";
     },
     taskCompleteToggled(state, action) {
       const { taskId, completed } = action.payload;
@@ -111,6 +128,10 @@ export const {
   taskEditingCancelled,
   taskContentUpdated,
   taskCompleteToggled,
+  taskDueDateChanged,
+  taskDueDateRemoved,
+  taskPriorityChanged,
+  taskPriorityRemoved,
   taskLabelAdded,
   taskLabelRemoved
 } = allTasks.actions;
@@ -159,6 +180,43 @@ export const toggleCompleteTask = ({ taskId, completed }) => async dispatch => {
   try {
     dispatch(taskCompleteToggled({ taskId, completed }));
     await tasksApi.toggleComplete({ taskId, completed });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const changeDueDate = ({ taskId, dueDate }) => async dispatch => {
+  try {
+    const formatted = formatDate(dueDate, "yyyy-MM-dd");
+    dispatch(taskDueDateChanged({ taskId, dueDate: formatted }));
+    await tasksApi.addDueDate({ taskId, dueDate: formatted });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const removeDueDate = ({ taskId }) => async dispatch => {
+  try {
+    dispatch(taskDueDateRemoved({ taskId }));
+    await tasksApi.removeDueDate({ taskId });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const changePriority = ({ taskId, priority }) => async dispatch => {
+  try {
+    dispatch(taskPriorityChanged({ taskId, priority }));
+    await tasksApi.addPriority({ taskId, priority });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const removePriority = ({ taskId }) => async dispatch => {
+  try {
+    dispatch(taskPriorityRemoved({ taskId }));
+    await tasksApi.removePriority({ taskId });
   } catch (ex) {
     console.error(ex);
   }

@@ -19,7 +19,7 @@ const ColumnList = () => {
           minH="calc(100vh - 88px)"
           overflowX="auto"
           cursor="pointer"
-          mx={3}
+          px={3}
           ref={provided.innerRef}
           {...provided.droppableProps}
         >

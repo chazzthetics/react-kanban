@@ -54,11 +54,13 @@ const EditForm = ({
       ) : (
         <>
           <Textarea
+            className={`textarea ${isLightMode ? "light" : "dark"}`}
             ref={focusRef}
             name={inputName}
             value={values[inputName]}
             onChange={handleChange}
             fontSize=".9rem"
+            minH="120px"
             mb={2}
             boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
             _focus={{

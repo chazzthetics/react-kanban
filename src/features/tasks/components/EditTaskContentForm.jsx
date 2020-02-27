@@ -1,6 +1,7 @@
 import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useToggle } from "../../../hooks";
 import {
   makeSelectTaskContent,
   makeSelectTaskIsEditing,
@@ -9,9 +10,28 @@ import {
   updateTaskContent,
   toggleCompleteTask
 } from "../slices";
+
 import { AddLabelPopover, TaskLabelList } from "../../labels/components";
 import { EditForm, AddButtonGroup } from "../../../components";
+import { ChangeTaskDueDateModal, ChangePriorityModal } from "./";
 import { Flex, ButtonGroup, Checkbox } from "@chakra-ui/core";
+
+import { FiMoreHorizontal } from "react-icons/fi";
+import {
+  IconButton,
+  Menu,
+  MenuButton,
+  MenuList,
+  MenuItem,
+  // Button,
+  // MenuGroup,
+  // MenuDivider,
+  // MenuOptionGroup,
+  // MenuItemOption,
+  Modal,
+  ModalOverlay,
+  ModalContent
+} from "@chakra-ui/core";
 
 const EditTaskContentForm = ({ taskId }) => {
   const taskContentSelector = useMemo(makeSelectTaskContent, []);
@@ -40,8 +60,35 @@ const EditTaskContentForm = ({ taskId }) => {
     [dispatch, taskId]
   );
 
+  const scrollRef = React.useRef(null);
+  React.useEffect(() => {
+    if (isEditing) {
+      if (scrollRef.current.offsetTop > 600) {
+        scrollRef.current.scrollIntoView(true);
+      } else {
+        scrollRef.current.scrollIntoView(false);
+      }
+    }
+  }, [isEditing, scrollRef]);
+
+  const { isOpen: isDateOpen, open: openDate, close: closeDate } = useToggle();
+
+  const {
+    isOpen: isPriorityOpen,
+    open: openPriority,
+    close: closePriority
+  } = useToggle();
+
+  const handleOpenDateModal = () => {
+    openDate();
+  };
+
+  const handleOpenPriorityModal = () => {
+    openPriority();
+  };
+
   return (
-    <Flex flexDir="column" flexBasis="100%">
+    <Flex flexDir="column" flexBasis="100%" ref={scrollRef}>
       <Flex>
         <TaskLabelList taskId={taskId} />
       </Flex>
@@ -67,13 +114,34 @@ const EditTaskContentForm = ({ taskId }) => {
             onClose={handleCancelEdit}
             justifyContent="flex-start"
           />
-          <Flex align="center" justify="flex-end">
+          <Flex align="center" justify="space-between">
             <Checkbox
               onChange={handleToggleComplete}
               isChecked={completed}
               mr={4}
             />
             <AddLabelPopover taskId={taskId} />
+            <Menu>
+              <MenuButton as={IconButton} size="sm" icon={FiMoreHorizontal} />
+              <MenuList>
+                <MenuItem fontSize="0.9rem" onClick={handleOpenDateModal}>
+                  Change Due Date
+                </MenuItem>
+                <MenuItem fontSize="0.9rem" onClick={handleOpenPriorityModal}>
+                  Change Priority
+                </MenuItem>
+              </MenuList>
+            </Menu>
+            <ChangeTaskDueDateModal
+              isOpen={isDateOpen}
+              onClose={closeDate}
+              taskId={taskId}
+            />
+            <ChangePriorityModal
+              isOpen={isPriorityOpen}
+              onClose={closePriority}
+              taskId={taskId}
+            />
           </Flex>
         </ButtonGroup>
       </EditForm>

@@ -43,13 +43,13 @@ const ColumnItem = ({ index, columnId }) => {
           overflowX="hidden"
           bg={isLightMode ? "#ebecf0" : "gray.600"}
           mr={2}
-          h="100%"
           minW="288px"
           maxH="88vh"
           p={2}
           borderRadius={4}
           w="18rem"
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          position="static"
         >
           <ColumnHeader columnId={columnId} />
           <Droppable droppableId={columnId} type="task">
@@ -58,8 +58,8 @@ const ColumnItem = ({ index, columnId }) => {
                 direction="column"
                 align="stretch"
                 justify="center"
-                mb={2}
                 cursor="pointer"
+                mb={2}
                 bg={snapshot.isDraggingOver && isLightMode ? "#d9dadd" : "none"}
                 borderRadius={4}
                 transition="background-color 120ms ease-out"

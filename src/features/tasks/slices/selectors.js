@@ -1,4 +1,5 @@
 import { createSelector } from "@reduxjs/toolkit";
+import { formatTagDate } from "../../../utils/dates";
 
 const getTaskState = createSelector([state => state.tasks], tasks => tasks);
 
@@ -24,3 +25,15 @@ export const makeSelectTaskIsEditing = () =>
 
 export const makeSelectTaskCompleted = () =>
   createSelector([makeSelectTask()], task => task && task.completed);
+
+export const makeSelectTaskDueDate = () =>
+  createSelector([makeSelectTask()], task => task && task.dueDate);
+
+export const makeSelectBadgeDueDate = () =>
+  createSelector(
+    [makeSelectTask()],
+    task => task && formatTagDate(task.dueDate)
+  );
+
+export const makeSelectTaskPriority = () =>
+  createSelector([makeSelectTask()], task => task && task.priority);

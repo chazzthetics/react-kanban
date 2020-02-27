@@ -1,4 +1,4 @@
-import React, { memo, useCallback, useEffect, forwardRef } from "react";
+import React, { memo, useCallback, useEffect, useRef, forwardRef } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { createTask } from "../slices";
@@ -27,8 +27,18 @@ const CreateNewTaskForm = forwardRef(({ columnId }, ref) => {
     }
   }, [isOpen, ref]);
 
+  // Firefox padding issue
+  const boxRef = useRef(null);
+  const isOverFlow = boxRef.current?.offsetTop > 830;
+  const isChrome = !!window.chrome;
+
   return (
-    <Box position={isOpen ? "static" : "sticky"} bottom={0}>
+    <Box
+      position={isOpen ? "static" : "sticky"}
+      bottom={0}
+      pb={isOpen && isOverFlow && !isChrome ? 2 : 0}
+      ref={boxRef}
+    >
       {!isOpen ? (
         <CreateTaskButton onOpen={open} columnId={columnId} />
       ) : (

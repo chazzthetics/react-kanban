@@ -46,9 +46,7 @@ export function getPreviousBoard(_state, action) {
   const updatedBoardIds = boardIds.filter(id => id !== boardId);
 
   let previousBoard;
-  if (updatedBoardIds.length > 2) {
-    previousBoard = updatedBoardIds[updatedBoardIds.length - 2];
-  } else if (updatedBoardIds.length === 2) {
+  if (updatedBoardIds.length >= 2) {
     previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
   } else if (updatedBoardIds.length === 1) {
     previousBoard = updatedBoardIds[0];

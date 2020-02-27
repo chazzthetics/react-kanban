@@ -5,7 +5,7 @@ import { EditTaskButton, RemoveTaskButton } from "./";
 
 const TaskOptions = ({ taskId, columnId }) => {
   return (
-    <ButtonGroup d="flex" alignItems="center">
+    <ButtonGroup d="flex" alignItems="center" alignSelf="flex-start">
       <EditTaskButton taskId={taskId} />
       <RemoveTaskButton taskId={taskId} columnId={columnId} />
     </ButtonGroup>

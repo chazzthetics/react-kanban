@@ -27,7 +27,6 @@ const RemoveBoardButton = () => {
       icon="delete"
       label="Remove Board"
       onClick={handleRemoveBoard}
-      // _hover={{ backgroundColor: "rgba(0,0,0,0.5)", color: "red.400" }}
     />
   );
 };

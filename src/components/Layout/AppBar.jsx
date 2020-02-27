@@ -64,7 +64,7 @@ const AppBar = ({ dashboard }) => {
         </List>
         <Flex>
           <Heading
-            fontSize={{ sm: ".9rem", md: "1rem" }}
+            fontSize={{ xs: ".8rem", sm: ".9rem", md: "1rem" }}
             letterSpacing=".8px"
             fontWeight="semibold"
             color="#FFF"

@@ -8,3 +8,4 @@ export { default as ColorRadioButton } from "./Button/ColorRadioButton";
 export { default as EditForm } from "./Form/EditForm";
 export { default as FullPageSpinner } from "./Layout/FullPageSpinner";
 export { default as Fade } from "./Transition/Fade";
+export { default as AuthRedirect } from "./Auth/AuthRedirect";

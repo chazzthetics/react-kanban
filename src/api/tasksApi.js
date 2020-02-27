@@ -30,5 +30,17 @@ export const tasksApi = {
     return axios.put(`${baseUrl}/tasks/${taskId}/label/remove`, {
       labelId: parseInt(labelId)
     });
+  },
+  addPriority: ({ taskId, priority }) => {
+    return axios.patch(`${baseUrl}/tasks/${taskId}`, { priority });
+  },
+  removePriority: ({ taskId }) => {
+    return axios.patch(`${baseUrl}/tasks/${taskId}/priority/remove`);
+  },
+  addDueDate: ({ taskId, dueDate }) => {
+    return axios.patch(`${baseUrl}/tasks/${taskId}`, { due_date: dueDate });
+  },
+  removeDueDate: ({ taskId }) => {
+    return axios.patch(`${baseUrl}/tasks/${taskId}/date/remove`);
   }
 };

@@ -61,6 +61,7 @@ const CreateForm = ({
         />
       ) : (
         <Textarea
+          className={`textarea ${isLightMode ? "light" : "dark"}`}
           onChange={handleChange}
           value={values[inputName]}
           name={inputName}
@@ -68,6 +69,7 @@ const CreateForm = ({
           ref={popover ? firstFieldRef : focusRef}
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
           bg={isLightMode ? "white" : "gray.700"}
+          minH="120px"
           _focus={{
             border: "1px solid",
             borderRadius: "4px",

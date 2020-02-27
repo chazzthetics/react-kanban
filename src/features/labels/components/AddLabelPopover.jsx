@@ -5,12 +5,10 @@ import { useToggle, useLabel, useLightMode } from "../../../hooks";
 import {
   removeLabelFromTask,
   addLabelToTask,
-  taskEditingCancelled,
   makeSelectTaskLabelIds
 } from "../../tasks/slices";
 import { Fade } from "../../../components";
 import {
-  Box,
   Popover,
   PopoverTrigger,
   PopoverCloseButton,
@@ -47,8 +45,8 @@ const AddLabelPopover = ({ taskId }) => {
   );
 
   const handleSave = useCallback(() => {
-    dispatch(taskEditingCancelled({ taskId }));
-  }, [dispatch, taskId]);
+    close();
+  }, [close]);
 
   const [isLightMode] = useLightMode();
   const initialFocusRef = useRef(null);
@@ -60,23 +58,26 @@ const AddLabelPopover = ({ taskId }) => {
       onOpen={open}
       closeOnBlur={false}
       initialFocusRef={initialFocusRef}
-      placement="bottom-start"
-      // usePortal
+      usePortal
+      placement="right-start"
     >
       <PopoverTrigger>
         <Button
           size="sm"
-          variantColor="pink"
+          variantColor="purple"
           boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
+          mr={4}
         >
-          Add Label
+          Labels
         </Button>
       </PopoverTrigger>
       <Fade in={isOpen}>
         <PopoverContent
           zIndex={4}
+          w="200px"
           bg={isLightMode ? "white" : "gray.700"}
           cursor="default"
+          className="add-label-container"
         >
           <PopoverHeader
             fontSize=".9rem"
@@ -93,7 +94,7 @@ const AddLabelPopover = ({ taskId }) => {
                 type="button"
                 key={labelId}
                 w="100%"
-                h="24px"
+                h="22px"
                 borderRadius={4}
                 onClick={() => handleToggleLabel(labelId)}
                 bg={allLabels[labelId].color}
@@ -115,6 +116,7 @@ const AddLabelPopover = ({ taskId }) => {
                 variantColor="green"
                 boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
                 onClick={handleSave}
+                className="add-label-btn"
               >
                 Save
               </Button>

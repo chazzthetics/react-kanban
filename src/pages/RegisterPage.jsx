@@ -1,36 +1,33 @@
 import React from "react";
-import { useSelector, useDispatch } from "react-redux";
-import { Redirect } from "react-router-dom";
-import { useForm } from "../hooks";
-import { register, selectUser } from "../features/auth";
+import { useDispatch } from "react-redux";
+import { useForm, useAuth } from "../hooks";
+import { register } from "../features/auth";
+import { AuthRedirect } from "../components";
 import { Flex, Heading, Button, Input } from "@chakra-ui/core";
 
 const RegisterPage = () => {
+  const { user, loading } = useAuth();
+  const dispatch = useDispatch();
+
   const { values, handleChange, handleSubmit } = useForm(
     { name: "", email: "", password: "" },
     registerUser,
     false
   );
 
-  const dispatch = useDispatch();
+  const { name, email, password } = values;
 
   function registerUser() {
     const credentials = {
-      name: values.name,
-      email: values.email,
-      password: values.password
+      name: name,
+      email: email,
+      password: password
     };
     dispatch(register(credentials));
   }
-  const user = useSelector(selectUser);
 
   if (user && user.id) {
-    return (
-      <Redirect
-        push
-        to={{ pathname: `/${user.id}/boards`, state: { referrer: "register" } }}
-      />
-    );
+    return <AuthRedirect userId={user.id} redirectFrom="register" />;
   }
 
   return (
@@ -59,7 +56,7 @@ const RegisterPage = () => {
             <Input
               type="text"
               name="name"
-              value={values.name}
+              value={name}
               onChange={handleChange}
             />
           </div>
@@ -68,7 +65,7 @@ const RegisterPage = () => {
             <Input
               type="email"
               name="email"
-              value={values.email}
+              value={email}
               onChange={handleChange}
             />
           </div>
@@ -77,11 +74,13 @@ const RegisterPage = () => {
             <Input
               type="password"
               name="password"
-              value={values.password}
+              value={password}
               onChange={handleChange}
             />
           </div>
-          <Button type="submit">Register</Button>
+          <Button type="submit" isLoading={loading}>
+            Register
+          </Button>
         </form>
       </Flex>
     </Flex>

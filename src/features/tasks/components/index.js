@@ -7,3 +7,7 @@ export { default as EditTaskButton } from "./EditTaskButton";
 export { default as EditTaskContentForm } from "./EditTaskContentForm";
 export { default as TaskOptions } from "./TaskOptions";
 export { default as TaskOptionButton } from "./TaskOptionButton";
+export { default as TaskDueDate } from "./TaskDueDate";
+export { default as ChangeTaskDueDateModal } from "./ChangeTaskDueDateModal";
+export { default as ChangePriorityModal } from "./ChangePriorityModal";
+export { default as TaskPriorityBadge } from "./TaskPriorityBadge";

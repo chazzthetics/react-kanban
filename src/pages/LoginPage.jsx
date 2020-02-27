@@ -1,36 +1,29 @@
 import React from "react";
-import { Redirect } from "react-router-dom";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { useForm, useAuth } from "../hooks";
-import { login, selectUser } from "../features/auth";
+import { login } from "../features/auth";
+import { AuthRedirect } from "../components";
 import { Flex, Heading, Button, Input } from "@chakra-ui/core";
 
 const LoginPage = () => {
+  const { user, loading } = useAuth();
+  const dispatch = useDispatch();
+
   const { values, handleChange, handleSubmit } = useForm(
     { email: "", password: "" },
     loginUser,
     false
   );
 
-  const dispatch = useDispatch();
-  const { loading } = useSelector(state => state.auth);
-
-  //TODO: user on every key down--fix
-  const user = useSelector(selectUser);
-  // const { user } = useAuth();
+  const { email, password } = values;
 
   function loginUser() {
-    const credentials = { email: values.email, password: values.password };
+    const credentials = { email: email, password: password };
     dispatch(login(credentials));
   }
 
   if (user && user.id) {
-    return (
-      <Redirect
-        push
-        to={{ pathname: `/${user.id}/boards`, state: { referrer: "login" } }}
-      />
-    );
+    return <AuthRedirect userId={user.id} redirectFrom="login" />;
   }
 
   return (
@@ -59,7 +52,7 @@ const LoginPage = () => {
             <Input
               type="email"
               name="email"
-              value={values.email}
+              value={email}
               onChange={handleChange}
             />
           </div>
@@ -68,7 +61,7 @@ const LoginPage = () => {
             <Input
               type="password"
               name="password"
-              value={values.password}
+              value={password}
               onChange={handleChange}
             />
           </div>

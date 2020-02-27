@@ -1,8 +1,8 @@
 import React, { useCallback } from "react";
 import { Helmet } from "react-helmet";
-import { Link, useHistory } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
-import { useAuth, useLightMode } from "../hooks";
+import { useAuth, useInitialFetch, useLightMode } from "../hooks";
 import {
   selectAllBoardsWithTitleAndColor,
   changeBoard
@@ -10,21 +10,15 @@ import {
 import { slugify } from "../utils/slugify";
 import { CreateNewBoardModal } from "../features/boards/components";
 import { AppBar, FullPageSpinner } from "../components";
-import {
-  SimpleGrid,
-  Flex,
-  Box,
-  PseudoBox,
-  Heading,
-  Text
-} from "@chakra-ui/core";
+import { SimpleGrid, Flex, Box, PseudoBox, Heading } from "@chakra-ui/core";
 import { FiUser } from "react-icons/fi";
 
 const Dashboard = () => {
   const dispatch = useDispatch();
-  const history = useHistory();
 
-  const { user, loading: userLoading } = useAuth();
+  useAuth();
+  useInitialFetch();
+
   const { loading: dataLoading } = useSelector(state => state.request);
   const allBoards = useSelector(selectAllBoardsWithTitleAndColor);
 
@@ -44,7 +38,7 @@ const Dashboard = () => {
       </Helmet>
       {/* {user && <p>Welcome {user.name}</p>} make notification toast */}
       <AppBar dashboard={true} />
-      {userLoading || dataLoading ? (
+      {dataLoading ? (
         <Flex align="center" justify="center" h="35vh" overflow="hidden">
           <FullPageSpinner height="35vh" />
         </Flex>
@@ -78,16 +72,14 @@ const Dashboard = () => {
                     w="100%"
                     d="inline-block"
                     borderRadius={4}
-                    bg={
-                      isLightMode ? `${board.color}.400` : `${board.color}.400`
-                    }
+                    bg={`${board.color}.400`}
                     _hover={{
-                      transform: "translateY(-2px)",
+                      transform: "translateY(-3px)",
                       boxShadow: isLightMode
                         ? "2px 12px 14px -10px rgba(0, 0, 0, 0.75)"
                         : "2px 10px 6px -8px rgba(255, 255, 255, 0.55)"
                     }}
-                    transition="transform 175ms ease-in, box-shadow 175ms ease-in"
+                    transition="transform 150ms ease-in, box-shadow 150ms ease-in"
                   >
                     <Flex
                       p={2}

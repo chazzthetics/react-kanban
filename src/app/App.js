@@ -7,7 +7,6 @@ import {
   BoardPage,
   Dashboard
 } from "../pages";
-
 const App = () => {
   return (
     <>

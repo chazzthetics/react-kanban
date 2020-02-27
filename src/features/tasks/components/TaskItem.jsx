@@ -6,11 +6,18 @@ import {
   makeSelectTaskContent,
   makeSelectTaskIsEditing,
   makeSelectTaskCompleted,
+  makeSelectBadgeDueDate,
+  makeSelectTaskPriority,
   taskEditing
 } from "../slices";
-import { Text, Flex } from "@chakra-ui/core";
 import { TaskLabelList } from "../../labels/components";
-import { EditTaskContentForm, TaskOptions } from "./";
+import {
+  EditTaskContentForm,
+  TaskOptions,
+  TaskDueDate,
+  TaskPriorityBadge
+} from "./";
+import { Text, Flex } from "@chakra-ui/core";
 
 const TaskItem = ({ taskId, columnId, isDragging }) => {
   const [isLightMode] = useLightMode();
@@ -29,6 +36,12 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
   const taskCompletedSelector = useMemo(makeSelectTaskCompleted, []);
   const completed = useSelector(state => taskCompletedSelector(state, taskId));
 
+  const taskDueDateSelector = useMemo(makeSelectBadgeDueDate, []);
+  const dueDate = useSelector(state => taskDueDateSelector(state, taskId));
+
+  const taskPrioritySelector = useMemo(makeSelectTaskPriority, []);
+  const priority = useSelector(state => taskPrioritySelector(state, taskId));
+
   const dispatch = useDispatch();
 
   const handleOpenEdit = useCallback(() => {
@@ -41,7 +54,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
     <Flex
       py={1}
       px={2}
-      mb={1}
+      mb={2}
       minH="40px"
       minW="272px"
       boxShadow={
@@ -51,13 +64,7 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
       }
       align="center"
       justify="space-between"
-      bg={
-        isDragging && isLightMode
-          ? "white"
-          : !isLightMode
-          ? "gray.700"
-          : "white"
-      }
+      bg={isLightMode ? "white" : "gray.700"}
       transform={isDragging ? "rotate(-2deg)" : "none"}
       borderRadius={4}
       cursor="pointer"
@@ -80,6 +87,12 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
             >
               {content}
             </Text>
+            <Flex py={dueDate || priority ? 1 : 0} align="baseline">
+              {dueDate && <TaskDueDate taskId={taskId} dueDate={dueDate} />}
+              {priority && (
+                <TaskPriorityBadge taskId={taskId} priority={priority} />
+              )}
+            </Flex>
           </Flex>
           {isHover && <TaskOptions taskId={taskId} columnId={columnId} />}
         </>

@@ -7,6 +7,10 @@ import {
   taskEditingCancelled,
   updateTaskContent,
   toggleCompleteTask,
+  changeDueDate,
+  removeDueDate,
+  changePriority,
+  removePriority,
   addLabelToTask,
   removeLabelFromTask
 } from "./all";
@@ -17,7 +21,10 @@ import {
   makeSelectTaskLabelIds,
   makeSelectTaskContent,
   makeSelectTaskIsEditing,
-  makeSelectTaskCompleted
+  makeSelectTaskCompleted,
+  makeSelectTaskDueDate,
+  makeSelectBadgeDueDate,
+  makeSelectTaskPriority
 } from "./selectors";
 
 /**
@@ -29,7 +36,10 @@ export {
   makeSelectTaskLabelIds,
   makeSelectTaskContent,
   makeSelectTaskIsEditing,
-  makeSelectTaskCompleted
+  makeSelectTaskCompleted,
+  makeSelectTaskDueDate,
+  makeSelectBadgeDueDate,
+  makeSelectTaskPriority
 };
 
 /**
@@ -42,6 +52,10 @@ export {
   removeLabelFromTask,
   updateTaskContent,
   toggleCompleteTask,
+  changeDueDate,
+  removeDueDate,
+  changePriority,
+  removePriority,
   taskEditing,
   taskEditingCancelled
 };
