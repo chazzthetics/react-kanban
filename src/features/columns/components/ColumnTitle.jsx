@@ -28,6 +28,7 @@ const ColumnTitle = ({ columnId }) => {
         borderRadius: 4
       }}
       transition="background-color 100ms ease-in"
+      onClick={handleEditColumnTitle}
     >
       <Heading
         as="h3"
@@ -37,7 +38,6 @@ const ColumnTitle = ({ columnId }) => {
         fontWeight="semibold"
         ml={1}
         color={isLightMode ? "black" : "white"}
-        onClick={handleEditColumnTitle}
       >
         {title}
       </Heading>

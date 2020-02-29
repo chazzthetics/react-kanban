@@ -39,9 +39,15 @@ const allTasks = createSlice({
     taskContentUpdated(state, action) {
       const { taskId, content } = action.payload;
       state[taskId].content = content;
+    },
+    taskDueDateOpened(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].isDueDate = true;
+    },
+    taskDueDateClosed(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].isDueDate = false;
       state[taskId].isEditing = false;
-      // if (state[taskId].content !== content) {
-      // }
     },
     taskDueDateChanged(state, action) {
       const { taskId, dueDate } = action.payload;
@@ -50,14 +56,25 @@ const allTasks = createSlice({
     taskDueDateRemoved(state, action) {
       const { taskId } = action.payload;
       state[taskId].dueDate = "";
+      state[taskId].isDueDate = false;
+    },
+    taskPriorityOpened(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].isPriority = true;
+    },
+    taskPriorityClosed(state, action) {
+      const { taskId } = action.payload;
+      state[taskId].isPriority = false;
     },
     taskPriorityChanged(state, action) {
       const { taskId, priority } = action.payload;
       state[taskId].priority = priority;
+      state[taskId].isEditing = false;
     },
     taskPriorityRemoved(state, action) {
       const { taskId } = action.payload;
       state[taskId].priority = "";
+      state[taskId].isPriority = false;
     },
     taskCompleteToggled(state, action) {
       const { taskId, completed } = action.payload;
@@ -128,8 +145,12 @@ export const {
   taskEditingCancelled,
   taskContentUpdated,
   taskCompleteToggled,
+  taskDueDateOpened,
+  taskDueDateClosed,
   taskDueDateChanged,
   taskDueDateRemoved,
+  taskPriorityOpened,
+  taskPriorityClosed,
   taskPriorityChanged,
   taskPriorityRemoved,
   taskLabelAdded,
@@ -164,12 +185,11 @@ export const updateTaskContent = ({ taskId, content }) => async (
   getState
 ) => {
   try {
+    dispatch(taskEditingCancelled({ taskId }));
     const oldTaskContent = getState().tasks.all[taskId].content;
     if (oldTaskContent !== content) {
       dispatch(taskContentUpdated({ taskId, content }));
       await tasksApi.updateContent({ taskId, content });
-    } else {
-      dispatch(taskEditingCancelled({ taskId }));
     }
   } catch (ex) {
     console.error(ex);
@@ -185,11 +205,21 @@ export const toggleCompleteTask = ({ taskId, completed }) => async dispatch => {
   }
 };
 
-export const changeDueDate = ({ taskId, dueDate }) => async dispatch => {
+export const changeDueDate = ({ taskId, dueDate }) => async (
+  dispatch,
+  getState
+) => {
+  const format = "yyyy-MM-dd";
   try {
-    const formatted = formatDate(dueDate, "yyyy-MM-dd");
-    dispatch(taskDueDateChanged({ taskId, dueDate: formatted }));
-    await tasksApi.addDueDate({ taskId, dueDate: formatted });
+    dispatch(taskDueDateClosed({ taskId }));
+
+    const oldDueDate = getState().tasks.all[taskId].dueDate;
+    const formatted = formatDate(dueDate, format);
+
+    if (oldDueDate !== formatted.toString()) {
+      dispatch(taskDueDateChanged({ taskId, dueDate: formatted }));
+      await tasksApi.addDueDate({ taskId, dueDate: formatted });
+    }
   } catch (ex) {
     console.error(ex);
   }
@@ -204,10 +234,18 @@ export const removeDueDate = ({ taskId }) => async dispatch => {
   }
 };
 
-export const changePriority = ({ taskId, priority }) => async dispatch => {
+export const changePriority = ({ taskId, priority }) => async (
+  dispatch,
+  getState
+) => {
   try {
-    dispatch(taskPriorityChanged({ taskId, priority }));
-    await tasksApi.addPriority({ taskId, priority });
+    dispatch(taskPriorityClosed({ taskId }));
+
+    const oldPriority = getState().tasks.all[taskId].priority;
+    if (priority !== oldPriority) {
+      dispatch(taskPriorityChanged({ taskId, priority }));
+      await tasksApi.addPriority({ taskId, priority });
+    }
   } catch (ex) {
     console.error(ex);
   }

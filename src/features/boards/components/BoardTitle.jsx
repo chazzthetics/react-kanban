@@ -27,7 +27,7 @@ const BoardTitle = () => {
       mr={1}
       cursor="pointer"
       borderRadius={4}
-      _hover={{ backgroundColor: `${color}.500` }}
+      _hover={{ backgroundColor: `${color}.400` }}
       transition="background-color 150ms ease-in"
       onClick={handleEditBoardTitle}
     >

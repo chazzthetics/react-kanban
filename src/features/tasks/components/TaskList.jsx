@@ -4,7 +4,7 @@ import { Draggable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { makeSelectColumnTasks } from "../../shared";
 import { TaskItem } from "./";
-import { Flex } from "@chakra-ui/core";
+import { Flex, Box } from "@chakra-ui/core";
 
 const TaskList = ({ columnId }) => {
   const columnTasksSelector = useMemo(makeSelectColumnTasks, []);

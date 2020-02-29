@@ -1,37 +1,23 @@
-import React, { memo, useMemo, useCallback } from "react";
+import React, { memo, useEffect, useMemo, useCallback, useRef } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { useToggle } from "../../../hooks";
 import {
   makeSelectTaskContent,
   makeSelectTaskIsEditing,
-  makeSelectTaskCompleted,
+  makeSelectIsDueDateOpen,
+  makeSelectIsPriorityOpen,
   taskEditingCancelled,
-  updateTaskContent,
-  toggleCompleteTask
+  updateTaskContent
 } from "../slices";
-
 import { AddLabelPopover, TaskLabelList } from "../../labels/components";
 import { EditForm, AddButtonGroup } from "../../../components";
-import { ChangeTaskDueDateModal, ChangePriorityModal } from "./";
-import { Flex, ButtonGroup, Checkbox } from "@chakra-ui/core";
-
-import { FiMoreHorizontal } from "react-icons/fi";
 import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuList,
-  MenuItem,
-  // Button,
-  // MenuGroup,
-  // MenuDivider,
-  // MenuOptionGroup,
-  // MenuItemOption,
-  Modal,
-  ModalOverlay,
-  ModalContent
-} from "@chakra-ui/core";
+  TaskMenuDropdown,
+  ToggleTaskCheckbox,
+  ChangeTaskDueDateModal,
+  ChangePriorityModal
+} from "./";
+import { Flex, ButtonGroup } from "@chakra-ui/core";
 
 const EditTaskContentForm = ({ taskId }) => {
   const taskContentSelector = useMemo(makeSelectTaskContent, []);
@@ -40,28 +26,33 @@ const EditTaskContentForm = ({ taskId }) => {
   const taskIsEditingSelector = useMemo(makeSelectTaskIsEditing, []);
   const isEditing = useSelector(state => taskIsEditingSelector(state, taskId));
 
-  const taskCompletedSelector = useMemo(makeSelectTaskCompleted, []);
-  const completed = useSelector(state => taskCompletedSelector(state, taskId));
-
   const dispatch = useDispatch();
 
   const handleCancelEdit = useCallback(() => {
     dispatch(taskEditingCancelled({ taskId }));
   }, [dispatch, taskId]);
 
-  const handleToggleComplete = useCallback(() => {
-    dispatch(toggleCompleteTask({ taskId, completed }));
-  }, [dispatch, taskId, completed]);
+  const dueDateIsOpenSelector = useMemo(makeSelectIsDueDateOpen, []);
+  const isDueDateOpen = useSelector(state =>
+    dueDateIsOpenSelector(state, taskId)
+  );
+
+  const priorityIsOpenSelector = useMemo(makeSelectIsPriorityOpen, []);
+  const isPriorityOpen = useSelector(state =>
+    priorityIsOpenSelector(state, taskId)
+  );
 
   const update = useCallback(
     content => {
+      if (isDueDateOpen || isPriorityOpen) return;
       dispatch(updateTaskContent({ taskId, content }));
     },
-    [dispatch, taskId]
+    [dispatch, taskId, isDueDateOpen, isPriorityOpen]
   );
 
-  const scrollRef = React.useRef(null);
-  React.useEffect(() => {
+  const scrollRef = useRef(null);
+
+  useEffect(() => {
     if (isEditing) {
       if (scrollRef.current.offsetTop > 600) {
         scrollRef.current.scrollIntoView(true);
@@ -71,28 +62,11 @@ const EditTaskContentForm = ({ taskId }) => {
     }
   }, [isEditing, scrollRef]);
 
-  const { isOpen: isDateOpen, open: openDate, close: closeDate } = useToggle();
-
-  const {
-    isOpen: isPriorityOpen,
-    open: openPriority,
-    close: closePriority
-  } = useToggle();
-
-  const handleOpenDateModal = () => {
-    openDate();
-  };
-
-  const handleOpenPriorityModal = () => {
-    openPriority();
-  };
-
   return (
     <Flex flexDir="column" flexBasis="100%" ref={scrollRef}>
       <Flex>
         <TaskLabelList taskId={taskId} />
       </Flex>
-
       <EditForm
         inputName="taskContent"
         textarea={true}
@@ -115,33 +89,11 @@ const EditTaskContentForm = ({ taskId }) => {
             justifyContent="flex-start"
           />
           <Flex align="center" justify="space-between">
-            <Checkbox
-              onChange={handleToggleComplete}
-              isChecked={completed}
-              mr={4}
-            />
+            <ToggleTaskCheckbox taskId={taskId} />
             <AddLabelPopover taskId={taskId} />
-            <Menu>
-              <MenuButton as={IconButton} size="sm" icon={FiMoreHorizontal} />
-              <MenuList>
-                <MenuItem fontSize="0.9rem" onClick={handleOpenDateModal}>
-                  Change Due Date
-                </MenuItem>
-                <MenuItem fontSize="0.9rem" onClick={handleOpenPriorityModal}>
-                  Change Priority
-                </MenuItem>
-              </MenuList>
-            </Menu>
-            <ChangeTaskDueDateModal
-              isOpen={isDateOpen}
-              onClose={closeDate}
-              taskId={taskId}
-            />
-            <ChangePriorityModal
-              isOpen={isPriorityOpen}
-              onClose={closePriority}
-              taskId={taskId}
-            />
+            <TaskMenuDropdown taskId={taskId} />
+            <ChangeTaskDueDateModal taskId={taskId} />
+            <ChangePriorityModal taskId={taskId} />
           </Flex>
         </ButtonGroup>
       </EditForm>
@@ -154,5 +106,3 @@ EditTaskContentForm.propTypes = {
 };
 
 export default memo(EditTaskContentForm);
-
-//FIXME: fix styles

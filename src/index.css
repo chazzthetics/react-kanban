@@ -64,8 +64,32 @@
 .DayPickerInput input {
   text-align: center;
   justify-self: center;
-  height: 40px;
+  height: 32px;
   border-radius: 4px;
+}
+
+.DayPickerInput input:focus {
+  outline: rgb(187, 186, 186) 1px;
+}
+
+/* Priority Badge */
+.priority {
+  font-weight: 600;
+}
+.priority-lowest {
+  color: #48bb78;
+}
+.priority-low {
+  color: #38a169;
+}
+.priority-medium {
+  color: #d69e2e;
+}
+.priority-high {
+  color: #dd6b20;
+}
+.priority-highest {
+  color: #e53e3e;
 }
 
 /* 

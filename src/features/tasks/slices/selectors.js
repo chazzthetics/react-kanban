@@ -21,10 +21,10 @@ export const makeSelectTaskContent = () =>
   createSelector([makeSelectTask()], task => task && task.content);
 
 export const makeSelectTaskIsEditing = () =>
-  createSelector([makeSelectTask()], task => task && task.isEditing);
+  createSelector([makeSelectTask()], task => (task ? task.isEditing : false));
 
 export const makeSelectTaskCompleted = () =>
-  createSelector([makeSelectTask()], task => task && task.completed);
+  createSelector([makeSelectTask()], task => (task ? task.completed : false));
 
 export const makeSelectTaskDueDate = () =>
   createSelector([makeSelectTask()], task => task && task.dueDate);
@@ -37,3 +37,9 @@ export const makeSelectBadgeDueDate = () =>
 
 export const makeSelectTaskPriority = () =>
   createSelector([makeSelectTask()], task => task && task.priority);
+
+export const makeSelectIsDueDateOpen = () =>
+  createSelector([makeSelectTask()], task => (task ? task.isDueDate : false));
+
+export const makeSelectIsPriorityOpen = () =>
+  createSelector([makeSelectTask()], task => (task ? task.isPriority : false));

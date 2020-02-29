@@ -74,7 +74,6 @@ const Dashboard = () => {
                     borderRadius={4}
                     bg={`${board.color}.400`}
                     _hover={{
-                      transform: "translateY(-3px)",
                       boxShadow: isLightMode
                         ? "2px 12px 14px -10px rgba(0, 0, 0, 0.75)"
                         : "2px 10px 6px -8px rgba(255, 255, 255, 0.55)"

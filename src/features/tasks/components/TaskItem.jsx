@@ -1,31 +1,28 @@
 import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { useLightMode, useToggle } from "../../../hooks";
+import { useToggle } from "../../../hooks";
 import {
   makeSelectTaskContent,
   makeSelectTaskIsEditing,
   makeSelectTaskCompleted,
-  makeSelectBadgeDueDate,
-  makeSelectTaskPriority,
+  makeSelectIsPriorityOpen,
+  makeSelectIsDueDateOpen,
   taskEditing
 } from "../slices";
 import { TaskLabelList } from "../../labels/components";
 import {
-  EditTaskContentForm,
+  TaskItemContainer,
   TaskOptions,
-  TaskDueDate,
-  TaskPriorityBadge
+  EditTaskContentForm,
+  TaskFooter
 } from "./";
 import { Text, Flex } from "@chakra-ui/core";
 
 const TaskItem = ({ taskId, columnId, isDragging }) => {
-  const [isLightMode] = useLightMode();
+  const { isOpen: isHover, open: show, close: hide } = useToggle();
 
-  const { isOpen: isHover, open, close } = useToggle();
-
-  const handleShowOptions = useCallback(() => open(), [open]);
-  const handleHideOptions = useCallback(() => close(), [close]);
+  const dispatch = useDispatch();
 
   const taskContentSelector = useMemo(makeSelectTaskContent, []);
   const content = useSelector(state => taskContentSelector(state, taskId));
@@ -36,70 +33,55 @@ const TaskItem = ({ taskId, columnId, isDragging }) => {
   const taskCompletedSelector = useMemo(makeSelectTaskCompleted, []);
   const completed = useSelector(state => taskCompletedSelector(state, taskId));
 
-  const taskDueDateSelector = useMemo(makeSelectBadgeDueDate, []);
-  const dueDate = useSelector(state => taskDueDateSelector(state, taskId));
+  const priorityIsOpenSelector = useMemo(makeSelectIsPriorityOpen, []);
+  const isPriorityOpen = useSelector(state =>
+    priorityIsOpenSelector(state, taskId)
+  );
 
-  const taskPrioritySelector = useMemo(makeSelectTaskPriority, []);
-  const priority = useSelector(state => taskPrioritySelector(state, taskId));
-
-  const dispatch = useDispatch();
+  const dueDateIsOpenSelector = useMemo(makeSelectIsDueDateOpen, []);
+  const isDueDateOpen = useSelector(state =>
+    dueDateIsOpenSelector(state, taskId)
+  );
 
   const handleOpenEdit = useCallback(() => {
-    if (!isEditing) {
+    if (!isPriorityOpen && !isDueDateOpen) {
       dispatch(taskEditing({ taskId }));
     }
-  }, [dispatch, isEditing, taskId]);
+  }, [dispatch, taskId, isPriorityOpen, isDueDateOpen]);
 
   return (
-    <Flex
-      py={1}
-      px={2}
-      mb={2}
-      minH="40px"
-      minW="272px"
-      boxShadow={
-        isDragging
-          ? "2px 8px 12px -1px rgba(0,0,0,0.29)"
-          : "2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
-      }
-      align="center"
-      justify="space-between"
-      bg={isLightMode ? "white" : "gray.700"}
-      transform={isDragging ? "rotate(-2deg)" : "none"}
-      borderRadius={4}
-      cursor="pointer"
-      onMouseOver={handleShowOptions}
-      onMouseLeave={handleHideOptions}
-      onDoubleClick={handleOpenEdit}
+    <TaskItemContainer
+      isDragging={isDragging}
+      onOpenEdit={handleOpenEdit}
+      onShow={show}
+      onHide={hide}
     >
       {!isEditing ? (
         <>
-          <Flex direction="column">
-            <Flex align="center">
-              <TaskLabelList taskId={taskId} />
-            </Flex>
+          <Flex
+            direction="column"
+            justify="center"
+            className="task-item"
+            flexBasis="100%"
+          >
+            <TaskLabelList taskId={taskId} />
             <Text
               fontSize=".9rem"
-              maxW="180px"
+              w="100%"
               overflowWrap="break-word"
               whiteSpace="pre-wrap"
               textDecor={completed ? "line-through" : "none"}
             >
               {content}
             </Text>
-            <Flex py={dueDate || priority ? 1 : 0} align="baseline">
-              {dueDate && <TaskDueDate taskId={taskId} dueDate={dueDate} />}
-              {priority && (
-                <TaskPriorityBadge taskId={taskId} priority={priority} />
-              )}
-            </Flex>
+            <TaskFooter taskId={taskId} />
           </Flex>
           {isHover && <TaskOptions taskId={taskId} columnId={columnId} />}
         </>
       ) : (
         <EditTaskContentForm taskId={taskId} />
       )}
-    </Flex>
+    </TaskItemContainer>
   );
 };
 
