@@ -1,6 +1,8 @@
-import React, { useState, useMemo, useCallback } from "react";
+import React, { memo, useState, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useLightMode } from "../../../hooks";
+import isDate from "date-fns/isDate";
 import {
   makeSelectIsDueDateOpen,
   makeSelectTaskDueDate,
@@ -9,14 +11,15 @@ import {
   removeDueDate
 } from "../slices";
 import { FORMAT, parseDate, formatDate } from "../../../utils/dates";
-import isDate from "date-fns/isDate";
 import { TaskModal } from "./";
+import { Flex } from "@chakra-ui/core";
 import DayPickerInput from "react-day-picker/DayPickerInput";
 import "react-day-picker/lib/style.css";
-import { Flex } from "@chakra-ui/core";
 
 //TODO: validation
 const ChangeTaskDueDate = ({ taskId }) => {
+  const [isLightMode] = useLightMode();
+
   const dueDateIsOpenSelector = useMemo(makeSelectIsDueDateOpen, []);
   const isDueDateOpen = useSelector(state =>
     dueDateIsOpenSelector(state, taskId)
@@ -32,7 +35,7 @@ const ChangeTaskDueDate = ({ taskId }) => {
   }, [dispatch, taskId]);
 
   const handleRemoveDate = useCallback(() => {
-    dispatch(removeDueDate({ taskId }));
+    dispatch(removeDueDate(taskId));
   }, [dispatch, taskId]);
 
   const [dueDate, setDueDate] = useState(
@@ -65,7 +68,12 @@ const ChangeTaskDueDate = ({ taskId }) => {
       onSubmit={handleSubmit}
       isDisabled={taskDueDate ? false : true}
     >
-      <Flex align="center" justify="flex-start" py={1}>
+      <Flex
+        align="center"
+        justify="flex-start"
+        py={1}
+        className={isLightMode ? "light-day" : "dark-day"}
+      >
         <DayPickerInput
           value={dueDate}
           onDayChange={handleDayChange}
@@ -83,4 +91,4 @@ ChangeTaskDueDate.propTypes = {
   taskId: PropTypes.string.isRequired
 };
 
-export default ChangeTaskDueDate;
+export default memo(ChangeTaskDueDate);

@@ -12,7 +12,7 @@ export const tasksApi = {
       column_id: parseInt(columnId)
     });
   },
-  remove: ({ taskId }) => {
+  remove: taskId => {
     return axios.delete(`${baseUrl}/tasks/${taskId}`);
   },
   updateContent: ({ taskId, content }) => {
@@ -34,13 +34,13 @@ export const tasksApi = {
   addPriority: ({ taskId, priority }) => {
     return axios.patch(`${baseUrl}/tasks/${taskId}`, { priority });
   },
-  removePriority: ({ taskId }) => {
+  removePriority: taskId => {
     return axios.patch(`${baseUrl}/tasks/${taskId}/priority/remove`);
   },
   addDueDate: ({ taskId, dueDate }) => {
     return axios.patch(`${baseUrl}/tasks/${taskId}`, { due_date: dueDate });
   },
-  removeDueDate: ({ taskId }) => {
+  removeDueDate: taskId => {
     return axios.patch(`${baseUrl}/tasks/${taskId}/date/remove`);
   }
 };

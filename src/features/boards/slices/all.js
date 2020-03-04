@@ -28,9 +28,9 @@ const allBoards = createSlice({
       const { boardId } = action.payload;
       state[boardId].columnIds = [];
     },
-    boardColorChanged(state, action) {
-      // const { boardId, color } = action.payload;
-      // state[boardId].color = color;
+    boardStarToggled(state, action) {
+      const { boardId, isStarred } = action.payload;
+      state[boardId].isStarred = isStarred;
     },
     boardTitleEditing(state, action) {
       const { boardId } = action.payload;
@@ -91,10 +91,10 @@ export const {
   boardCreated,
   boardRemoved,
   boardCleared,
-  boardColorChanged,
   boardTitleEditing,
   boardTitleEditingCancelled,
   boardTitleUpdated,
+  boardStarToggled,
   columnReordered,
   columnMoved
 } = allBoards.actions;
@@ -103,30 +103,29 @@ export const allBoardsReducer = allBoards.reducer;
 
 // TODO: cleanup & error handling
 
-export const createBoard = ({ board }) => async dispatch => {
+export const createBoard = board => async dispatch => {
   try {
     dispatch(boardCreated({ board }));
-    const { data } = await boardsApi.create({ board });
-
+    const { data } = await boardsApi.create(board);
     dispatch(fetchBoards(data.data.id));
   } catch (ex) {
     console.error(ex);
   }
 };
 
-export const removeBoard = ({ boardId }) => async dispatch => {
+export const removeBoard = boardId => async dispatch => {
   try {
     dispatch(boardRemoved({ boardId }));
-    await boardsApi.remove({ boardId });
+    await boardsApi.remove(boardId);
   } catch (ex) {
     console.error(ex);
   }
 };
 
-export const clearBoard = ({ boardId }) => async dispatch => {
+export const clearBoard = boardId => async dispatch => {
   try {
     dispatch(boardCleared({ boardId }));
-    await boardsApi.clear({ boardId });
+    await boardsApi.clear(boardId);
   } catch (ex) {
     console.error(ex);
   }
@@ -144,6 +143,15 @@ export const updateBoardTitle = ({ boardId, title }) => async (
     } else {
       dispatch(boardTitleEditingCancelled({ boardId }));
     }
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const starBoard = ({ boardId, isStarred }) => async dispatch => {
+  try {
+    dispatch(boardStarToggled({ boardId, isStarred }));
+    await boardsApi.toggleStarred({ boardId, isStarred });
   } catch (ex) {
     console.error(ex);
   }
@@ -182,5 +190,3 @@ export const moveColumn = ({
     console.error(ex);
   }
 };
-
-//FIXME: check thunks, esp error handling, urls etc

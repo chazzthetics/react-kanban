@@ -1,14 +1,14 @@
 export const getPriorityColor = priority => {
   switch (priority) {
-    case "lowest":
+    case 1:
       return "green.300";
-    case "low":
+    case 2:
       return "green.400";
-    case "medium":
+    case 3:
       return "yellow.400";
-    case "high":
+    case 4:
       return "orange.400";
-    case "highest":
+    case 5:
       return "red.400";
     default:
       return "green.300";

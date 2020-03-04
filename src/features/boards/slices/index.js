@@ -10,18 +10,20 @@ import {
   createBoard,
   removeBoard,
   clearBoard,
-  boardColorChanged,
+  starBoard,
   reorderColumn,
   moveColumn
 } from "./all";
 import {
   selectAllBoards,
-  selectAllBoardsWithTitleAndColor,
+  selectAllBoardsDetails,
+  selectStarredBoards,
   selectBoardIds,
   selectCurrentBoardId,
   selectCurrentBoard,
   selectCurrentBoardTitle,
   selectCurrentBoardIsEditing,
+  selectBoardIsStarred,
   selectCurrentBoardColumnIds,
   selectCurrentBoardColumnIdsLength,
   selectCurrentBoardColor,
@@ -35,12 +37,14 @@ import {
  */
 export {
   selectAllBoards,
-  selectAllBoardsWithTitleAndColor,
+  selectAllBoardsDetails,
+  selectStarredBoards,
   selectBoardIds,
   selectCurrentBoardId,
   selectCurrentBoard,
   selectCurrentBoardTitle,
   selectCurrentBoardIsEditing,
+  selectBoardIsStarred,
   selectCurrentBoardColumnIds,
   selectCurrentBoardColumnIdsLength,
   selectCurrentBoardColor,
@@ -58,11 +62,11 @@ export {
   updateBoardTitle,
   boardListChanged,
   boardChanged,
-  boardColorChanged,
   changeBoard,
   createBoard,
   removeBoard,
   clearBoard,
+  starBoard,
   reorderColumn,
   moveColumn
 };

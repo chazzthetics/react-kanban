@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import { selectCurrentBoardId, selectBoardIds, removeBoard } from "../slices";
@@ -15,7 +15,7 @@ const RemoveBoardButton = () => {
   const dispatch = useDispatch();
 
   const handleRemoveBoard = useCallback(() => {
-    dispatch(removeBoard({ boardId }));
+    dispatch(removeBoard(boardId));
 
     if (boardIds.length === 1) {
       history.replace(`/${user.id}/boards`);
@@ -31,4 +31,4 @@ const RemoveBoardButton = () => {
   );
 };
 
-export default RemoveBoardButton;
+export default memo(RemoveBoardButton);

@@ -1,4 +1,4 @@
-import React, { memo } from "react";
+import React from "react";
 import PropTypes from "prop-types";
 import { useLightMode } from "../../hooks";
 import { Button, ButtonGroup, CloseButton } from "@chakra-ui/core";
@@ -40,6 +40,4 @@ AddButtonGroup.propTypes = {
   iconColor: PropTypes.string
 };
 
-export default memo(AddButtonGroup);
-
-//FIXME: make own button from pseudobox? stupid fukin focus
+export default AddButtonGroup;

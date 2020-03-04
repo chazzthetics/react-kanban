@@ -7,22 +7,25 @@ export const boardsApi = {
   get: () => {
     return axios.get(`${baseUrl}/boards`);
   },
-  create: ({ board }) => {
+  create: board => {
     return axios.post(`${baseUrl}/boards`, {
       title: board.title,
       color: board.color
     });
   },
-  remove: ({ boardId }) => {
+  remove: boardId => {
     return axios.delete(`${baseUrl}/boards/${boardId}`);
   },
-  clear: ({ boardId }) => {
+  clear: boardId => {
     return axios.delete(`${baseUrl}/boards/${boardId}/clear`);
   },
   updateTitle: ({ boardId, title }) => {
     return axios.patch(`${baseUrl}/boards/${boardId}`, { title });
   },
-  setCurrent: ({ boardId }) => {
+  toggleStarred: ({ boardId, isStarred }) => {
+    return axios.patch(`${baseUrl}/boards/${boardId}`, { isStarred });
+  },
+  setCurrent: boardId => {
     return axios.patch(`${baseUrl}/boards/${boardId}/current`);
   },
   reorder: ({ boardId, orderToPersist }) => {

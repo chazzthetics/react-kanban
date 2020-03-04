@@ -92,11 +92,11 @@ const EditTaskContentForm = ({ taskId }) => {
             <ToggleTaskCheckbox taskId={taskId} />
             <AddLabelPopover taskId={taskId} />
             <TaskMenuDropdown taskId={taskId} />
-            <ChangeTaskDueDateModal taskId={taskId} />
-            <ChangePriorityModal taskId={taskId} />
           </Flex>
         </ButtonGroup>
       </EditForm>
+      <ChangeTaskDueDateModal taskId={taskId} />
+      <ChangePriorityModal taskId={taskId} />
     </Flex>
   );
 };

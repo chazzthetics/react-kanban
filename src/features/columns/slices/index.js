@@ -2,13 +2,14 @@ import { combineReducers } from "@reduxjs/toolkit";
 import { columnIdsReducer } from "./ids";
 import {
   selectAllColumns,
-  selectColumnTaskIds,
+  makeSelectColumnTaskIds,
   makeSelectColumn,
-  makeSelectColumnTaskIdsLength,
+  makeSelectColumnHasTasks,
   makeSelectColumnTitle,
   makeSelectColumnIsLocked,
   makeSelectColumnIsEditing,
-  makeSelectColumnIsOpen
+  makeSelectColumnIsOpen,
+  makeSelectColumnSortIsOpen
 } from "./selectors";
 import {
   allColumnsReducer,
@@ -21,8 +22,11 @@ import {
   columnTitleEditingCancelled,
   columnOptionsOpened,
   columnOptionsClosed,
+  columnSortOpened,
+  columnSortClosed,
   reorderTask,
-  reorderTaskBetweenColumns
+  reorderTaskBetweenColumns,
+  sortTasksBy
 } from "./all";
 
 /**
@@ -30,13 +34,14 @@ import {
  */
 export {
   selectAllColumns,
-  selectColumnTaskIds,
+  makeSelectColumnTaskIds,
   makeSelectColumn,
-  makeSelectColumnTaskIdsLength,
+  makeSelectColumnHasTasks,
   makeSelectColumnTitle,
   makeSelectColumnIsLocked,
   makeSelectColumnIsEditing,
-  makeSelectColumnIsOpen
+  makeSelectColumnIsOpen,
+  makeSelectColumnSortIsOpen
 };
 
 /**
@@ -52,8 +57,11 @@ export {
   columnTitleEditingCancelled,
   columnOptionsOpened,
   columnOptionsClosed,
+  columnSortOpened,
+  columnSortClosed,
   reorderTask,
-  reorderTaskBetweenColumns
+  reorderTaskBetweenColumns,
+  sortTasksBy
 };
 
 /**

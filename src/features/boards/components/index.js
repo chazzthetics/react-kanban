@@ -1,5 +1,7 @@
 export { default as MainBoard } from "./MainBoard";
 export { default as CreateNewBoardPopover } from "./CreateNewBoardPopover";
+export { default as CreateNewBoardModal } from "./CreateNewBoardModal";
+export { default as CreateNewBoardForm } from "./CreateNewBoardForm";
 export { default as EditBoardTitleForm } from "./EditBoardTitleForm";
 export { default as SelectBoardInput } from "./SelectBoardInput";
 export { default as RemoveBoardButton } from "./RemoveBoardButton";
@@ -7,4 +9,5 @@ export { default as ClearBoardButton } from "./ClearBoardButton";
 export { default as StarBoardButton } from "./StarBoardButton";
 export { default as BoardHeader } from "./BoardHeader";
 export { default as BoardTitle } from "./BoardTitle";
-export { default as CreateNewBoardModal } from "./CreateNewBoardModal";
+export { default as BoardGrid } from "./BoardGrid";
+export { default as BoardBox } from "./BoardBox";

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useLightMode } from "../../../hooks";
@@ -55,6 +55,6 @@ CreateColumnButtom.propTypes = {
   onOpen: PropTypes.func.isRequired
 };
 
-export default CreateColumnButtom;
+export default memo(CreateColumnButtom);
 
 // FIXME: refactor button

@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import { Droppable } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { selectCurrentBoardColumnsList } from "../../shared";
@@ -34,4 +34,4 @@ const ColumnList = () => {
   );
 };
 
-export default ColumnList;
+export default memo(ColumnList);

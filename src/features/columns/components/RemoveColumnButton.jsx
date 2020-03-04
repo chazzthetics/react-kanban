@@ -1,4 +1,4 @@
-import React, { useMemo, useCallback } from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { selectCurrentBoardId } from "../../boards/slices";
@@ -31,4 +31,4 @@ RemoveColumnButton.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default RemoveColumnButton;
+export default memo(RemoveColumnButton);

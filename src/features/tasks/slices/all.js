@@ -174,7 +174,7 @@ export const createTask = ({ task, columnId }) => async dispatch => {
 export const removeTask = ({ taskId, columnId }) => async dispatch => {
   try {
     dispatch(taskRemoved({ taskId, columnId }));
-    await tasksApi.remove({ taskId });
+    await tasksApi.remove(taskId);
   } catch (ex) {
     console.error(ex);
   }
@@ -225,10 +225,10 @@ export const changeDueDate = ({ taskId, dueDate }) => async (
   }
 };
 
-export const removeDueDate = ({ taskId }) => async dispatch => {
+export const removeDueDate = taskId => async dispatch => {
   try {
     dispatch(taskDueDateRemoved({ taskId }));
-    await tasksApi.removeDueDate({ taskId });
+    await tasksApi.removeDueDate(taskId);
   } catch (ex) {
     console.error(ex);
   }
@@ -251,10 +251,10 @@ export const changePriority = ({ taskId, priority }) => async (
   }
 };
 
-export const removePriority = ({ taskId }) => async dispatch => {
+export const removePriority = taskId => async dispatch => {
   try {
     dispatch(taskPriorityRemoved({ taskId }));
-    await tasksApi.removePriority({ taskId });
+    await tasksApi.removePriority(taskId);
   } catch (ex) {
     console.error(ex);
   }

@@ -6,6 +6,10 @@ export function makeTask({ content }) {
     content,
     completed: false,
     isEditing: false,
+    dueDate: "",
+    priority: null,
+    isDueDate: false,
+    isPriority: false,
     labelIds: []
   };
 }

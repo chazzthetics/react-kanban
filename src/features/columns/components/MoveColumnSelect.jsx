@@ -1,4 +1,4 @@
-import React from "react";
+import React, { memo } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { useLightMode } from "../../../hooks";
@@ -7,7 +7,7 @@ import {
   selectCurrentBoardId,
   selectCurrentBoardColumnIds,
   selectShowBoardColumnPositions,
-  selectAllBoardsWithTitleAndColor,
+  selectAllBoardsDetails,
   selectShowId,
   selectShowBoard
 } from "../../boards/slices";
@@ -19,7 +19,7 @@ const MoveColumnSelect = ({ columnId, onClose }) => {
 
   const boardId = useSelector(selectCurrentBoardId);
   const columnIds = useSelector(selectCurrentBoardColumnIds);
-  const allBoards = useSelector(selectAllBoardsWithTitleAndColor);
+  const allBoards = useSelector(selectAllBoardsDetails);
   const columnPositions = useSelector(selectShowBoardColumnPositions);
   const showBoardId = useSelector(selectShowId);
   const showBoard = useSelector(selectShowBoard);
@@ -51,7 +51,7 @@ const MoveColumnSelect = ({ columnId, onClose }) => {
   };
 
   return (
-    <Stack isInline spacing={4} px={2}>
+    <Stack isInline spacing={4} px={2} className="move-column-select">
       <Box>
         <FormLabel
           htmlFor="board"
@@ -137,4 +137,4 @@ MoveColumnSelect.propTypes = {
   onClose: PropTypes.func.isRequired
 };
 
-export default MoveColumnSelect;
+export default memo(MoveColumnSelect);

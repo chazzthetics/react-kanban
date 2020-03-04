@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../../utils/arrayToObject";
+import { mapOrderForPersistence } from "../../../utils/mapOrderForPersistence";
 import { fetchColumns } from "../../requests";
 import { columnsApi } from "../../../api";
 import {
@@ -52,6 +53,15 @@ const allColumns = createSlice({
     columnOptionsClosed(state, action) {
       const { columnId } = action.payload;
       state[columnId].isOpen = false;
+      state[columnId].isSorting = false;
+    },
+    columnSortOpened(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isSorting = true;
+    },
+    columnSortClosed(state, action) {
+      const { columnId } = action.payload;
+      state[columnId].isSorting = false;
     },
     lockColumnToggled(state, action) {
       const { columnId, isLocked } = action.payload;
@@ -70,12 +80,18 @@ const allColumns = createSlice({
       } = action.payload;
       state[startColumnId].taskIds = startTaskOrder;
       state[endColumnId].taskIds = endTaskOrder;
+    },
+    tasksSortedBy(state, action) {
+      const { columnId, tasks } = action.payload;
+      state[columnId].taskIds = tasks;
     }
   },
   extraReducers: {
     [requestInitialDataSuccess]: columnsLoaded,
     [requestColumnsSuccess]: columnsLoaded,
-    [requestColumnsFailed]: (state, action) => {},
+    [requestColumnsFailed]: (state, action) => {
+      console.log(action.payload);
+    },
     [requestTasksSuccess]: (state, action) => {
       const { columnId, taskId } = action.payload;
       const taskIds = state[columnId].taskIds;
@@ -127,13 +143,14 @@ export const {
   columnTitleUpdated,
   columnOptionsOpened,
   columnOptionsClosed,
+  columnSortOpened,
+  columnSortClosed,
   lockColumnToggled,
   taskReordered,
-  taskReorderedBetweenColumns
+  taskReorderedBetweenColumns,
+  tasksSortedBy
 } = allColumns.actions;
 export const allColumnsReducer = allColumns.reducer;
-
-//TODO: refactor
 
 export const createColumn = ({ column, boardId }) => async dispatch => {
   try {
@@ -149,16 +166,16 @@ export const createColumn = ({ column, boardId }) => async dispatch => {
 export const removeColumn = ({ columnId, boardId }) => async dispatch => {
   try {
     dispatch(columnRemoved({ columnId, boardId }));
-    await columnsApi.remove({ columnId });
+    await columnsApi.remove(columnId);
   } catch (ex) {
     console.error(ex);
   }
 };
 
-export const clearColumn = ({ columnId }) => async dispatch => {
+export const clearColumn = columnId => async dispatch => {
   try {
     dispatch(columnCleared({ columnId }));
-    await columnsApi.clear({ columnId });
+    await columnsApi.clear(columnId);
   } catch (ex) {
     console.error(ex);
   }
@@ -227,6 +244,24 @@ export const reorderTaskBetweenColumns = ({
       startOrderToPersist,
       endOrderToPersist
     });
+  } catch (ex) {
+    console.error(ex);
+  }
+};
+
+export const sortTasksBy = (sortBy, { columnId, tasks }) => async (
+  dispatch,
+  getState
+) => {
+  try {
+    if (
+      JSON.stringify(tasks) !==
+      JSON.stringify(getState().columns.all[columnId].taskIds)
+    ) {
+      dispatch(tasksSortedBy({ sortBy, columnId, tasks }));
+      const orderToPersist = mapOrderForPersistence(tasks);
+      await columnsApi.reorder({ columnId, orderToPersist });
+    }
   } catch (ex) {
     console.error(ex);
   }

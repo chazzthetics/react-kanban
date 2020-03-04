@@ -1,9 +1,9 @@
-import React, { useMemo, useCallback } from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import {
   makeSelectColumnIsLocked,
-  makeSelectColumnTaskIdsLength,
+  makeSelectColumnHasTasks,
   clearColumn
 } from "../slices";
 import { ListButton } from "../../../components";
@@ -14,12 +14,12 @@ const ClearColumnButton = ({ columnId }) => {
   const isLockedSelector = useMemo(makeSelectColumnIsLocked, []);
   const isLocked = useSelector(state => isLockedSelector(state, columnId));
 
-  const hasTasksSelector = useMemo(makeSelectColumnTaskIdsLength, []);
+  const hasTasksSelector = useMemo(makeSelectColumnHasTasks, []);
   const hasTasks = useSelector(state => hasTasksSelector(state, columnId));
 
   const handleClearColumn = useCallback(() => {
-    if (hasTasks) {
-      dispatch(clearColumn({ columnId }));
+    if (hasTasks > 0) {
+      dispatch(clearColumn(columnId));
     } else {
       return;
     }
@@ -28,7 +28,7 @@ const ClearColumnButton = ({ columnId }) => {
   return (
     <ListButton
       onClick={handleClearColumn}
-      isDisabled={isLocked || hasTasks === 0}
+      isDisabled={isLocked || !hasTasks}
       label="Clear List"
     >
       Clear List
@@ -40,4 +40,4 @@ ClearColumnButton.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default ClearColumnButton;
+export default memo(ClearColumnButton);

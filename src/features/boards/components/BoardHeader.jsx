@@ -1,8 +1,10 @@
-import React from "react";
+import React, { memo } from "react";
 import { useSelector } from "react-redux";
 import {
+  selectCurrentBoardId,
   selectCurrentBoardColor,
-  selectCurrentBoardIsEditing
+  selectCurrentBoardIsEditing,
+  selectBoardIsStarred
 } from "../slices";
 import { useLightMode } from "../../../hooks";
 import { Flex, Box, ButtonGroup } from "@chakra-ui/core";
@@ -15,10 +17,12 @@ import {
 } from "./";
 
 const BoardHeader = () => {
-  const color = useSelector(selectCurrentBoardColor);
-  const isEditing = useSelector(selectCurrentBoardIsEditing);
-
   const [isLightMode] = useLightMode();
+
+  const color = useSelector(selectCurrentBoardColor);
+  const boardId = useSelector(selectCurrentBoardId);
+  const isEditing = useSelector(selectCurrentBoardIsEditing);
+  const isStarred = useSelector(selectBoardIsStarred);
 
   return (
     <Flex
@@ -34,7 +38,7 @@ const BoardHeader = () => {
         <Box w="100%">
           {!isEditing ? <BoardTitle /> : <EditBoardTitleForm />}
         </Box>
-        <StarBoardButton />
+        <StarBoardButton boardId={boardId} isStarred={isStarred} />
       </Flex>
       <ButtonGroup
         d="flex"
@@ -49,4 +53,4 @@ const BoardHeader = () => {
   );
 };
 
-export default BoardHeader;
+export default memo(BoardHeader);

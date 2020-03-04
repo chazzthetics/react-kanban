@@ -1,7 +1,7 @@
 import React from "react";
 import { Transition } from "react-transition-group";
 
-export const duration = 120;
+export const duration = 80;
 
 export const defaultStyle = {
   transition: `opacity ${duration}ms ease-in`,

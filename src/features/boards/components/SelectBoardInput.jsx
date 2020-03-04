@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect } from "react";
+import React, { memo, useCallback, useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useHistory } from "react-router-dom";
 import {
@@ -6,32 +6,34 @@ import {
   selectCurrentBoardTitle,
   selectCurrentBoardColor,
   selectCurrentBoardId,
-  selectAllBoardsWithTitleAndColor
+  selectAllBoardsDetails
 } from "../slices";
 import { Select } from "@chakra-ui/core";
 import { slugify } from "../../../utils/slugify";
 
 const SelectBoardInput = () => {
   const dispatch = useDispatch();
+  const history = useHistory();
 
   const boardId = useSelector(selectCurrentBoardId);
   const boardTitle = useSelector(selectCurrentBoardTitle);
   const color = useSelector(selectCurrentBoardColor);
-  const allBoards = useSelector(selectAllBoardsWithTitleAndColor);
-  const history = useHistory();
+  const allBoards = useSelector(selectAllBoardsDetails);
+
+  const sluggedTitle = slugify(boardTitle);
 
   const handleBoardChange = useCallback(
     e => {
-      dispatch(changeBoard({ boardId: e.target.value }));
+      dispatch(changeBoard(e.target.value));
     },
     [dispatch]
   );
 
   useEffect(() => {
     if (boardTitle) {
-      history.push(`/b/${boardId}/${slugify(boardTitle)}`);
+      history.push(`/b/${boardId}/${sluggedTitle}`);
     }
-  }, [boardTitle, boardId, history]);
+  }, [boardTitle, boardId, history, sluggedTitle]);
 
   return boardId ? (
     <Select
@@ -62,4 +64,4 @@ const SelectBoardInput = () => {
   ) : null;
 };
 
-export default SelectBoardInput;
+export default memo(SelectBoardInput);

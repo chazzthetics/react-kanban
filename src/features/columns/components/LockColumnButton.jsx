@@ -1,4 +1,4 @@
-import React, { forwardRef, useMemo, useCallback } from "react";
+import React, { memo, forwardRef, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
 import { makeSelectColumnIsLocked, toggleLockColumn } from "../slices";
@@ -28,4 +28,4 @@ LockColumnButton.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default LockColumnButton;
+export default memo(LockColumnButton);

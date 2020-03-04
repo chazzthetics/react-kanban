@@ -1,9 +1,10 @@
-import React, { useCallback } from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { taskPriorityOpened } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import { makeSelectTaskCompleted, taskPriorityOpened } from "../slices";
 import { ChangePriorityModal } from "./";
 import { getPriorityColor } from "../utils/getPriorityColor";
+import { getPriorityName } from "../utils/priorityOptions";
 import { darkenOnHover } from "../../../utils/darkenOnHover";
 import { PseudoBox } from "@chakra-ui/core";
 
@@ -14,10 +15,14 @@ const TaskPriorityBadge = ({ taskId, priority }) => {
     dispatch(taskPriorityOpened({ taskId }));
   }, [dispatch, taskId]);
 
+  const taskCompletedSelector = useMemo(makeSelectTaskCompleted, []);
+  const completed = useSelector(state => taskCompletedSelector(state, taskId));
+
   return (
     <>
       <PseudoBox
         bg={`${getPriorityColor(priority)}`}
+        opacity={completed ? 0.6 : 1}
         color="black"
         onClick={handleOpenPriorityModal}
         borderRadius={4}
@@ -29,7 +34,7 @@ const TaskPriorityBadge = ({ taskId, priority }) => {
         transition="background-color 150ms ease-in"
         mb={1}
       >
-        {priority}
+        {getPriorityName(priority)}
       </PseudoBox>
       <ChangePriorityModal taskId={taskId} />
     </>
@@ -38,7 +43,7 @@ const TaskPriorityBadge = ({ taskId, priority }) => {
 
 TaskPriorityBadge.propTypes = {
   taskId: PropTypes.string.isRequired,
-  priority: PropTypes.string.isRequired
+  priority: PropTypes.number.isRequired
 };
 
-export default TaskPriorityBadge;
+export default memo(TaskPriorityBadge);

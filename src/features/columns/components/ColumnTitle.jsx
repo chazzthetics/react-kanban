@@ -6,11 +6,12 @@ import { columnTitleEditing } from "../slices";
 import { PseudoBox, Heading } from "@chakra-ui/core";
 
 const ColumnTitle = ({ columnId }) => {
+  const [isLightMode] = useLightMode();
+
   const columnTitleSelector = useMemo(makeSelectColumnTitle, []);
   const title = useSelector(state => columnTitleSelector(state, columnId));
 
   const dispatch = useDispatch();
-  const [isLightMode] = useLightMode();
 
   const handleEditColumnTitle = useCallback(() => {
     dispatch(columnTitleEditing({ columnId }));

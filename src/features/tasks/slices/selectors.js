@@ -36,7 +36,7 @@ export const makeSelectBadgeDueDate = () =>
   );
 
 export const makeSelectTaskPriority = () =>
-  createSelector([makeSelectTask()], task => task && task.priority);
+  createSelector([makeSelectTask()], task => (task ? task.priority : null));
 
 export const makeSelectIsDueDateOpen = () =>
   createSelector([makeSelectTask()], task => (task ? task.isDueDate : false));

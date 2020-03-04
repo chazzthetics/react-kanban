@@ -1,7 +1,7 @@
 import { createSelector } from "@reduxjs/toolkit";
 import { arrayToObject } from "../../utils/arrayToObject";
 import { selectCurrentBoardColumnIds } from "../boards/slices";
-import { selectAllColumns, selectColumnTaskIds } from "../columns/slices";
+import { selectAllColumns, makeSelectColumnTaskIds } from "../columns/slices";
 import { selectAllTasks, makeSelectTask } from "../tasks/slices";
 import { selectAllLabels } from "../labels/slices";
 
@@ -17,13 +17,14 @@ export const selectCurrentBoardColumns = createSelector(
 
 export const makeSelectColumnTasks = () =>
   createSelector(
-    [selectColumnTaskIds, selectAllTasks],
-    (columnTaskIds, tasks) => columnTaskIds.map(taskId => tasks[taskId])
+    [makeSelectColumnTaskIds(), selectAllTasks],
+    (columnTaskIds, tasks) =>
+      columnTaskIds && columnTaskIds.map(taskId => tasks[taskId])
   );
 
 export const makeSelectColumnIsDisabled = () =>
   createSelector([makeSelectColumnTasks()], columnTasks =>
-    columnTasks.some(task => task.isEditing)
+    columnTasks.some(task => (task ? task.isEditing : false))
   );
 
 export const makeSelectTaskLabels = () =>

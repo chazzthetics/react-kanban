@@ -103,6 +103,3 @@ CreateForm.propTypes = {
 };
 
 export default memo(CreateForm);
-
-//TODO: fix proptypes
-//FIX: fix rest props

@@ -15,4 +15,5 @@ export { default as TaskItemContainer } from "./TaskItemContainer";
 export { default as TaskPriorityBadge } from "./TaskPriorityBadge";
 export { default as ToggleTaskCheckbox } from "./ToggleTaskCheckbox";
 export { default as TaskMenuDropdown } from "./TaskMenuDropdown";
+export { default as TaskContent } from "./TaskContent";
 export { default as TaskFooter } from "./TaskFooter";

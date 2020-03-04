@@ -1,10 +1,15 @@
-import React, { useRef, useCallback } from "react";
+import React, { memo, useRef, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
-import { useToggle, useLightMode } from "../../../hooks";
+import { useLightMode } from "../../../hooks";
+import { FiMoreHorizontal } from "react-icons/fi";
 import { columnOptionsOpened, columnOptionsClosed } from "../slices";
 import { selectCurrentBoardId } from "../../boards/slices";
-import { FiMoreHorizontal } from "react-icons/fi";
+import {
+  makeSelectColumnIsOpen,
+  makeSelectColumnHasTasks,
+  makeSelectColumnSortIsOpen
+} from "../../columns/slices";
 import {
   Popover,
   ButtonGroup,
@@ -13,37 +18,50 @@ import {
   PopoverContent,
   PopoverHeader,
   PopoverBody,
-  PopoverCloseButton
+  PopoverCloseButton,
+  Box
 } from "@chakra-ui/core";
 import {
   RemoveColumnButton,
   LockColumnButton,
   ClearColumnButton,
-  MoveColumnButton
+  MoveColumnButton,
+  SortColumnButton,
+  SortOptionsButtonGroup
 } from "./";
+import BackToOptionsButton from "./BackToOptionsButton";
 
 const ColumnOptionsPopover = ({ columnId }) => {
   const initialFocusRef = useRef(null);
   const [isLightMode] = useLightMode();
-  const { isOpen, close, open } = useToggle();
 
-  const boardId = useSelector(selectCurrentBoardId);
   const dispatch = useDispatch();
 
+  const boardId = useSelector(selectCurrentBoardId);
+
+  const hasTasksSelector = useMemo(makeSelectColumnHasTasks, []);
+  const hasTasks = useSelector(state => hasTasksSelector(state, columnId));
+
+  const isOptionsOpenSelector = useMemo(makeSelectColumnIsOpen, []);
+  const isOptionsOpen = useSelector(state =>
+    isOptionsOpenSelector(state, columnId)
+  );
+
+  const isSortOpenSelector = useMemo(makeSelectColumnSortIsOpen, []);
+  const isSortOpen = useSelector(state => isSortOpenSelector(state, columnId));
+
   const handleOpen = useCallback(() => {
-    open();
     dispatch(columnOptionsOpened({ boardId, columnId }));
-  }, [boardId, columnId, open, dispatch]);
+  }, [boardId, columnId, dispatch]);
 
   const handleClose = useCallback(() => {
-    close();
     dispatch(columnOptionsClosed({ boardId, columnId }));
-  }, [boardId, columnId, close, dispatch]);
+  }, [boardId, columnId, dispatch]);
 
   return (
     <Popover
       placement="bottom-start"
-      isOpen={isOpen}
+      isOpen={isOptionsOpen}
       onClose={handleClose}
       onOpen={handleOpen}
       initialFocusRef={initialFocusRef}
@@ -54,12 +72,8 @@ const ColumnOptionsPopover = ({ columnId }) => {
           icon={FiMoreHorizontal}
           size="sm"
           variant="ghost"
-          _hover={{
-            backgroundColor: isLightMode ? "#d4d4d4" : "gray.500"
-          }}
-          _active={{
-            backgroundColor: isLightMode ? "#d4d4d4" : "gray.500"
-          }}
+          _hover={{ backgroundColor: isLightMode ? "#d4d4d4" : "gray.500" }}
+          _active={{ backgroundColor: isLightMode ? "#d4d4d4" : "gray.500" }}
           _focus={{
             boxShadow: isLightMode
               ? "0 0 0 2px #d4d4d4"
@@ -67,12 +81,14 @@ const ColumnOptionsPopover = ({ columnId }) => {
           }}
         />
       </PopoverTrigger>
+
       <PopoverContent
         zIndex={4}
         boxShadow="2px 4px 12px -8px rgba(0, 0, 0, 0.75)"
         p={2}
         borderRadius={4}
         bg={isLightMode ? "white" : "gray.700"}
+        className="column-options-popover"
       >
         <PopoverHeader
           textAlign="center"
@@ -81,15 +97,25 @@ const ColumnOptionsPopover = ({ columnId }) => {
           opacity={isLightMode ? 0.8 : 1}
           borderColor="#ddd"
         >
-          <span>List Actions</span>
+          {isSortOpen && <BackToOptionsButton columnId={columnId} />}
+          <Box d="inline-block" textAlign="center">
+            {!isSortOpen ? "List Actions" : "Sort By..."}
+          </Box>
+          <PopoverCloseButton opacity={0.6} />
         </PopoverHeader>
-        <PopoverCloseButton opacity={0.6} />
         <PopoverBody p={0}>
           <ButtonGroup d="flex" flexDirection="column" alignItems="flex-start">
-            <LockColumnButton columnId={columnId} ref={initialFocusRef} />
-            <RemoveColumnButton columnId={columnId} />
-            <ClearColumnButton columnId={columnId} />
-            <MoveColumnButton columnId={columnId} close={handleClose} />
+            {!isSortOpen ? (
+              <>
+                <LockColumnButton columnId={columnId} ref={initialFocusRef} />
+                <RemoveColumnButton columnId={columnId} />
+                <ClearColumnButton columnId={columnId} />
+                {hasTasks > 1 && <SortColumnButton columnId={columnId} />}
+                <MoveColumnButton columnId={columnId} close={handleClose} />
+              </>
+            ) : (
+              <SortOptionsButtonGroup columnId={columnId} />
+            )}
           </ButtonGroup>
         </PopoverBody>
       </PopoverContent>
@@ -101,6 +127,4 @@ ColumnOptionsPopover.propTypes = {
   columnId: PropTypes.string.isRequired
 };
 
-export default ColumnOptionsPopover;
-
-//TODO: need to implement last tab on X button
+export default memo(ColumnOptionsPopover);

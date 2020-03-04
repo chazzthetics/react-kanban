@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { makeSelectBadgeDueDate, makeSelectTaskPriority } from "../slices";
@@ -26,4 +26,4 @@ TaskFooter.propTypes = {
   taskId: PropTypes.string.isRequired
 };
 
-export default TaskFooter;
+export default memo(TaskFooter);

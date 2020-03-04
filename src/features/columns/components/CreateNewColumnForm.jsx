@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { useToggle, useLightMode } from "../../../hooks";
 import { createColumn } from "../slices";
@@ -11,6 +11,7 @@ import { Flex } from "@chakra-ui/core";
 const CreateNewColumnForm = () => {
   const [isLightMode] = useLightMode();
   const { isOpen, close, open } = useToggle();
+  const handleOpen = useCallback(() => open(), [open]);
 
   const boardId = useSelector(selectCurrentBoardId);
 
@@ -25,7 +26,7 @@ const CreateNewColumnForm = () => {
   );
 
   return !isOpen ? (
-    <CreateColumnButton onOpen={open} />
+    <CreateColumnButton onOpen={handleOpen} />
   ) : (
     <Flex
       bg={isLightMode ? "#ebecf0" : "gray.600"}
@@ -60,7 +61,4 @@ const CreateNewColumnForm = () => {
   );
 };
 
-export default CreateNewColumnForm;
-
-// TODO: extract button to separate component
-// FIXME: fix styling
+export default memo(CreateNewColumnForm);

@@ -1,10 +1,10 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useDispatch } from "react-redux";
 import { removeLabelFromTask } from "../../tasks/slices";
 import { darkenOnHover } from "../../../utils/darkenOnHover";
 import { PseudoBox } from "@chakra-ui/core";
 
-const LabelItem = ({ taskId, taskLabel }) => {
+const TaskLabelItem = ({ taskId, taskLabel }) => {
   const dispatch = useDispatch();
 
   const handleRemoveLabelFromTask = useCallback(
@@ -33,4 +33,4 @@ const LabelItem = ({ taskId, taskLabel }) => {
   );
 };
 
-export default LabelItem;
+export default memo(TaskLabelItem);

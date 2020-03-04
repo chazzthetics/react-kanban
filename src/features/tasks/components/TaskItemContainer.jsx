@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useLightMode } from "../../../hooks";
 import { Flex } from "@chakra-ui/core";
@@ -49,4 +49,4 @@ TaskItemContainer.propTypes = {
   children: PropTypes.element.isRequired
 };
 
-export default TaskItemContainer;
+export default memo(TaskItemContainer);

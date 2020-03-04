@@ -56,8 +56,6 @@ const ColumnItem = ({ index, columnId }) => {
             {(provided, snapshot) => (
               <Flex
                 direction="column"
-                align="stretch"
-                justify="center"
                 cursor="pointer"
                 mb={2}
                 bg={snapshot.isDraggingOver && isLightMode ? "#d9dadd" : "none"}

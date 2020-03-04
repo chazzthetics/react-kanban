@@ -12,12 +12,22 @@ export const selectAllBoards = createSelector(
   boards => boards.all
 );
 
-export const selectAllBoardsWithTitleAndColor = createSelector(
+export const selectAllBoardsDetails = createSelector(
   [selectAllBoards, selectBoardIds],
   (all, ids) =>
     ids
-      ? ids.map(id => ({ id, title: all[id].title, color: all[id].color }))
+      ? ids.map(id => ({
+          id,
+          title: all[id].title,
+          color: all[id].color,
+          isStarred: all[id].isStarred
+        }))
       : []
+);
+
+export const selectStarredBoards = createSelector(
+  [selectAllBoardsDetails],
+  boards => boards.filter(board => board.isStarred)
 );
 
 export const selectCurrentBoardId = createSelector(
@@ -45,6 +55,11 @@ export const selectCurrentBoardIsEditing = createSelector(
   board => (board ? board.isEditing : false)
 );
 
+export const selectBoardIsStarred = createSelector(
+  [selectCurrentBoard],
+  board => (board ? board.isStarred : false)
+);
+
 export const selectCurrentBoardColumnIds = createSelector(
   [selectCurrentBoard],
   board => (board ? board.columnIds : [])
@@ -67,5 +82,5 @@ export const selectShowBoardColumnPositions = createSelector(
 
 export const selectCurrentBoardColumnIdsLength = createSelector(
   [selectCurrentBoardColumnIds],
-  columnIds => columnIds.length
+  columnIds => (columnIds ? columnIds.length : 0)
 );

@@ -1,7 +1,8 @@
 import React, { memo, useMemo } from "react";
+import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { makeSelectTaskLabels } from "../../shared";
-import { LabelItem } from "./";
+import { TaskLabelItem } from "./";
 import { Flex } from "@chakra-ui/core";
 
 const LabelList = ({ taskId }) => {
@@ -12,7 +13,7 @@ const LabelList = ({ taskId }) => {
     <Flex align="flex-start" direction="row" flexBasis="100%" maxW="180px">
       {taskLabels
         ? taskLabels.map(taskLabel => (
-            <LabelItem
+            <TaskLabelItem
               key={taskLabel.id}
               taskId={taskId}
               taskLabel={taskLabel}
@@ -21,6 +22,10 @@ const LabelList = ({ taskId }) => {
         : null}
     </Flex>
   );
+};
+
+LabelList.propTypes = {
+  taskId: PropTypes.string.isRequired
 };
 
 export default memo(LabelList);

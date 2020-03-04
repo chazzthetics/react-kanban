@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useDispatch } from "react-redux";
 import { useLightMode } from "../../../hooks";
@@ -57,4 +57,4 @@ TaskMenuDropdown.propTypes = {
   taskId: PropTypes.string.isRequired
 };
 
-export default TaskMenuDropdown;
+export default memo(TaskMenuDropdown);

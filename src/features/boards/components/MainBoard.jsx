@@ -2,25 +2,16 @@ import React from "react";
 import { DragDropContext } from "react-beautiful-dnd";
 import { useSelector } from "react-redux";
 import { useDrag, useLightMode } from "../../../hooks";
-import {
-  selectCurrentBoardColor,
-  selectCurrentBoardId,
-  selectCurrentBoardColumnIds
-} from "../slices";
-import { selectCurrentBoardColumns } from "../../shared";
+import { selectCurrentBoardColor } from "../slices";
 import { BoardHeader } from "./";
 import { ColumnList } from "../../columns/components";
 import { Box } from "@chakra-ui/core";
 
 const MainBoard = () => {
-  const color = useSelector(selectCurrentBoardColor);
-  const boardId = useSelector(selectCurrentBoardId);
-
-  const boardColumns = useSelector(selectCurrentBoardColumns);
-  const columnIds = useSelector(selectCurrentBoardColumnIds);
-
-  const handleDragEnd = useDrag(boardId, boardColumns, columnIds);
   const [isLightMode] = useLightMode();
+  const color = useSelector(selectCurrentBoardColor);
+
+  const handleDragEnd = useDrag();
 
   return (
     <Box bg={isLightMode ? `${color}.400` : "gray.700"}>
@@ -33,5 +24,3 @@ const MainBoard = () => {
 };
 
 export default MainBoard;
-
-//TODO: fix

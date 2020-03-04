@@ -13,10 +13,10 @@ export const columnsApi = {
       board_id: parseInt(boardId)
     });
   },
-  remove: ({ columnId }) => {
+  remove: columnId => {
     return axios.delete(`${baseUrl}/columns/${columnId}`);
   },
-  clear: ({ columnId }) => {
+  clear: columnId => {
     return axios.delete(`${baseUrl}/columns/${columnId}/clear`);
   },
   toggleLock: ({ columnId, isLocked }) => {

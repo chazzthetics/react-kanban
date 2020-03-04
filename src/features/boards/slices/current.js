@@ -41,12 +41,14 @@ export function setCurrentBoardAfterMove(_state, action) {
   return endBoardId;
 }
 
+//FIXME: .....!!! ***
 export function getPreviousBoard(_state, action) {
   const { boardId, boardIds } = action.payload;
   const updatedBoardIds = boardIds.filter(id => id !== boardId);
-
   let previousBoard;
-  if (updatedBoardIds.length >= 2) {
+  if (updatedBoardIds.length > 2) {
+    previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
+  } else if (updatedBoardIds.length === 2) {
     previousBoard = updatedBoardIds[updatedBoardIds.length - 1];
   } else if (updatedBoardIds.length === 1) {
     previousBoard = updatedBoardIds[0];
@@ -59,10 +61,10 @@ export function getPreviousBoard(_state, action) {
 export const { boardChanged } = currentBoard.actions;
 export const currentBoardReducer = currentBoard.reducer;
 
-export const changeBoard = ({ boardId }) => async dispatch => {
+export const changeBoard = boardId => async dispatch => {
   try {
     dispatch(boardChanged({ boardId }));
-    await boardsApi.setCurrent({ boardId });
+    await boardsApi.setCurrent(boardId);
   } catch (ex) {
     console.error(ex);
   }

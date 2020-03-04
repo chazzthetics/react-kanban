@@ -12,3 +12,6 @@ export { default as ClearColumnButton } from "./ClearColumnButton";
 export { default as MoveColumnButton } from "./MoveColumnButton";
 export { default as MoveColumnSelect } from "./MoveColumnSelect";
 export { default as LockIconButton } from "./LockIconButton";
+export { default as SortColumnButton } from "./SortColumnButton";
+export { default as SortOptionsButtonGroup } from "./SortOptionsButtonGroup";
+export { default as BackToOptionsButton } from "./BackToOptionsButton";

@@ -1,14 +1,14 @@
 import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
-import { makeSelectColumnTaskIdsLength } from "../../columns/slices";
+import { makeSelectColumnHasTasks } from "../../columns/slices";
 import { useLightMode } from "../../../hooks";
 import { PseudoBox, Icon } from "@chakra-ui/core";
 
 const CreateTaskButton = ({ onOpen, columnId }) => {
   const [isLightMode] = useLightMode();
 
-  const hasTasksSelector = useMemo(makeSelectColumnTaskIdsLength, []);
+  const hasTasksSelector = useMemo(makeSelectColumnHasTasks, []);
   const hasTasks = useSelector(state => hasTasksSelector(state, columnId));
 
   const handleClick = useCallback(() => {
@@ -44,7 +44,7 @@ const CreateTaskButton = ({ onOpen, columnId }) => {
       }}
     >
       <Icon name="add" size="12px" mr={2} />
-      {hasTasks ? "Add another task" : "Add a task"}
+      {hasTasks > 0 ? "Add another task" : "Add a task"}
     </PseudoBox>
   );
 };

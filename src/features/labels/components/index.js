@@ -1,4 +1,4 @@
 export { default as TaskLabelList } from "./TaskLabelList";
-export { default as LabelItem } from "./LabelItem";
+export { default as TaskLabelItem } from "./TaskLabelItem";
 export { default as AddLabelPopover } from "./AddLabelPopover";
-export { default as CreateLabelForm } from "./CreateLabelForm";
+export { default as LabelButton } from "./LabelButton";

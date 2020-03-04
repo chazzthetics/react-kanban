@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import {
   selectCurrentBoardId,
@@ -14,7 +14,7 @@ const ClearBoardButton = () => {
 
   const handleClearBoard = useCallback(() => {
     if (hasColumns) {
-      dispatch(clearBoard({ boardId }));
+      dispatch(clearBoard(boardId));
     }
   }, [dispatch, hasColumns, boardId]);
 
@@ -28,4 +28,4 @@ const ClearBoardButton = () => {
   );
 };
 
-export default ClearBoardButton;
+export default memo(ClearBoardButton);

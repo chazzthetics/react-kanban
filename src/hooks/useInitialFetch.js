@@ -12,7 +12,7 @@ const useInitialFetch = boardId => {
 
   useEffect(() => {
     if (user && !boardTitle) {
-      dispatch(fetchData(token, boardId));
+      dispatch(fetchData({ token, boardId }));
     }
   }, [dispatch, user, token, boardTitle, boardId]);
 };

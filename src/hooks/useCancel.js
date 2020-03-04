@@ -4,11 +4,21 @@ import { useRef, useEffect, useCallback } from "react";
 const isPopover = e => {
   const addLabel = document.querySelector(".add-label-container");
   const saveBtn = document.querySelector(".add-label-btn");
+  const columnOptions = document.querySelector(".column-options-popover");
+  const moveColumnSelect = document.querySelector(".move-column-select");
   //FIXME: refactor this shit..please...soon...works, but logic is not maintainable, doesnt work
   return (
     e.target.parentElement === addLabel ||
     e.target.parentElement.parentElement === addLabel ||
-    e.target === saveBtn
+    e.target === saveBtn ||
+    e.target === columnOptions ||
+    e.target.parentElement === columnOptions ||
+    e.target.parentElement.parentElement === columnOptions ||
+    e.target.parentElement.parentElement.parentElement === columnOptions ||
+    e.target === moveColumnSelect ||
+    e.target.parentElement === moveColumnSelect ||
+    e.target.parentElement.parentElement === moveColumnSelect ||
+    e.target.parentElement.parentElement.parentElement === moveColumnSelect
   );
 };
 

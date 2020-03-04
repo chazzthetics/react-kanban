@@ -50,10 +50,7 @@ function error(state, action) {
   state.error = action.payload;
 }
 
-//TODO: move to own slice/service
-
-//FIXME: boardId
-export const fetchData = (token, boardId) => async dispatch => {
+export const fetchData = ({ token, boardId }) => async dispatch => {
   dispatch(requestInitialDataStart());
   try {
     const { data } = await getData(token);
@@ -74,7 +71,6 @@ export const fetchData = (token, boardId) => async dispatch => {
 export const fetchBoards = boardId => async dispatch => {
   try {
     const { data } = await boardsApi.get();
-
     dispatch(
       requestBoardsSuccess({
         boardId,

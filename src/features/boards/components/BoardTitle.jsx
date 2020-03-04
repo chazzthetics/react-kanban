@@ -1,4 +1,4 @@
-import React, { useCallback } from "react";
+import React, { memo, useCallback } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { Heading, PseudoBox } from "@chakra-ui/core";
 import {
@@ -38,4 +38,4 @@ const BoardTitle = () => {
   );
 };
 
-export default BoardTitle;
+export default memo(BoardTitle);

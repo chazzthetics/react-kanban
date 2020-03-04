@@ -1,29 +1,34 @@
-import React, { useCallback } from "react";
+import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
-import { useDispatch } from "react-redux";
-import { taskDueDateOpened } from "../slices";
+import { useSelector, useDispatch } from "react-redux";
+import { makeSelectTaskCompleted, taskDueDateOpened } from "../slices";
+import { getDueDateColor } from "../utils/getDueDateColor";
 import { Tag, TagLabel, Icon } from "@chakra-ui/core";
 import { ChangeTaskDueDateModal } from "./";
 
 const TaskDueDate = ({ taskId, dueDate }) => {
+  const taskCompletedSelector = useMemo(makeSelectTaskCompleted, []);
+  const completed = useSelector(state => taskCompletedSelector(state, taskId));
+
   const dispatch = useDispatch();
 
-  const handleOpenDateModal = () => {
+  const handleOpenDateModal = useCallback(() => {
     dispatch(taskDueDateOpened({ taskId }));
-  };
+  }, [dispatch, taskId]);
 
   return (
     <>
       <Tag
         size="sm"
-        variantColor="blue"
+        opacity={completed ? 0.6 : 1}
+        variantColor={getDueDateColor(dueDate)}
         onClick={handleOpenDateModal}
-        _hover={{ boxShadow: "0 0 0 2px darkblue" }}
-        transition="box-shadow 150ms ease-in"
+        _hover={{ opacity: 0.8 }}
+        transition="opacity 150ms ease-in"
         mr={4}
       >
         <Icon size="1rem" name="time" mr={2} />
-        <TagLabel>{dueDate}</TagLabel>
+        <TagLabel fontSize="0.8rem">{dueDate}</TagLabel>
       </Tag>
       <ChangeTaskDueDateModal taskId={taskId} />
     </>
@@ -35,4 +40,4 @@ TaskDueDate.propTypes = {
   dueDate: PropTypes.string.isRequired
 };
 
-export default TaskDueDate;
+export default memo(TaskDueDate);

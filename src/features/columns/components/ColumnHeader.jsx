@@ -1,10 +1,13 @@
 import React, { memo, useMemo, useCallback } from "react";
 import PropTypes from "prop-types";
 import { useSelector, useDispatch } from "react-redux";
+import { useCancel } from "../../../hooks";
 import {
   makeSelectColumnIsLocked,
   makeSelectColumnIsEditing,
-  toggleLockColumn
+  makeSelectColumnIsOpen,
+  toggleLockColumn,
+  columnOptionsClosed
 } from "../slices";
 import {
   ColumnTitle,
@@ -12,7 +15,7 @@ import {
   EditColumnTitleForm,
   LockIconButton
 } from "./";
-import { Flex, ButtonGroup } from "@chakra-ui/core";
+import { Box, Flex, ButtonGroup } from "@chakra-ui/core";
 
 const ColumnHeader = ({ columnId }) => {
   const columnIsLockedSelector = useMemo(makeSelectColumnIsLocked, []);
@@ -25,11 +28,22 @@ const ColumnHeader = ({ columnId }) => {
     columnIsEditingSelector(state, columnId)
   );
 
+  const isColumnOptionsOpenSelector = useMemo(makeSelectColumnIsOpen, []);
+  const isOpen = useSelector(state =>
+    isColumnOptionsOpenSelector(state, columnId)
+  );
+
   const dispatch = useDispatch();
 
   const handleToggleLockColumn = useCallback(() => {
     dispatch(toggleLockColumn({ columnId, isLocked: !isLocked }));
   }, [dispatch, columnId, isLocked]);
+
+  const close = useCallback(() => {
+    dispatch(columnOptionsClosed({ columnId }));
+  }, [dispatch, columnId]);
+
+  const cancelRef = useCancel(isOpen, close);
 
   return (
     <Flex
@@ -59,7 +73,9 @@ const ColumnHeader = ({ columnId }) => {
             onClick={handleToggleLockColumn}
           />
         )}
-        <ColumnOptionsPopover columnId={columnId} />
+        <Box ref={cancelRef}>
+          <ColumnOptionsPopover columnId={columnId} />
+        </Box>
       </ButtonGroup>
     </Flex>
   );

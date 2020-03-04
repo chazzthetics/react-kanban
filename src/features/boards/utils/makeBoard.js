@@ -4,8 +4,6 @@ export function makeBoard({ title, color }) {
   return {
     id: uuid(),
     title,
-    color,
-    isEditing: false,
-    columnIds: []
+    color
   };
 }

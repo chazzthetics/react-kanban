@@ -1,4 +1,4 @@
-import React, { useMemo } from "react";
+import React, { memo, useMemo } from "react";
 import PropTypes from "prop-types";
 import { useSelector } from "react-redux";
 import { useToggle } from "../../../hooks";
@@ -32,4 +32,4 @@ MoveColumnButton.propTypes = {
   close: PropTypes.func.isRequired
 };
 
-export default MoveColumnButton;
+export default memo(MoveColumnButton);

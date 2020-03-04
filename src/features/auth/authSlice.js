@@ -122,7 +122,7 @@ export const register = ({ name, email, password }) => async dispatch => {
       dispatch(registerSuccess({ token }));
     }
   } catch (ex) {
-    dispatch(loginFailed(ex.toString()));
+    dispatch(registerFailed(ex.toString()));
     console.error(ex);
   }
 };
